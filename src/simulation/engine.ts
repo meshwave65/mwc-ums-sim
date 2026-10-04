@@ -83,9 +83,10 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
       ? Math.min(usage.operations, Math.ceil((usage.operations * unmetUms) / Math.max(1, usage.cost),))
       : 0
     const executedOperations = Math.max(0, usage.operations - estimatedUnmetOperations)
-    const variation = randomBetween(random, -config.variationRange, config.variationRange) / 100
-    const effectiveProfile = user.profile / 100 + variation
-    const grossGenerated = Math.max(0, Math.round(actualUsed * (1 + effectiveProfile)))
+    // O perfil é uma característica fixa do usuário. A variação aleatória representa
+    // somente ruído operacional da rodada e nunca altera user.profile.
+    const operationalJitter = randomBetween(random, -config.variationRange, config.variationRange) / 100
+    const grossGenerated = Math.max(0, Math.round(actualUsed * (1 + user.profile / 100) * (1 + operationalJitter)))
     const validationRate = clamp(config.validationRate + randomBetween(random, -0.01, 0.01), 0.9, 1)
     const validated = Math.round(grossGenerated * validationRate)
     const invalid = Math.max(0, grossGenerated - validated)
