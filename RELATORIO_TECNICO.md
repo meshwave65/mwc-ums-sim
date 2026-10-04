@@ -31,7 +31,7 @@ Não foi criado backend porque o prompt pede simulação local, sem banco, auten
 
 ## 3. Motor de rodada
 
-`runRound(state, config)` recebe um estado imutável e devolve outro estado. A cada rodada, o motor deriva um perfil efetivo a partir do perfil-base de cada usuário e de um jitter limitado; o mesmo perfil efetivo orienta a distribuição de demanda e a geração. Para cada usuário, o motor calcula custo de utilização, geração bruta, validação PoUW e geração reconhecida.
+`runRound(state, config)` recebe um estado imutável e devolve outro estado. A cada rodada, o motor sorteia um perfil efetivo na faixa configurada (padrão de −20% a +20%); o mesmo perfil efetivo orienta a distribuição de demanda e a geração. O perfil-base permanece como referência de configuração e comparação. Para cada usuário, o motor calcula custo de utilização, geração bruta, validação PoUW e geração reconhecida.
 
 A ordem contábil da rodada é:
 

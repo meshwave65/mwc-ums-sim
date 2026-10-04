@@ -21,7 +21,7 @@ export function createDefaultConfig(): SimulationConfig {
     umsPerMwc: 1000,
     brlPerMwc: 1,
     validationRate: 0.98,
-    variationRange: 4,
+    variationRange: 20,
     seed: '',
     users: DEFAULT_PROFILES.map((profile, index) => ({ id: `USER-${String(index + 1).padStart(2, '0')}`, profile })),
     services: DEFAULT_SERVICES.map((service) => ({ ...service })),

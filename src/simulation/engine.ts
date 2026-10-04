@@ -52,7 +52,7 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
   let mwcReconvertedThisRound = 0
   addRoundEvent(events, nextRound, 'info', `RODADA ${String(nextRound).padStart(3, '0')}`, 'Rodada iniciada: demanda distribuída entre os usuários.')
   users.forEach((user) => {
-    user.roundProfile = clamp(user.profile + randomBetween(random, -config.variationRange, config.variationRange), -100, 100)
+    user.roundProfile = clamp(randomBetween(random, -config.variationRange, config.variationRange), -100, 100)
   })
   config.services.forEach((service) => allocateService(service, users, buckets, random))
   totals.servicesRequested += config.services.reduce((total, service) => total + Math.max(0, Math.floor(service.demand)), 0)
