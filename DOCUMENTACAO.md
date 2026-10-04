@@ -44,7 +44,7 @@ Os perfis usados como ponto de partida são:
 | USER-09 | +10% | excedente moderado |
 | USER-10 | -20% | déficit |
 
-O perfil-base continua configurável como referência inicial, mas o perfil efetivo de cada rodada é sorteado independentemente na faixa configurada. O padrão é `−20% a +20%`, permitindo que qualquer usuário alterne entre déficit, estabilidade e superávit ao longo da simulação. A tabela mostra o perfil efetivo da rodada e conserva o perfil-base como referência.
+Em cada rodada, cada usuário recebe diretamente um percentual de perfil sorteado na faixa configurada. O padrão é `−30% a +30%`; não existe uma variação acumulada ou uma tendência fixa que prenda o usuário ao déficit ou ao superávit. A tabela mostra somente o percentual sorteado naquela rodada.
 
 ## 3. Serviços e demanda
 

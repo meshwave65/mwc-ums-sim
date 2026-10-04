@@ -17,7 +17,7 @@
 - [ ] A tabela inicial deve conter roteamento 1 UMS, armazenamento temporário 2, armazenamento permanente 5, banda 3, CPU 4, GPU 12, replicação 6, recuperação 3, cache 2 e transferência 4.
 - [ ] A demanda deve ser organizada por rodada e não confundida com a quantidade efetivamente utilizada por cada usuário.
 - [ ] Os perfis iniciais devem ser USER-01 +20%, USER-02 -10%, USER-03 +5%, USER-04 -25%, USER-05 +15%, USER-06 -5%, USER-07 +30%, USER-08 -15%, USER-09 +10% e USER-10 -20%.
-- [ ] O percentual-base deve permanecer disponível como referência de configuração, enquanto o perfil efetivo deve ser sorteado aleatoriamente a cada rodada na faixa configurada, por padrão entre -20% e +20%, permitindo alternância entre superávit, estabilidade e déficit.
+- [ ] Em cada rodada, cada usuário deve receber diretamente um percentual de perfil sorteado aleatoriamente na faixa configurada, por padrão entre -30% e +30%, permitindo alternância entre superávit, estabilidade e déficit sem variação acumulada.
 - [ ] Os parâmetros, os perfis e a demanda devem poder ser ajustados no painel de configuração simples.
 
 ## Rodadas e PoUW simplificado
