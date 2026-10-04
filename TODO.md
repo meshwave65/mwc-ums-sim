@@ -24,6 +24,8 @@
 
 - [ ] Cada rodada deve distribuir a atividade entre os usuários, executar operações, calcular custo em UMS, calcular capacidade gerada, validar o resultado e atualizar saldos/histórico.
 - [ ] O sistema deve exibir separadamente capacidade gerada, capacidade utilizada e variação de UMS.
+- [ ] A faixa de perfil mínimo e máximo deve ser configurável; o padrão deve ser -30% a +30%, com sorteio direto por usuário e rodada.
+- [ ] O limiar de conversão UMS→MWC deve ser configurável e independente do saldo inicial; o padrão deve ser 10.000 UMS.
 - [ ] O fluxo PoUW deve representar serviço solicitado, execução, resultado válido e UMS reconhecida.
 - [ ] Operações inválidas não devem gerar UMS definitiva, mas devem permanecer auditáveis no log e no relatório.
 - [ ] A execução deve atualizar a interface durante a simulação.

@@ -16,7 +16,9 @@ function pushEvent(events: SimulationEvent[], round: number, tone: EventTone, la
 function cloneUsers(users: UserState[]): UserState[] { return users.map((user) => ({ ...user })) }
 
 function allocateService(service: ServiceDefinition, users: UserState[], buckets: Map<string, UsageBucket>, random: ReturnType<typeof createRandom>): void {
-  const factors = users.map((user) => Math.max(0.35, 1 - user.roundProfile / 100 + randomBetween(random, -0.05, 0.05)))
+  // O perfil influencia geração, não a quantidade de demanda recebida.
+  // A demanda usa apenas um ruído de distribuição para manter o uso agregado próximo do normal.
+  const factors = users.map(() => randomBetween(random, 0.9, 1.1))
   const factorTotal = factors.reduce((total, factor) => total + factor, 0)
   let remaining = Math.max(0, Math.floor(service.demand))
   users.forEach((user, index) => {
@@ -51,8 +53,12 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
   const marketAvailableAtStart = market.mwcAvailable
   let mwcReconvertedThisRound = 0
   addRoundEvent(events, nextRound, 'info', `RODADA ${String(nextRound).padStart(3, '0')}`, 'Rodada iniciada: demanda distribuída entre os usuários.')
+  const configuredMin = Number.isFinite(config.profileMin) ? config.profileMin : -30
+  const configuredMax = Number.isFinite(config.profileMax) ? config.profileMax : 30
+  const profileMin = clamp(Math.min(configuredMin, configuredMax), -100, 100)
+  const profileMax = clamp(Math.max(configuredMin, configuredMax), -100, 100)
   users.forEach((user) => {
-    user.roundProfile = clamp(randomBetween(random, -config.variationRange, config.variationRange), -100, 100)
+    user.roundProfile = clamp(randomBetween(random, profileMin, profileMax), -100, 100)
   })
   config.services.forEach((service) => allocateService(service, users, buckets, random))
   totals.servicesRequested += config.services.reduce((total, service) => total + Math.max(0, Math.floor(service.demand)), 0)
@@ -92,7 +98,7 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
       : 0
     const executedOperations = Math.max(0, usage.operations - estimatedUnmetOperations)
     const grossGenerated = Math.max(0, Math.round(actualUsed * (1 + user.roundProfile / 100)))
-    const validationRate = clamp(config.validationRate + randomBetween(random, -0.01, 0.01), 0.9, 1)
+    const validationRate = clamp(config.validationRate, 0.9, 1)
     const validated = Math.round(grossGenerated * validationRate)
     const invalid = Math.max(0, grossGenerated - validated)
 
@@ -122,7 +128,8 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     addRoundEvent(events, nextRound, validated > 0 ? 'success' : 'warning', 'PoUW', `${user.id}: ${validated.toLocaleString('pt-BR')} UMS reconhecidas; ${invalid.toLocaleString('pt-BR')} UMS rejeitadas na validação.`)
     if (unmetUms > 0) addRoundEvent(events, nextRound, 'danger', 'NÃO ATENDIDO', `${user.id}: ${unmetUms.toLocaleString('pt-BR')} UMS ficaram sem cobertura; nenhuma capacidade foi fabricada.`)
 
-    const conversionBlocks = Math.max(0, Math.floor((user.ums - config.initialUms) / Math.max(1, config.umsPerMwc)))
+    const conversionThreshold = Number.isFinite(config.conversionThreshold) ? config.conversionThreshold : config.initialUms
+    const conversionBlocks = Math.max(0, Math.floor((user.ums - conversionThreshold) / Math.max(1, config.umsPerMwc)))
     if (conversionBlocks > 0) {
       const convertedUms = conversionBlocks * config.umsPerMwc
       user.ums -= convertedUms

@@ -29,7 +29,7 @@ serviço solicitado
 
 A tela começa no estado mais simples possível: rodada 0, dez usuários com 10.000 UMS, BRL zerado e mercado sem MWC. Isso torna visível que nenhum MWC nasce previamente no mercado.
 
-Os perfis usados como ponto de partida são:
+Os valores abaixo permanecem apenas como referências históricas da configuração inicial; eles não determinam a rodada. O perfil real é sorteado diretamente pelos limites configuráveis:
 
 | Usuário | Perfil | Tendência didática |
 | --- | ---: | --- |
@@ -46,9 +46,16 @@ Os perfis usados como ponto de partida são:
 
 Em cada rodada, cada usuário recebe diretamente um percentual de perfil sorteado na faixa configurada. O padrão é `−30% a +30%`; não existe uma variação acumulada ou uma tendência fixa que prenda o usuário ao déficit ou ao superávit. A tabela mostra somente o percentual sorteado naquela rodada.
 
+### Parâmetros econômicos configuráveis
+
+- **Perfil mínimo e máximo:** definem a faixa absoluta do sorteio por rodada. O padrão `−30% a +30%` tem média próxima de zero e evita uma drenagem sistemática de UMS causada por uma tendência média positiva ou negativa.
+- **Limiar de conversão:** quantidade de UMS que o usuário precisa preservar antes de converter blocos adicionais em MWC. O padrão é `10.000 UMS`; reduzir esse limiar faz o mercado receber MWC mais cedo.
+- **UMS por MWC:** tamanho do bloco convertido e também quantidade devolvida em uma reconversão.
+- **UMS inicial:** saldo de partida de cada usuário. Ele pode ser diferente do limiar de conversão.
+
 ## 3. Serviços e demanda
 
-A tabela configurável traz custo em UMS por operação e demanda padrão da rodada. A demanda não é o mesmo que o uso efetivo de um usuário: ela é distribuída conforme o perfil e a variação da rodada.
+A tabela configurável traz custo em UMS por operação e demanda padrão da rodada. A demanda não é o mesmo que o uso efetivo de um usuário: ela é distribuída com ruído equilibrado, independente do perfil. O perfil atua na capacidade gerada, não em uma vantagem artificial de receber menos demanda.
 
 | Serviço | Custo | Demanda padrão |
 | --- | ---: | ---: |
@@ -67,11 +74,11 @@ A tabela configurável traz custo em UMS por operação e demanda padrão da rod
 
 1. A demanda de cada serviço é alocada entre os dez usuários.
 2. O uso em UMS é obtido multiplicando operações alocadas pelo custo do serviço.
-3. O perfil efetivo da rodada determina a capacidade bruta estimada: perfil positivo aumenta geração; perfil negativo reduz. Ele parte do perfil-base configurado e varia dentro do limite de variação da simulação.
+3. O perfil efetivo da rodada determina a capacidade bruta estimada: perfil positivo aumenta geração; perfil negativo reduz. Ele é sorteado diretamente entre o perfil mínimo e o perfil máximo configurados, sem alterar a demanda recebida.
 4. O PoUW aplica uma taxa de validação. A parcela validada entra como UMS reconhecida; a parcela inválida fica registrada, mas não entra no saldo. Se a operação não for atendida, a geração é proporcional à parte efetivamente executada e não cria capacidade artificial.
 5. Se o usuário não tiver capacidade para usar o serviço, o motor tenta reconverter MWC inteiro do mercado.
-6. O usuário paga a utilização em UMS, recebe a geração validada e pode atingir um novo bloco de conversão.
-7. Cada bloco completo acima do nível inicial vira MWC inteiro e credita BRL de referência ao usuário.
+6. O usuário paga a utilização em UMS, recebe a geração validada e pode atingir um novo bloco acima do limiar de conversão.
+7. Cada bloco completo acima do limiar configurado vira MWC inteiro e credita BRL de referência ao usuário.
 8. O mercado, os KPIs, a tabela, os gráficos, o relatório histórico e o log recebem o novo estado.
 
 A operação é implementada em uma função pura (`runRound`) para manter a regra econômica independente da interface.

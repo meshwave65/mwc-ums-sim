@@ -31,7 +31,7 @@ Não foi criado backend porque o prompt pede simulação local, sem banco, auten
 
 ## 3. Motor de rodada
 
-`runRound(state, config)` recebe um estado imutável e devolve outro estado. A cada rodada, o motor sorteia diretamente um percentual de perfil na faixa configurada (padrão de −30% a +30%) para cada usuário; o mesmo percentual orienta a distribuição de demanda e a geração. Não há variação acumulada de um perfil anterior. Para cada usuário, o motor calcula custo de utilização, geração bruta, validação PoUW e geração reconhecida.
+`runRound(state, config)` recebe um estado imutável e devolve outro estado. A cada rodada, o motor sorteia diretamente um percentual de perfil na faixa configurada (padrão de −30% a +30%) para cada usuário. O perfil orienta a geração, enquanto a demanda é distribuída com ruído independente e equilibrado; isso evita que déficit receba mais uso e gere menos simultaneamente. Não há variação acumulada de um perfil anterior.
 
 A ordem contábil da rodada é:
 
@@ -40,11 +40,13 @@ A ordem contábil da rodada é:
 3. debitar utilização efetiva;
 4. reconhecer geração validada;
 5. classificar o estado do usuário;
-6. converter blocos completos acima do nível inicial;
+6. converter blocos completos acima do limiar configurável;
 7. atualizar o mercado e os totais;
 8. salvar snapshot e eventos.
 
 O motor usa `Math.ceil` para pedir unidades inteiras de MWC e nunca fabrica frações. Se não houver reserva suficiente, calcula a parcela não atendida e mantém o fato auditável no estado.
+
+O perfil efetivo padrão é sorteado uniformemente entre −30% e +30%. Como essa faixa é simétrica e a demanda não depende do perfil, a tendência média de geração fica próxima do uso normal. A taxa PoUW padrão é 100%, e pode ser reduzida no código/configuração para simular rejeições. O `conversionThreshold` é independente do saldo inicial e permite controlar quando os excedentes começam a alimentar o mercado MWC.
 
 ## 4. Estado e histórico
 

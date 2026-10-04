@@ -21,9 +21,11 @@ export interface UserConfig {
 export interface SimulationConfig {
   initialUms: number
   umsPerMwc: number
+  conversionThreshold: number
   brlPerMwc: number
   validationRate: number
-  variationRange: number
+  profileMin: number
+  profileMax: number
   seed: string
   users: UserConfig[]
   services: ServiceDefinition[]
