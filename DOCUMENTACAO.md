@@ -102,7 +102,7 @@ A coluna Gerado mostra o valor da última rodada e o acumulado. Utilizado segue 
 
 ### Mercado externo
 
-O mercado nunca inicia com reserva. MWC cresce quando um usuário converte bloco completo de UMS e diminui quando uma unidade é reconvertida em 1.000 UMS. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
+O mercado nunca inicia com reserva. MWC cresce quando um usuário converte bloco completo de UMS e diminui quando uma unidade é reconvertida em 1.000 UMS. A geração de uma rodada fica disponível para consumo a partir da rodada seguinte, deixando a reserva observável e evitando que geração e reconversão se anulem na mesma passagem. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
 
 ### Gráficos
 

@@ -48,6 +48,8 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
   const totals = { ...state.totals }
   const events = [...state.events]
   const buckets = new Map<string, UsageBucket>()
+  const marketAvailableAtStart = market.mwcAvailable
+  let mwcReconvertedThisRound = 0
   addRoundEvent(events, nextRound, 'info', `RODADA ${String(nextRound).padStart(3, '0')}`, 'Rodada iniciada: demanda distribuída entre os usuários.')
   config.services.forEach((service) => allocateService(service, users, buckets, random))
   totals.servicesRequested += config.services.reduce((total, service) => total + Math.max(0, Math.floor(service.demand)), 0)
@@ -63,7 +65,9 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     if (usage.cost > availableCapacity) {
       const neededUms = usage.cost - availableCapacity
       const requiredMwc = Math.ceil(neededUms / Math.max(1, config.umsPerMwc))
-      mwcUsed = Math.min(requiredMwc, market.mwcAvailable)
+      // MWC gerado nesta rodada só entra como reserva para a rodada seguinte.
+      // Isso evita que a geração e a reconversão se anulem na mesma passagem.
+      mwcUsed = Math.min(requiredMwc, Math.max(0, marketAvailableAtStart - mwcReconvertedThisRound))
       if (mwcUsed > 0) {
         const restoredUms = mwcUsed * config.umsPerMwc
         availableCapacity += restoredUms
@@ -73,6 +77,7 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
         user.brl -= mwcUsed * config.brlPerMwc
         user.mwcUsed += mwcUsed
         user.lastMwcUsed = mwcUsed
+        mwcReconvertedThisRound += mwcUsed
         addRoundEvent(events, nextRound, 'market', 'RECONVERSÃO', `${user.id} recebeu ${restoredUms.toLocaleString('pt-BR')} UMS via ${mwcUsed} MWC do mercado.`)
       }
       unmetUms = Math.max(0, usage.cost - availableCapacity)
