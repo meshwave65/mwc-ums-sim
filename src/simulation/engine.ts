@@ -16,7 +16,7 @@ function pushEvent(events: SimulationEvent[], round: number, tone: EventTone, la
 function cloneUsers(users: UserState[]): UserState[] { return users.map((user) => ({ ...user })) }
 
 function allocateService(service: ServiceDefinition, users: UserState[], buckets: Map<string, UsageBucket>, random: ReturnType<typeof createRandom>): void {
-  const factors = users.map((user) => Math.max(0.35, 1 - user.profile / 100 + randomBetween(random, -0.05, 0.05)))
+  const factors = users.map((user) => Math.max(0.35, 1 - user.roundProfile / 100 + randomBetween(random, -0.05, 0.05)))
   const factorTotal = factors.reduce((total, factor) => total + factor, 0)
   let remaining = Math.max(0, Math.floor(service.demand))
   users.forEach((user, index) => {
@@ -51,6 +51,9 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
   const marketAvailableAtStart = market.mwcAvailable
   let mwcReconvertedThisRound = 0
   addRoundEvent(events, nextRound, 'info', `RODADA ${String(nextRound).padStart(3, '0')}`, 'Rodada iniciada: demanda distribuída entre os usuários.')
+  users.forEach((user) => {
+    user.roundProfile = clamp(user.profile + randomBetween(random, -config.variationRange, config.variationRange), -100, 100)
+  })
   config.services.forEach((service) => allocateService(service, users, buckets, random))
   totals.servicesRequested += config.services.reduce((total, service) => total + Math.max(0, Math.floor(service.demand)), 0)
 
@@ -88,10 +91,7 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
       ? Math.min(usage.operations, Math.ceil((usage.operations * unmetUms) / Math.max(1, usage.cost),))
       : 0
     const executedOperations = Math.max(0, usage.operations - estimatedUnmetOperations)
-    // O perfil é uma característica fixa do usuário. A variação aleatória representa
-    // somente ruído operacional da rodada e nunca altera user.profile.
-    const operationalJitter = randomBetween(random, -config.variationRange, config.variationRange) / 100
-    const grossGenerated = Math.max(0, Math.round(actualUsed * (1 + user.profile / 100) * (1 + operationalJitter)))
+    const grossGenerated = Math.max(0, Math.round(actualUsed * (1 + user.roundProfile / 100)))
     const validationRate = clamp(config.validationRate + randomBetween(random, -0.01, 0.01), 0.9, 1)
     const validated = Math.round(grossGenerated * validationRate)
     const invalid = Math.max(0, grossGenerated - validated)

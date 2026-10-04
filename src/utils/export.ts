@@ -33,11 +33,11 @@ export function exportReportCsv(report: FinalReport): void {
     ['BRL movimentado', report.market.brlVolume],
     [],
   ]
-  const header = ['Usuário', 'Perfil', 'UMS final', 'BRL', 'UMS gerada', 'UMS utilizada', 'PoUW rejeitado', 'Serviços executados', 'Não atendidos', 'UMS não atendida', 'MWC criado', 'MWC usado', 'Status']
+  const header = ['Usuário', 'Perfil / rodada', 'Perfil-base', 'UMS final', 'BRL', 'UMS gerada', 'UMS utilizada', 'PoUW rejeitado', 'Serviços executados', 'Não atendidos', 'UMS não atendida', 'MWC criado', 'MWC usado', 'Status']
   const lines = [...summary.map((row) => row.map(csvCell).join(';')), header.map(csvCell).join(';')]
   report.users.forEach((user) => {
     lines.push([
-      user.id, `${user.profile}%`, user.ums, user.brl.toFixed(2).replace('.', ','), user.generated, user.used, user.invalid,
+      user.id, `${user.roundProfile}%`, `${user.profile}%`, user.ums, user.brl.toFixed(2).replace('.', ','), user.generated, user.used, user.invalid,
       user.servicesExecuted, user.servicesUnmet, user.unmetUms, user.mwcCreated, user.mwcUsed, user.status,
     ].map(csvCell).join(';'))
   })

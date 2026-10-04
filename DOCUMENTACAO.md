@@ -44,7 +44,7 @@ Os perfis usados como ponto de partida são:
 | USER-09 | +10% | excedente moderado |
 | USER-10 | -20% | déficit |
 
-O perfil percentual é fixo durante toda a simulação e nunca é alterado pelo motor. A cada rodada, apenas a demanda alocada, o ruído operacional da geração e a taxa de validação recebem uma variação limitada; isso evita resultados idênticos sem transformar o perfil do usuário.
+O perfil-base é configurado para cada usuário, mas o perfil efetivo recebe uma variação aleatória limitada em cada rodada. A tabela mostra o perfil efetivo da rodada e conserva o perfil-base como referência. Assim, um usuário pode alternar entre déficit, estabilidade e superávit ao longo da simulação.
 
 ## 3. Serviços e demanda
 
@@ -67,7 +67,7 @@ A tabela configurável traz custo em UMS por operação e demanda padrão da rod
 
 1. A demanda de cada serviço é alocada entre os dez usuários.
 2. O uso em UMS é obtido multiplicando operações alocadas pelo custo do serviço.
-3. O perfil fixo do usuário determina a capacidade bruta estimada: perfil positivo aumenta geração; perfil negativo reduz. Um ruído operacional separado pode variar a rodada, mas não altera o percentual exibido.
+3. O perfil efetivo da rodada determina a capacidade bruta estimada: perfil positivo aumenta geração; perfil negativo reduz. Ele parte do perfil-base configurado e varia dentro do limite de variação da simulação.
 4. O PoUW aplica uma taxa de validação. A parcela validada entra como UMS reconhecida; a parcela inválida fica registrada, mas não entra no saldo. Se a operação não for atendida, a geração é proporcional à parte efetivamente executada e não cria capacidade artificial.
 5. Se o usuário não tiver capacidade para usar o serviço, o motor tenta reconverter MWC inteiro do mercado.
 6. O usuário paga a utilização em UMS, recebe a geração validada e pode atingir um novo bloco de conversão.

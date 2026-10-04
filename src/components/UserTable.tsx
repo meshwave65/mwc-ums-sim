@@ -15,13 +15,13 @@ export function UserTable({ users }: UserTableProps) {
       </div>
       <div className="table-wrap">
         <table>
-          <thead><tr><th>Usuário</th><th>Perfil</th><th>UMS</th><th>BRL</th><th>Serviços</th><th>Gerado</th><th>Utilizado</th><th>Status</th></tr></thead>
+          <thead><tr><th>Usuário</th><th>Perfil / rodada</th><th>UMS</th><th>BRL</th><th>Serviços</th><th>Gerado</th><th>Utilizado</th><th>Status</th></tr></thead>
           <tbody>
             {users.map((user) => {
               const tone = statusTone(user.status)
               return <tr key={user.id}>
                 <td><div className="user-cell"><span className={`user-avatar tone-${tone}`}>{user.id.slice(-2)}</span><div><strong>{user.id}</strong><small>{user.lastActivity}</small></div></div></td>
-                <td><span className={`profile-value ${user.profile >= 0 ? 'is-positive' : 'is-negative'}`}>{formatPercent(user.profile)}</span></td>
+                <td><span className={`profile-value ${user.roundProfile >= 0 ? 'is-positive' : 'is-negative'}`}>{formatPercent(user.roundProfile)}</span><small className="metric-total">base {formatPercent(user.profile)}</small></td>
                 <td><strong className="number-cell">{formatNumber(user.ums)}</strong></td>
                 <td><span className={user.brl < 0 ? 'money-negative' : user.brl > 0 ? 'money-positive' : 'money-neutral'}>{formatBrl(user.brl, true)}</span></td>
                 <td><span className="muted-number">{formatNumber(user.servicesExecuted)}</span>{user.servicesUnmet > 0 && <small className="unmet-inline"> +{formatNumber(user.servicesUnmet)} não</small>}</td>

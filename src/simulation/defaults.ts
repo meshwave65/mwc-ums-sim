@@ -32,6 +32,7 @@ export function createInitialUser(id: string, profile: number, initialUms: numbe
   return {
     id,
     profile,
+    roundProfile: profile,
     ums: initialUms,
     brl: 0,
     servicesExecuted: 0,

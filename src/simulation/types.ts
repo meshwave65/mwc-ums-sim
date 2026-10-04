@@ -30,6 +30,7 @@ export interface SimulationConfig {
 }
 
 export interface UserState extends UserConfig {
+  roundProfile: number
   ums: number
   brl: number
   servicesExecuted: number
@@ -92,6 +93,7 @@ export interface RoundSnapshot {
 export interface UserReport {
   id: string
   profile: number
+  roundProfile: number
   ums: number
   brl: number
   generated: number

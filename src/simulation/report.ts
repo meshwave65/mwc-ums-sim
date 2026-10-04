@@ -18,7 +18,7 @@ export function createFinalReport(state: SimulationState, config: SimulationConf
     round: state.round,
     generatedAt: new Date().toISOString(),
     users: orderedUsers.map((user) => ({
-      id: user.id, profile: user.profile, ums: user.ums, brl: user.brl, generated: user.generated, used: user.used,
+      id: user.id, profile: user.profile, roundProfile: user.roundProfile, ums: user.ums, brl: user.brl, generated: user.generated, used: user.used,
       validated: user.validated, invalid: user.invalid, servicesExecuted: user.servicesExecuted, servicesUnmet: user.servicesUnmet,
       mwcCreated: user.mwcCreated, mwcUsed: user.mwcUsed, unmetUms: user.unmetUms, status: user.status,
     })),
