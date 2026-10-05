@@ -157,6 +157,7 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
   const nextState: SimulationState = {
     round: nextRound,
     status: state.status,
+    machineAnchor: state.machineAnchor,
     users,
     market,
     totals,

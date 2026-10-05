@@ -1,4 +1,5 @@
 import type { MarketState, ServiceDefinition, SimulationConfig, SimulationState, SimulationTotals, UserState } from './types'
+import { createMachineAnchor } from './blockchain'
 
 export const DEFAULT_PROFILES = [20, -10, 5, -25, 15, -5, 30, -15, 10, -20]
 
@@ -73,6 +74,7 @@ export function createInitialState(config: SimulationConfig): SimulationState {
   return {
     round: 0,
     status: 'idle',
+    machineAnchor: createMachineAnchor(),
     users,
     market,
     totals,

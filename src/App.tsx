@@ -9,6 +9,7 @@ import { MarketPanel } from './components/MarketPanel'
 import { SimulationCharts } from './components/SimulationCharts'
 import { SimulationControls, type SpeedKey } from './components/SimulationControls'
 import { UserTable } from './components/UserTable'
+import { MWBlockchainPanel } from './components/MWBlockchainPanel'
 import { createDefaultConfig, createInitialState } from './simulation/defaults'
 import { runRound } from './simulation/engine'
 import { createFinalReport } from './simulation/report'
@@ -78,6 +79,7 @@ function App() {
         <SimulationCharts state={state} />
         <FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} />
         <ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} />
+        <MWBlockchainPanel state={state} />
         <footer className="footer-note"><span className="brand-mark mini"><span>MW</span><i /></span><p><strong>MWC / UMS Simulator</strong> · Protótipo educacional. Nenhum valor representa moeda, investimento ou operação financeira real.</p><span className="footer-version">v0.1 · em memória</span></footer>
       </main>
     </div>

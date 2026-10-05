@@ -122,6 +122,7 @@ export interface FinalReport {
 export interface SimulationState {
   round: number
   status: SimulationStatus
+  machineAnchor: string
   users: UserState[]
   market: MarketState
   totals: SimulationTotals
