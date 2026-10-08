@@ -1,5 +1,7 @@
 # Etapa 00 — Baseline, observabilidade e contrato de dados
 
+**Status:** implementada parcialmente — baseline automatizada e contrato de contagens aprovados.
+
 ## Objetivo
 
 Criar uma fotografia mensurável do simulador atual antes de qualquer otimização. Esta etapa não deve alterar a economia, o ciclo das rodadas ou a interface funcional.
@@ -63,3 +65,7 @@ Remover o módulo de métricas e os comandos de diagnóstico. Nenhum dado de pro
 ## Gate
 
 Só avançar quando houver uma baseline reproduzível para comparar todas as etapas seguintes.
+
+## Resultado atual
+
+A baseline automatizada está em `tests/baseline.test.ts` e os números observados estão registrados em `baseline-2026-10-07.md`. O teste cobre 1, 100 e 1.000 rodadas, mede simulação e validação, e confirma histórico e quantidade de blocos sem impor limites frágeis de ambiente.

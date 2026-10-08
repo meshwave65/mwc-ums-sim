@@ -83,7 +83,9 @@ export function createMachineAnchor(): string {
   let cpuPulse = 0
   const started = performance.now()
   for (let i = 0; i < 12000; i += 1) cpuPulse = (cpuPulse + Math.sqrt(i + started)) % 100000
-  const fingerprint = `${Date.now()}|${performance.now()}|${cpuPulse}|${navigator.hardwareConcurrency ?? 'na'}|${(navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 'na'}|${screen.width}x${screen.height}`
+  const nav = typeof navigator === 'undefined' ? undefined : navigator
+  const viewport = typeof screen === 'undefined' ? 'na' : `${screen.width}x${screen.height}`
+  const fingerprint = `${Date.now()}|${performance.now()}|${cpuPulse}|${nav?.hardwareConcurrency ?? 'na'}|${(nav as (Navigator & { deviceMemory?: number }) | undefined)?.deviceMemory ?? 'na'}|${viewport}`
   return sha256(fingerprint)
 }
 

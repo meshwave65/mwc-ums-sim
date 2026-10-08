@@ -1,0 +1,4 @@
+{
+  "rounds": [1, 100, 1000],
+  "notes": "Tempos são observados no CI e não são comparados por igualdade, pois variam conforme o runner. Estrutura e contagens são invariantes."
+}

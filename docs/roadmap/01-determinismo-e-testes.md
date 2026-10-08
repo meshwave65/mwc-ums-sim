@@ -1,5 +1,7 @@
 # Etapa 01 — Determinismo, fixtures e testes de regressão
 
+**Status:** implementada — testes iniciais e CI adicionados.
+
 ## Objetivo
 
 Garantir que otimizações estruturais não alterem os resultados econômicos quando a entrada e a `seed` forem iguais.
@@ -52,3 +54,7 @@ Os testes podem ser mantidos mesmo que a implementação da `seed` seja revertid
 ## Gate
 
 Não compactar histórico nem desacoplar eventos antes de haver uma referência econômica confiável.
+
+## Resultado atual
+
+Foram adicionados `tests/engine.test.ts`, `tests/blockchain.test.ts`, `tests/helpers.ts` e a fixture `tests/fixtures/expected-round-10.json`. O workflow `.github/workflows/ci.yml` executa instalação congelada, build e regressões em pushes para `main`/`develop` e pull requests.

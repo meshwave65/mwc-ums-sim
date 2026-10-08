@@ -2,13 +2,16 @@
   "name": "mwc-ums-sim",
   "private": true,
   "version": "0.1.0",
-  "description": "Simulador visual da economia básica MeshWave MWC/UMS",
+  "description": "Simulador visual da economia b\u00e1sica MeshWave MWC/UMS",
   "packageManager": "pnpm@11.25.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -19,6 +22,7 @@
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.4",
     "typescript": "^5.9.2",
-    "vite": "^7.1.7"
+    "vite": "^7.1.7",
+    "vitest": "^3.2.7"
   }
 }
