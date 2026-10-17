@@ -16,10 +16,12 @@ import { createFinalReport } from './simulation/report'
 import type { SimulationConfig, SimulationState } from './simulation/types'
 import { exportReportCsv, exportReportJson } from './utils/export'
 import { enqueueBlockchainState } from './persistence/sync/chainPersistence'
+import { useSupabaseAuth } from './persistence/auth/SupabaseAuthProvider'
 
 const speedIntervals: Record<SpeedKey, number> = { slow: 1500, normal: 720, fast: 330, turbo: 170 }
 
 function App() {
+  const { user, loading: authLoading } = useSupabaseAuth()
   const [config, setConfig] = useState<SimulationConfig>(() => createDefaultConfig())
   const [draftConfig, setDraftConfig] = useState<SimulationConfig>(() => createDefaultConfig())
   const [state, setState] = useState<SimulationState>(() => createInitialState(createDefaultConfig()))
@@ -29,8 +31,9 @@ function App() {
 
   useEffect(() => { stateRef.current = state }, [state])
   useEffect(() => {
+    if (authLoading || !user) return
     void enqueueBlockchainState(state).catch(() => undefined)
-  }, [state])
+  }, [authLoading, state, user])
 
   useEffect(() => {
     if (state.status !== 'running') return undefined

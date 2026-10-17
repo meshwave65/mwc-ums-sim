@@ -15,7 +15,7 @@ O projeto Supabase correspondente foi identificado como `ufylccbdjfzydbwhpmpp`. 
 - `public.mw_transactions`: unicidade em `(chain_id, transaction_hash)`; FK opcional para bloco e FK para metadados.
 - `public.mw_state_snapshots`: unicidade em `(chain_id, block_number)`; FK para metadados.
 
-As quatro tabelas estão com RLS ativo e as políticas observadas permitem operações somente ao papel `authenticated`. Não foi criada migração, tabela paralela ou dado de teste. A configuração do SWE não estava disponível no workspace, portanto não foi inventado bucket, caminho, variável ou credencial.
+As quatro tabelas estão com RLS ativo e as políticas observadas permitem operações somente ao papel `authenticated`. O repositório `meshwave65/AppAndroidSWE-Start` confirmou o contrato real: `VITE_SUPABASE_URL`, chave pública, login em `clients` via `signInWithPassword` e bucket `sofia_storage_user`. Leituras sem escrita retornaram HTTP 200 para `clients` e para o Storage. Não foi criada migração, tabela paralela ou dado de teste, e nenhuma credencial foi adicionada ao código.
 
 ## Arquivos alterados
 
@@ -25,6 +25,9 @@ As quatro tabelas estão com RLS ativo e as políticas observadas permitem opera
 - `src/components/MWBlockchainPanel.tsx`: exibe `CHAIN_ID`, estado efetivo da fila e botão de sincronização; não apresenta sucesso remoto sem confirmação.
 - `src/simulation/blockchain.ts`: mantém o `machine_anchor` estável entre recargas do mesmo navegador usando armazenamento local, evitando uma gênese diferente a cada inicialização.
 - `src/persistence/sync/indexeddb.ts`: corrige recuperação de locks com idade zero (`<=`), eliminando uma regressão intermitente da fila.
+- `src/persistence/auth/SupabaseAuthProvider.tsx`: login e sessão persistente compatíveis com `AppAndroidSWE-Start`.
+- `src/persistence/sync/supabase.ts`: upload idempotente de snapshots para `sofia_storage_user` após confirmação do upsert no banco.
+- `src/main.tsx` e `src/styles/blockchain.css`: montagem e estilo do fluxo de autenticação.
 
 ## Funcionalidades reutilizadas
 
@@ -42,11 +45,11 @@ As transações não recebem remetente, destinatário ou valor artificialmente: 
 - Regressão econômica: motor, baseline de 1/100/1.000 rodadas e validação criptográfica da cadeia.
 - Integridade: sequência, `previous_hash`, recálculo do hash e detecção de corrupção continuam cobertos.
 
-Os cenários de navegador, reinicialização com leitura remota e falha de comunicação com o Supabase não foram declarados aprovados porque o frontend desta sessão não possui uma sessão autenticada nem uma configuração SWE reutilizável.
+Os cenários de navegador com usuário real, reinicialização com leitura remota e upload autenticado não foram declarados aprovados porque não há credenciais de usuário para entrar nesta sessão. A conectividade pública de leitura do projeto e do bucket foi confirmada sem expor dados.
 
 ## Persistência e limitações atuais
 
-A aplicação agora produz itens reais para sincronização, mas a persistência remota só deve ser considerada confirmada quando o Supabase responder positivamente. Com as variáveis públicas ausentes, o painel mostra `NÃO CONFIGURADA`. Mesmo com URL e chave pública, as políticas atuais exigem `authenticated`; o projeto ainda não contém autenticação do simulador nem uma API/Edge Function de menor privilégio para append atômico.
+A aplicação agora produz itens reais para sincronização e oferece o login real do AppAndroidSWE-Start. A persistência remota só deve ser considerada confirmada quando o Supabase responder positivamente. Com as variáveis públicas ausentes, o painel mostra `NÃO CONFIGURADA`; sem login, mostra `AGUARDANDO LOGIN`. Após autenticação, os snapshots também são enviados a `sofia_storage_user` em caminhos determinísticos.
 
 A gravação atual é uma fila de upserts independentes. Ela é idempotente e resiliente a falhas, mas ainda não é uma transação PostgreSQL única entre metadados, bloco, transações, snapshot e head. Não foi feita alteração de esquema para mascarar essa limitação.
 
@@ -62,4 +65,4 @@ O código foi validado localmente no sandbox. A implantação pública em Render
 
 ## Próxima etapa recomendada
 
-Definir, junto à configuração do SWE, o mecanismo de autenticação e menor privilégio para o simulador. Em seguida, implementar uma função transacional no Postgres ou Edge Function para append atômico, métodos paginados de leitura e hidratação do estado após refresh. Só depois disso executar os testes B, D, E e F contra o ambiente autorizado e considerar a integração Supabase concluída.
+Executar um login de usuário autorizado no painel e validar um ciclo completo de upsert no banco mais upload no Storage. Em seguida, implementar uma função transacional no Postgres ou Edge Function para append atômico, métodos paginados de leitura e hidratação do estado após refresh. Só depois disso executar os testes B, D, E e F contra o ambiente autenticado e considerar a integração Supabase concluída.

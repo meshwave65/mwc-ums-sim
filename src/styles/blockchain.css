@@ -34,6 +34,10 @@
 .mw-anchor span { color: var(--purple); font-family: 'DM Mono', monospace; font-size: 8px; }
 .mw-anchor strong { color: var(--text); font-family: 'DM Mono', monospace; font-size: 10px; }
 .mw-anchor small { color: var(--subtle); font-size: 9px; }
+.mw-auth-form { display: grid; gap: 8px; margin: 10px 0; padding: 13px; border: 1px solid var(--line); border-radius: 9px; background: rgba(4, 13, 20, .25); }
+.mw-auth-form input { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--text); font: inherit; font-size: 11px; }
+.mw-auth-form input:focus { outline: 1px solid var(--purple); border-color: var(--purple); }
+.mw-auth-error { color: var(--coral); font-size: 9px; line-height: 1.4; }
 .mw-actions { align-items: stretch; flex-direction: column; }
 .mw-actions .button { width: 100%; }
 @media (max-width: 1120px) { .mw-chain-layout { grid-template-columns: 1fr; } }

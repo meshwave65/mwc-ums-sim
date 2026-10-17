@@ -29,7 +29,18 @@ export class SupabaseRemoteChainRepository implements RemoteChainRepository {
   }
 
   async saveSnapshot(payload: unknown): Promise<void> {
-    await this.upsert('mw_state_snapshots', toSnapshotRow(payload), 'chain_id,block_number')
+    const row = toSnapshotRow(payload)
+    await this.upsert('mw_state_snapshots', row, 'chain_id,block_number')
+    const chainId = String(row.chain_id)
+    const blockNumber = String(row.block_number)
+    const { error } = await this.client.storage
+      .from('sofia_storage_user')
+      .upload(`mwc-ums/${chainId}/snapshots/${blockNumber}.json`, new Blob([JSON.stringify(row)], { type: 'application/json' }), {
+        upsert: true,
+        contentType: 'application/json',
+        cacheControl: '3600',
+      })
+    if (error) throw error
   }
 
   private async upsert(table: string, row: Record<string, unknown>, onConflict: string): Promise<void> {

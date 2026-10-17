@@ -4,11 +4,14 @@ import App from './App'
 import './styles/global.css'
 import { SyncProvider } from './persistence/sync/SyncProvider'
 import { syncQueueProcessor } from './persistence/sync/runtime'
+import { SupabaseAuthProvider } from './persistence/auth/SupabaseAuthProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SyncProvider processor={syncQueueProcessor}>
-      <App />
-    </SyncProvider>
+    <SupabaseAuthProvider>
+      <SyncProvider processor={syncQueueProcessor}>
+        <App />
+      </SyncProvider>
+    </SupabaseAuthProvider>
   </StrictMode>,
 )
