@@ -2,12 +2,16 @@ import { useMemo, useState } from 'react'
 import type { SimulationState } from '../simulation/types'
 import { buildBlockchain, validateBlockchain } from '../simulation/blockchain'
 import { formatNumber } from '../utils/format'
+import { useSyncQueue } from '../persistence/sync/SyncProvider'
+import { SIMULATOR_CHAIN_ID } from '../persistence/sync/chainPersistence'
+import { supabasePersistenceAvailable } from '../persistence/sync/runtime'
 
 interface Props { state: SimulationState }
 
 function shortHash(value: string): string { return `${value.slice(0, 10)}…${value.slice(-8)}` }
 
 export function MWBlockchainPanel({ state }: Props) {
+  const { state: syncState, flush } = useSyncQueue()
   const blocks = useMemo(() => buildBlockchain(state), [state])
   const [corruptedIndex, setCorruptedIndex] = useState<number | null>(null)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
@@ -30,9 +34,11 @@ export function MWBlockchainPanel({ state }: Props) {
         <div className="section-heading compact"><div><p className="eyebrow eyebrow-amber">Status / validação</p><h3>Integridade da cadeia</h3></div><span className={`mw-chain-dot ${validation.valid ? 'is-valid' : 'is-invalid'}`} /></div>
         <div className={`mw-chain-result ${validation.valid ? 'is-valid' : 'is-invalid'}`}><strong>{validation.valid ? 'CHAIN VALID' : 'CHAIN CORRUPTED'}</strong><span>{validation.message}</span></div>
         <div className="mw-metrics"><div><span>Blocks</span><strong>{formatNumber(blocks.length)}</strong></div><div><span>Transactions</span><strong>{formatNumber(transactionCount)}</strong></div><div><span>Hash</span><strong>SHA-256</strong></div><div><span>Validators</span><strong>5</strong></div></div>
+        <div className="mw-anchor"><span>CHAIN_ID</span><strong>{SIMULATOR_CHAIN_ID}</strong><small>identificador estável para recuperação entre recargas</small></div>
         <div className="mw-anchor"><span>MACHINE_ANCHOR · Chain 0</span><strong>{shortHash(state.machineAnchor)}</strong><small>somente o resultado criptográfico é armazenado</small></div>
-        <div className="button-row mw-actions"><button className="button button-primary" type="button" onClick={() => undefined}>✓ Validar cadeia</button><button className="button button-quiet" type="button" onClick={corrupt} disabled={corruptedIndex !== null}>⚠ Simular corrupção</button><button className="button button-secondary" type="button" onClick={restore} disabled={corruptedIndex === null}>↺ Restaurar cadeia</button></div>
-        <p className="helper-text">A blockchain observa usuários, serviços, PoUW e mercado já produzidos pelo simulador. Não possui saldos nem lógica econômica própria.</p>
+        <div className="mw-anchor"><span>PERSISTÊNCIA</span><strong>{!supabasePersistenceAvailable ? 'NÃO CONFIGURADA' : syncState.failedCount > 0 ? 'FALHA' : syncState.pendingCount > 0 ? 'PENDENTE' : 'CONFIRMAÇÃO NECESSÁRIA'}</strong><small>{!supabasePersistenceAvailable ? 'Supabase não configurado; nenhum sucesso remoto foi simulado.' : `${syncState.pendingCount} pendentes · ${syncState.failedCount} falhas`}</small></div>
+        <div className="button-row mw-actions"><button className="button button-primary" type="button" onClick={() => undefined}>✓ Validar cadeia</button><button className="button button-secondary" type="button" onClick={() => void flush()}>↥ Sincronizar</button><button className="button button-quiet" type="button" onClick={corrupt} disabled={corruptedIndex !== null}>⚠ Simular corrupção</button><button className="button button-secondary" type="button" onClick={restore} disabled={corruptedIndex === null}>↺ Restaurar cadeia</button></div>
+        <p className="helper-text">A blockchain observa usuários, serviços, PoUW e mercado já produzidos pelo simulador. Não possui saldos nem lógica econômica própria. Persistência só é considerada confirmada após resposta positiva do Supabase.</p>
       </aside>
     </div>
   </section>

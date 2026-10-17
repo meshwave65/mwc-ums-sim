@@ -85,7 +85,7 @@ export class IndexedDbSyncQueueRepository implements SyncQueueRepository {
     const threshold = Date.now() - staleAfterMs
 
     for (const item of items) {
-      if (item.status === 'processing' && item.lockedAt && Date.parse(item.lockedAt) < threshold) {
+      if (item.status === 'processing' && item.lockedAt && Date.parse(item.lockedAt) <= threshold) {
         item.status = 'pending'
         delete item.lockedAt
         item.nextAttemptAt = new Date().toISOString()

@@ -36,6 +36,7 @@ pnpm preview
 - `src/simulation/types.ts`: contrato de dados do simulador.
 - `src/simulation/report.ts`: consolidação do relatório final.
 - `src/components/`: dashboard, controles, tabela, mercado, log, gráficos, relatório e configuração.
+- `src/persistence/sync/`: fila IndexedDB, retries e mapeamento idempotente para as tabelas `mw_*` do Supabase.
 - `src/styles/global.css`: linguagem visual responsiva e estados.
 - `public/manus-routes.json`: manifesto de rota `/` exigido pelo Webdev.
 - `DOCUMENTACAO.md`: regras e leitura dos painéis.
@@ -52,6 +53,8 @@ pnpm preview
 - Blocos completos de UMS acima do nível inicial geram MWC.
 - Déficit de capacidade tenta usar uma unidade inteira de MWC disponível; se não houver reserva, a operação fica não atendida.
 
-## Limitações conhecidas
+## Persistência e limitações conhecidas
 
-O estado fica somente em memória do navegador e é perdido ao recarregar. A demanda e a validação são parâmetros didáticos, sem preço variável, liquidez, compra/venda ou integração externa. A seed permite repetição aproximada do comportamento da rodada, mas o timestamp e o log são gerados em tempo de execução.
+O simulador continua sendo a fonte dos eventos econômicos. Quando o Supabase público está configurado, o estado da MWBlockchain é convertido em itens idempotentes na fila IndexedDB para as tabelas `mw_chain_metadata`, `mw_blocks`, `mw_transactions` e `mw_state_snapshots`. O painel só informa confirmação depois de uma resposta positiva do Supabase.
+
+A persistência remota exige uma sessão `authenticated` compatível com as políticas RLS existentes. Sem essa configuração, o painel informa que a persistência não foi confirmada; não há fallback que simule sucesso. A recuperação completa do estado econômico a partir de snapshots remotos e o append transacional entre tabelas ainda são etapas posteriores. A demanda e a validação são parâmetros didáticos, sem preço variável, liquidez, compra/venda ou operação financeira real.

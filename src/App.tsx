@@ -15,6 +15,7 @@ import { runRound } from './simulation/engine'
 import { createFinalReport } from './simulation/report'
 import type { SimulationConfig, SimulationState } from './simulation/types'
 import { exportReportCsv, exportReportJson } from './utils/export'
+import { enqueueBlockchainState } from './persistence/sync/chainPersistence'
 
 const speedIntervals: Record<SpeedKey, number> = { slow: 1500, normal: 720, fast: 330, turbo: 170 }
 
@@ -27,6 +28,9 @@ function App() {
   const stateRef = useRef(state)
 
   useEffect(() => { stateRef.current = state }, [state])
+  useEffect(() => {
+    void enqueueBlockchainState(state).catch(() => undefined)
+  }, [state])
 
   useEffect(() => {
     if (state.status !== 'running') return undefined

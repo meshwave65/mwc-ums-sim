@@ -3,8 +3,11 @@ import { SyncQueueProcessor } from './processor'
 import { createSupabaseClient, SupabaseRemoteChainRepository } from './supabase'
 import type { RemoteChainRepository } from './types'
 
+const configuredClient = createSupabaseClient()
+export const supabasePersistenceAvailable = configuredClient !== null
+
 const remote: RemoteChainRepository = (() => {
-  const client = createSupabaseClient()
+  const client = configuredClient
   if (client) return new SupabaseRemoteChainRepository(client)
 
   return {

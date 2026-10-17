@@ -80,13 +80,20 @@ function roundTransactions(snapshot: RoundSnapshot, previous: RoundSnapshot | un
 }
 
 export function createMachineAnchor(): string {
+  const storageKey = 'mw-blockchain-machine-anchor'
+  if (typeof localStorage !== 'undefined') {
+    const stored = localStorage.getItem(storageKey)
+    if (stored && /^[A-F0-9]{64}$/.test(stored)) return stored
+  }
   let cpuPulse = 0
   const started = performance.now()
   for (let i = 0; i < 12000; i += 1) cpuPulse = (cpuPulse + Math.sqrt(i + started)) % 100000
   const nav = typeof navigator === 'undefined' ? undefined : navigator
   const viewport = typeof screen === 'undefined' ? 'na' : `${screen.width}x${screen.height}`
   const fingerprint = `${Date.now()}|${performance.now()}|${cpuPulse}|${nav?.hardwareConcurrency ?? 'na'}|${(nav as (Navigator & { deviceMemory?: number }) | undefined)?.deviceMemory ?? 'na'}|${viewport}`
-  return sha256(fingerprint)
+  const anchor = sha256(fingerprint)
+  if (typeof localStorage !== 'undefined') localStorage.setItem(storageKey, anchor)
+  return anchor
 }
 
 export function buildBlockchain(state: SimulationState): BlockchainBlock[] {
