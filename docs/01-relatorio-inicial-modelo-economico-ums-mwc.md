@@ -98,7 +98,15 @@ Este cálculo não garante captação, liquidez, resgate ou manutenção do pre�
 7. Não apresentar o valor de referência como garantia de preço, resgate ou valorização.
 8. Antes de uma emissão ou oferta pública, obter análise jurídica e regulatória específica.
 
-## 11. Próximos artefatos recomendados
+## 11. Referências externas iniciais
+
+- AWS, página de preços do Amazon S3: https://aws.amazon.com/s3/pricing/ — consultar a região e a classe de armazenamento aplicáveis antes de atualizar o benchmark.
+- CVM, Parecer de Orientação 40 — Os CriptoAtivos e o Mercado de Valores Mobiliários: https://www.gov.br/cvm/pt-br/Treinamento/legislacao/pareceres-de-orientacao/copy2_of_portaria-conjunta-mf-cvm-no-92-de-21-de-marco-de-2018 — referência para análise do enquadramento e das obrigações aplicáveis.
+- CVM, FAQ “Criptoativos: quando se aplicam as regras da CVM?”: https://www.gov.br/cvm/pt-br/acesso-a-informacao-cvm/perguntas-frequentes-da-cvm/criptoativos-quando-se-aplicam-as — orientação geral atualizada em fevereiro de 2026.
+
+Os preços comerciais, o câmbio e a classificação jurídica devem ser reconfirmados no momento de qualquer publicação externa ou emissão.
+
+## 12. Próximos artefatos recomendados
 
 - Política de emissão e limites de oferta de MWC.
 - Tabela de conversão de serviços em UMS.
