@@ -8,11 +8,11 @@ Este diretório organiza a trajetória de cada colaborador neste projeto. A traj
 3. [Fase 3 — Formalização](phase-03-formalization/README.md)
 
 ## Contatos preparados
-- [Reginaldo Caldeira — NW-LI-0034](phase-01-alignment/NW-LI-0034-reginaldo-caldeira/meet01-date-pending/README.md)
-- [Gonçalo Salgueiro — NW-LI-0031](phase-01-alignment/NW-LI-0031-goncalo-salgueiro/meet01-date-pending/README.md)
-- [Osman Cordeiro — NW-LI-0046](phase-01-alignment/NW-LI-0046-osman-cordeiro/meet01-date-pending/README.md)
-- [Tomás Reis — NW-LI-0029](phase-01-alignment/NW-LI-0029-tomas-reis/meet01-date-pending/README.md)
-- [Fernanda Pescador — NW-LI-0025](phase-01-alignment/NW-LI-0025-fernanda-pescador/meet01-date-pending/README.md)
+- [Reginaldo Caldeira — pauta](phase-01-alignment/NW-LI-0034-reginaldo-caldeira/meet01-date-pending/README.md) · [briefing personalizado](phase-01-alignment/NW-LI-0034-reginaldo-caldeira/meet01-date-pending/materials/briefing.md)
+- [Gonçalo Salgueiro — pauta](phase-01-alignment/NW-LI-0031-goncalo-salgueiro/meet01-date-pending/README.md) · [briefing personalizado](phase-01-alignment/NW-LI-0031-goncalo-salgueiro/meet01-date-pending/materials/briefing.md)
+- [Osman Cordeiro — pauta](phase-01-alignment/NW-LI-0046-osman-cordeiro/meet01-date-pending/README.md) · [briefing personalizado](phase-01-alignment/NW-LI-0046-osman-cordeiro/meet01-date-pending/materials/briefing.md)
+- [Tomás Reis — pauta](phase-01-alignment/NW-LI-0029-tomas-reis/meet01-date-pending/README.md) · [briefing personalizado](phase-01-alignment/NW-LI-0029-tomas-reis/meet01-date-pending/materials/briefing.md)
+- [Fernanda Pescador — pauta](phase-01-alignment/NW-LI-0025-fernanda-pescador/meet01-date-pending/README.md) · [briefing personalizado](phase-01-alignment/NW-LI-0025-fernanda-pescador/meet01-date-pending/materials/briefing.md)
 
 ## Integridade dos registros
 - Não inventar datas, reuniões, falas, interesses, disponibilidade ou compromissos.
