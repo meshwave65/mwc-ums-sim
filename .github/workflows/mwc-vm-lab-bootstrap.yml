@@ -1,0 +1,53 @@
+name: MWC VM Lab — bootstrap smoke test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "node-agent/**"
+      - "tests/vm-lab/**"
+      - ".github/workflows/mwc-vm-lab-bootstrap.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap-smoke:
+    name: Hosted runner bootstrap (single VM)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout tested revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Record environment and revision
+        run: |
+          mkdir -p tests/vm-lab/results
+          {
+            echo "commit=${GITHUB_SHA}"
+            echo "runner_os=${RUNNER_OS}"
+            echo "runner_arch=${RUNNER_ARCH}"
+            echo "python_version=$(python --version 2>&1)"
+            echo "started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } | tee tests/vm-lab/results/bootstrap-environment.txt
+
+      - name: Run storage node automated tests
+        working-directory: node-agent
+        run: |
+          set -o pipefail
+          python -m unittest -v test_mwc_node.py 2>&1 | tee ../tests/vm-lab/results/bootstrap-test.log
+
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mwc-vm-lab-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}
+          path: tests/vm-lab/results/
+          if-no-files-found: warn
+          retention-days: 14
