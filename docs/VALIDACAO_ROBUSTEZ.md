@@ -64,8 +64,12 @@ Essas questões exigem especificação econômica explícita, dados operacionais
 ## Estado e evidências
 
 - Testes históricos e workflow de CI: consultar os links no repositório e o histórico de Actions.
-- Nova suíte de robustez: `tests/robustness.test.ts`; aprovação depende do resultado do workflow associado ao commit correspondente.
-- Testes de integração remota, experimento estatístico amplo e validação externa: não declarados como concluídos por este documento.
+- Nova suíte de robustez: `tests/robustness.test.ts`; CI aprovada no run https://github.com/meshwave65/mwc-ums-sim/actions/runs/39876083822.
+- Matriz exploratória: `tests/economic-experiments.test.ts`, 50 execuções em cinco cenários, dez seeds pareadas e 40 rodadas por execução; CI aprovada no run https://github.com/meshwave65/mwc-ums-sim/actions/runs/39876476644. O resumo quantitativo é impresso no log de teste; aprovação do teste não equivale a validação de premissas reais.
+- Contrato do adaptador Supabase com cliente simulado: `tests/supabase-repository.test.ts`; CI aprovada no run https://github.com/meshwave65/mwc-ums-sim/actions/runs/39876539563. Não é teste contra Supabase remoto.
+- Análise dos limites do PoUW: `docs/ANALISE_TECNICA_POUW.md`.
+- Protocolo para validação externa: `docs/PROTOCOLO_VALIDACAO_EXTERNA.md`; descreve pesquisa proposta, não entrevistas realizadas.
+- Ainda pendentes: experimento contra projeto Supabase de teste com RLS real; extração/publicação dos valores quantitativos da matriz em relatório durável; especificação e teste de uma tarefa PoUW concreta; entrevistas/pilotos com participantes externos.
 
 
 ### Execução experimental adicionada
