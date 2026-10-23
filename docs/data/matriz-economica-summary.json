@@ -1,0 +1,370 @@
+{
+  "methodology": "exploratory one-factor-at-a-time; paired seeds across scenarios",
+  "seeds": [
+    "exp-001",
+    "exp-002",
+    "exp-003",
+    "exp-004",
+    "exp-005",
+    "exp-006",
+    "exp-007",
+    "exp-008",
+    "exp-009",
+    "exp-010"
+  ],
+  "roundsPerRun": 40,
+  "totalRuns": 50,
+  "metrics": [
+    {
+      "scenario": "baseline",
+      "runs": 10,
+      "roundsPerRun": 40,
+      "distribution": {
+        "unmetRate": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "umsGenerated": {
+          "min": 1048036,
+          "p10": 1048036,
+          "median": 1055793,
+          "p90": 1059446,
+          "max": 1061715
+        },
+        "umsUsed": {
+          "min": 1056000,
+          "p10": 1056000,
+          "median": 1056000,
+          "p90": 1056000,
+          "max": 1056000
+        },
+        "umsRejected": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "mwcGenerated": {
+          "min": 11,
+          "p10": 11,
+          "median": 12,
+          "p90": 15,
+          "max": 19
+        },
+        "mwcReconverted": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 1,
+          "max": 1
+        },
+        "mwcAvailable": {
+          "min": 10,
+          "p10": 10,
+          "median": 12,
+          "p90": 15,
+          "max": 18
+        },
+        "usersWithUnmetDemand": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "usersWithZeroUms": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        }
+      }
+    },
+    {
+      "scenario": "demand_150pct",
+      "runs": 10,
+      "roundsPerRun": 40,
+      "distribution": {
+        "unmetRate": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "umsGenerated": {
+          "min": 1572000,
+          "p10": 1572000,
+          "median": 1583728,
+          "p90": 1589173,
+          "max": 1592550
+        },
+        "umsUsed": {
+          "min": 1584000,
+          "p10": 1584000,
+          "median": 1584000,
+          "p90": 1584000,
+          "max": 1584000
+        },
+        "umsRejected": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "mwcGenerated": {
+          "min": 17,
+          "p10": 17,
+          "median": 20,
+          "p90": 26,
+          "max": 32
+        },
+        "mwcReconverted": {
+          "min": 0,
+          "p10": 0,
+          "median": 2,
+          "p90": 6,
+          "max": 7
+        },
+        "mwcAvailable": {
+          "min": 10,
+          "p10": 10,
+          "median": 19,
+          "p90": 24,
+          "max": 26
+        },
+        "usersWithUnmetDemand": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "usersWithZeroUms": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        }
+      }
+    },
+    {
+      "scenario": "validation_90pct",
+      "runs": 10,
+      "roundsPerRun": 40,
+      "distribution": {
+        "unmetRate": {
+          "min": 0.10694836956521739,
+          "p10": 0.10694836956521739,
+          "median": 0.1363641304347826,
+          "p90": 0.17325271739130435,
+          "max": 0.17647282608695652
+        },
+        "umsGenerated": {
+          "min": 778529,
+          "p10": 778529,
+          "median": 813835,
+          "p90": 832709,
+          "max": 855755
+        },
+        "umsUsed": {
+          "min": 869606,
+          "p10": 869606,
+          "median": 906617,
+          "p90": 921602,
+          "max": 943324
+        },
+        "umsRejected": {
+          "min": 86476,
+          "p10": 86476,
+          "median": 90394,
+          "p90": 92495,
+          "max": 95054
+        },
+        "mwcGenerated": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 1,
+          "max": 1
+        },
+        "mwcReconverted": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 1,
+          "max": 1
+        },
+        "mwcAvailable": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "usersWithUnmetDemand": {
+          "min": 8,
+          "p10": 8,
+          "median": 10,
+          "p90": 10,
+          "max": 10
+        },
+        "usersWithZeroUms": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        }
+      }
+    },
+    {
+      "scenario": "initial_ums_1000",
+      "runs": 10,
+      "roundsPerRun": 40,
+      "distribution": {
+        "unmetRate": {
+          "min": 0.6162119565217391,
+          "p10": 0.6162119565217391,
+          "median": 0.6666630434782609,
+          "p90": 0.7202201086956522,
+          "max": 0.73675
+        },
+        "umsGenerated": {
+          "min": 274907,
+          "p10": 274907,
+          "median": 348531,
+          "p90": 393426,
+          "max": 403111
+        },
+        "umsUsed": {
+          "min": 278306,
+          "p10": 278306,
+          "median": 350359,
+          "p90": 391996,
+          "max": 406138
+        },
+        "umsRejected": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "mwcGenerated": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "mwcReconverted": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "mwcAvailable": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "usersWithUnmetDemand": {
+          "min": 10,
+          "p10": 10,
+          "median": 10,
+          "p90": 10,
+          "max": 10
+        },
+        "usersWithZeroUms": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        }
+      }
+    },
+    {
+      "scenario": "conversion_threshold_5000",
+      "runs": 10,
+      "roundsPerRun": 40,
+      "distribution": {
+        "unmetRate": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "umsGenerated": {
+          "min": 1048036,
+          "p10": 1048036,
+          "median": 1055793,
+          "p90": 1059446,
+          "max": 1061715
+        },
+        "umsUsed": {
+          "min": 1056000,
+          "p10": 1056000,
+          "median": 1056000,
+          "p90": 1056000,
+          "max": 1056000
+        },
+        "umsRejected": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "mwcGenerated": {
+          "min": 59,
+          "p10": 59,
+          "median": 64,
+          "p90": 66,
+          "max": 69
+        },
+        "mwcReconverted": {
+          "min": 4,
+          "p10": 4,
+          "median": 7,
+          "p90": 11,
+          "max": 12
+        },
+        "mwcAvailable": {
+          "min": 50,
+          "p10": 50,
+          "median": 56,
+          "p90": 60,
+          "max": 62
+        },
+        "usersWithUnmetDemand": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        },
+        "usersWithZeroUms": {
+          "min": 0,
+          "p10": 0,
+          "median": 0,
+          "p90": 0,
+          "max": 0
+        }
+      }
+    }
+  ],
+  "interpretation": "Simulation outputs under configured assumptions; not real-world forecasts, market prices, or proof of economic viability."
+}

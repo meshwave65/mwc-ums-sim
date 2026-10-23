@@ -138,6 +138,8 @@ A matriz de `tests/economic-experiments.test.ts` executa:
 
 No resultado local atual, por exemplo, o cenário `validation_90pct` apresentou taxa de demanda não atendida entre aproximadamente 10,7% e 17,6%, enquanto o cenário de saldo inicial baixo apresentou entre aproximadamente 61,6% e 73,7%. Esses números são propriedades do modelo sob os parâmetros configurados; não são previsões de mercado, métricas de uma rede real ou evidência de viabilidade econômica.
 
+O relatório com tabelas, interpretações e gráficos está em [`docs/RELATORIO_MATRIZ_ECONOMICA_EXPLORATORIA.md`](docs/RELATORIO_MATRIZ_ECONOMICA_EXPLORATORIA.md), acompanhado do resumo JSON e dos PNGs em `docs/data/` e `docs/assets/`.
+
 ### 5.3. Verificações de build e página
 
 - `pnpm test:run`: aprovado com 28 testes.
