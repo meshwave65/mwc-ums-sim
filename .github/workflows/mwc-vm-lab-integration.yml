@@ -1,0 +1,53 @@
+name: MWC VM Lab — two-node integration
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "node-agent/**"
+      - "tests/vm-lab/**"
+      - ".github/workflows/mwc-vm-lab-integration.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  two-node-integration:
+    name: Two isolated node processes (pre-VM)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout tested revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Record environment
+        run: |
+          mkdir -p tests/vm-lab/results
+          {
+            echo "commit=${GITHUB_SHA}"
+            echo "runner_os=${RUNNER_OS}"
+            echo "runner_arch=${RUNNER_ARCH}"
+            echo "python_version=$(python --version 2>&1)"
+            echo "started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "scope=two-process integration on one hosted runner; not two VMs"
+          } | tee tests/vm-lab/results/integration-environment.txt
+
+      - name: Run two-node HTTP integration scenario
+        run: |
+          set -o pipefail
+          python tests/vm-lab/scripts/two_node_integration.py 2>&1 | tee tests/vm-lab/results/two-node-integration.json
+
+      - name: Upload integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mwc-two-node-integration-${{ github.run_id }}-${{ github.run_attempt }}
+          path: tests/vm-lab/results/
+          if-no-files-found: warn
+          retention-days: 14
