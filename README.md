@@ -26,6 +26,14 @@ Com o servidor Vite em execução, abra [`/storage-node.html`](./public/storage-
 
 **Limites atuais:** esta é a primeira integração de armazenamento compartilhado, não um agente distribuído completo. A disponibilidade remota depende do Supabase e de autenticação; ainda não há replicação automática entre nós, blockchain distribuída, validação PoUW nem emissão de UMSs. Nenhum crédito é simulado. O escopo congelado está em [network/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md](https://github.com/meshwave65/network/blob/main/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md).
 
+## Agente executável de armazenamento — laboratório V0.1
+
+A pasta [`node-agent/`](./node-agent/README.md) contém um serviço Python executável para laboratório controlado: armazenamento persistente em disco por SHA-256, limite de capacidade, recuperação de bytes, desafios únicos e evidências JSON. O cliente `mwc_validator.py` baixa o objeto e verifica o conteúdo. O serviço exige token bearer; escuta em localhost por padrão.
+
+Para instruções de execução, endpoints, limites e testes, consulte [`node-agent/README.md`](./node-agent/README.md). Os testes automatizados também são executados pelo workflow [MWC Storage Node tests](./.github/workflows/mwc-node-agent-tests.yml).
+
+**Limite importante:** esta é uma verificação técnica de integridade, não uma validação PoUW independente resistente a conluio. Não há replicação entre nós, orquestrador de VMs, blockchain ou emissão de UMS. O esquema Supabase existente permanece inalterado por este incremento.
+
 ## Como usar o simulador econômico
 
 1. Pressione **Iniciar**.
@@ -46,6 +54,7 @@ Com o servidor Vite em execução, abra [`/storage-node.html`](./public/storage-
 - `src/persistence/sync/`: fila IndexedDB, retries e mapeamento idempotente para as tabelas `mw_*` do Supabase.
 - `src/styles/global.css`: linguagem visual responsiva e estados.
 - `public/storage-node.html`: interface do nó de armazenamento V0, com persistência local e sincronização remota autenticada.
+- `node-agent/`: serviço executável de armazenamento e cliente de validação técnica.
 - `supabase/migrations/20261022000000_create_mwc_storage_v0.sql`: esquema RLS e bucket privado dedicados ao armazenamento MWC.
 - `public/manus-routes.json`: manifesto de rota `/` exigido pelo Webdev.
 - `DOCUMENTACAO.md`: regras e leitura dos painéis.
