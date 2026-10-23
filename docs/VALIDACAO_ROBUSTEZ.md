@@ -66,3 +66,18 @@ Essas questões exigem especificação econômica explícita, dados operacionais
 - Testes históricos e workflow de CI: consultar os links no repositório e o histórico de Actions.
 - Nova suíte de robustez: `tests/robustness.test.ts`; aprovação depende do resultado do workflow associado ao commit correspondente.
 - Testes de integração remota, experimento estatístico amplo e validação externa: não declarados como concluídos por este documento.
+
+
+### Execução experimental adicionada
+
+A suíte `tests/economic-experiments.test.ts` executa uma matriz exploratória pareada:
+- 5 cenários: base, demanda a 150%, validação a 90%, saldo inicial de 1.000 UMS e limiar de conversão de 5.000 UMS;
+- 10 seeds fixas por cenário;
+- 40 rodadas por execução;
+- 50 execuções no total, com as mesmas seeds reutilizadas entre cenários para permitir comparação pareada;
+- distribuição por cenário com mínimo, percentil 10, mediana, percentil 90 e máximo para taxa de demanda não atendida, UMS geradas/usadas/rejeitadas, MWC gerado/reconvertido/disponível e usuários com demanda não atendida/saldo zero;
+- invariantes contábeis verificadas em cada execução.
+
+O teste imprime a linha `MWC_UMS_EXPERIMENT_SUMMARY=` no log da CI para facilitar a recuperação do resumo. Os valores são resultados do simulador sob parâmetros declarados, não previsões reais. Esta matriz é exploratória: não substitui análise de sensibilidade mais ampla, calibração com dados operacionais, intervalos de confiança adequados ou validação independente.
+
+A execução da CI para o commit que adiciona a matriz deve terminar antes de os resultados serem classificados como aprovados. Se falhar, investigar a causa com base no log antes de modificar o motor ou afrouxar as asserções.
