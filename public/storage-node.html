@@ -194,7 +194,10 @@ remote$('syncLocal').addEventListener('click', async () => {
   try { await syncLocalObjects(); } catch (error) { remoteMessage('syncStatus', 'Falha na sincronização: ' + (error.message || String(error))); }
 });
 remote$('refreshRemote').addEventListener('click', () => void listRemoteObjects());
-remoteClient.auth.onAuthStateChange((_event, session) => setRemoteSession(session?.user || null));
+remoteClient.auth.onAuthStateChange((_event, session) => {
+  const user = session?.user || null;
+  window.setTimeout(() => setRemoteSession(user), 0);
+});
 const { data: sessionData, error: sessionError } = await remoteClient.auth.getSession();
 if (sessionError) remoteMessage('authStatus', sessionError.message);
 setRemoteSession(sessionData.session?.user || null);
