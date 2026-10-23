@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-page: #0B1120;
+      --bg-surface: #131B2F;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-subtle: #1E293B;
+      --accent-cyan: #06B6D4;
+      --accent-green: #10B981;
+      --accent-purple: #A855F7;
+      --font-display: 'Inter', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+    .slide-container {
+      width: 1280px;
+      min-height: 720px;
+      background: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      padding: 40px 60px;
+      font-family: var(--font-display);
+    }
+    .header { margin-bottom: 30px; }
+    .eyebrow { font-family: var(--font-code); font-size: 14px; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 8px; }
+    h2 { font-size: 36px; font-weight: 700; }
+    .diagram-zone { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+    .box { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 20px; text-align: center; min-width: 240px; position: relative; }
+    .box-title { font-family: var(--font-code); font-size: 14px; color: var(--text-muted); margin-bottom: 10px; display: block; }
+    .box-main { font-weight: 700; font-size: 20px; }
+    .arrow { position: absolute; background: var(--border-subtle); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 20px; }
+    .arrow-h { height: 2px; }
+    .arrow-v { width: 2px; }
+    .android-client { border-top: 3px solid var(--accent-cyan); }
+    .supabase-auth { border-top: 3px solid var(--accent-cyan); top: -100px; }
+    .postgres-rls { border-top: 3px solid var(--accent-purple); }
+    .storage-sofia { border-top: 3px solid var(--accent-green); bottom: -100px; }
+    .flow-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .footer { margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="header">
+      <div class="eyebrow">Arquitetura Estrutural</div>
+      <h2>Arquitetura alvo: uma sessão, dois destinos</h2>
+    </div>
+    <div class="diagram-zone">
+      <!-- Android Client -->
+      <div class="box android-client" style="left: -300px;">
+        <span class="box-title">Frontend</span>
+        <span class="box-main">Android Client<br>(React / Expo)</span>
+      </div>
+      
+      <!-- Central Arrows -->
+      <div style="position: absolute; left: -100px; top: -20px; width: 100px; height: 40px; border-bottom: 2px solid var(--border-subtle); border-left: 2px solid var(--border-subtle);"></div>
+      <div style="position: absolute; left: -100px; bottom: -20px; width: 100px; height: 40px; border-top: 2px solid var(--border-subtle); border-left: 2px solid var(--border-subtle);"></div>
+      <div style="position: absolute; left: -100px; width: 100px; height: 2px; background: var(--border-subtle);"></div>
+
+      <!-- Auth -->
+      <div class="box supabase-auth" style="position: absolute; top: 120px;">
+        <span class="box-title" style="color: var(--accent-cyan)">Identity</span>
+        <span class="box-main">Supabase Auth<br>(Session Persistence)</span>
+      </div>
+
+      <!-- Postgres -->
+      <div class="box postgres-rls">
+        <span class="box-title" style="color: var(--accent-purple)">Database</span>
+        <span class="box-main">Postgres + RLS<br>(Tabelas mw_*)</span>
+      </div>
+
+      <!-- Storage -->
+      <div class="box storage-sofia" style="position: absolute; bottom: 120px;">
+        <span class="box-title" style="color: var(--accent-green)">Object Store</span>
+        <span class="box-main">sofia_storage_user<br>(JSON Snapshots)</span>
+      </div>
+
+      <!-- RLS Check Arrows -->
+      <div style="position: absolute; left: 200px; top: 140px; width: 50px; height: 180px; border-top: 2px dashed var(--accent-purple); border-right: 2px dashed var(--accent-purple); border-radius: 0 10px 0 0;"></div>
+      <div style="position: absolute; left: 200px; bottom: 140px; width: 50px; height: 180px; border-bottom: 2px dashed var(--accent-purple); border-right: 2px dashed var(--accent-purple); border-radius: 0 0 10px 0;"></div>
+      <div style="position: absolute; left: 250px; top: 50%; transform: translateY(-50%); color: var(--accent-purple); font-size: 14px; font-family: var(--font-code);">RLS GATE</div>
+
+    </div>
+    <div class="footer">
+      <span>MWC / UMS · Supabase integration</span>
+      <span style="font-family: var(--font-code);">SLIDE 03</span>
+    </div>
+  </div>
+</body>
+</html>

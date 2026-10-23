@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root { --bg-page:#0B1120; --bg-surface:#131B2F; --text-main:#F8FAFC; --text-muted:#94A3B8; --border-subtle:#1E293B; --accent-cyan:#06B6D4; --accent-green:#10B981; --accent-purple:#A855F7; --font-display:'Inter',sans-serif; --font-code:'JetBrains Mono',monospace; }
+    .slide-container { width:1280px; min-height:720px; background:var(--bg-page); color:var(--text-main); display:flex; flex-direction:column; padding:40px 60px; font-family:var(--font-display); }
+    .header { margin-bottom:30px; } .eyebrow { font-family:var(--font-code); font-size:14px; color:var(--accent-green); text-transform:uppercase; margin-bottom:8px; } h2 { font-size:36px; font-weight:700; }
+    .phases { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; flex:1; align-items:stretch; }
+    .phase { background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:12px; padding:24px; display:flex; flex-direction:column; border-top:3px solid var(--accent-cyan); } .phase:nth-child(2){border-top-color:var(--accent-purple)} .phase:nth-child(3){border-top-color:var(--accent-green)}
+    .phase-no { font-family:var(--font-code); color:var(--text-muted); font-size:14px; margin-bottom:14px; } .phase-title { font-size:22px; font-weight:700; margin-bottom:18px; } ul { list-style:none; } li { color:var(--text-muted); font-size:16px; line-height:1.45; margin-bottom:14px; padding-left:18px; position:relative; } li::before { content:'✓'; position:absolute; left:0; color:var(--accent-green); font-family:var(--font-code); } .accept { margin-top:auto; padding-top:16px; border-top:1px solid var(--border-subtle); color:var(--text-main); font-size:15px; line-height:1.4; } .accept b { font-family:var(--font-code); color:var(--accent-cyan); font-size:13px; display:block; margin-bottom:6px; }
+    .footer { margin-top:auto; padding-top:24px; display:flex; justify-content:space-between; font-size:14px; color:var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="header"><div class="eyebrow">Execution Plan</div><h2>Plano de implementação e aceite</h2></div>
+    <div class="phases">
+      <div class="phase"><div class="phase-no">FASE 01 · IDENTIDADE</div><div class="phase-title">Conectar sessão</div><ul><li>Centralizar cliente Supabase e variáveis públicas.</li><li>Implementar login, restoreSession e logout.</li><li>Amarrar configuração ao <span style="font-family:var(--font-code)">user.id</span>.</li></ul><div class="accept"><b>ACEITE</b>Usuário entra, recarrega a tela e continua autenticado.</div></div>
+      <div class="phase"><div class="phase-no">FASE 02 · DADOS</div><div class="phase-title">Persistir com segurança</div><ul><li>Aplicar RLS em Postgres e Storage.</li><li>Upsert idempotente nas tabelas <span style="font-family:var(--font-code)">mw_*</span>.</li><li>Upload determinístico de snapshots JSON.</li></ul><div class="accept"><b>ACEITE</b>Usuário autenticado grava; usuário não autorizado recebe erro explícito.</div></div>
+      <div class="phase"><div class="phase-no">FASE 03 · CONFIABILIDADE</div><div class="phase-title">Validar operação</div><ul><li>Testar retry, locks abandonados e falhas 401/403.</li><li>Implementar leitura paginada e recuperação após refresh.</li><li>Adicionar append transacional via Edge Function.</li></ul><div class="accept"><b>ACEITE</b>Estado remoto recupera a cadeia sem duplicar eventos.</div></div>
+    </div>
+    <div class="footer"><span>MWC / UMS · Supabase integration</span><span style="font-family:var(--font-code);">SLIDE 08</span></div>
+  </div>
+</body>
+</html>

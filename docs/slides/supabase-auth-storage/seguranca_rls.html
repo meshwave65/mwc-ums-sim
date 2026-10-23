@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg-page:#0B1120; --bg-surface:#131B2F; --text-main:#F8FAFC; --text-muted:#94A3B8; --border-subtle:#1E293B; --accent-purple:#A855F7; --accent-cyan:#06B6D4; --accent-green:#10B981; --font-display:'Inter',sans-serif; --font-code:'JetBrains Mono',monospace; }
+    .slide-container { width:1280px; min-height:720px; background:var(--bg-page); color:var(--text-main); display:flex; flex-direction:column; padding:40px 60px; font-family:var(--font-display); }
+    .header { margin-bottom:28px; } .eyebrow { font-family:var(--font-code); font-size:14px; color:var(--accent-purple); text-transform:uppercase; margin-bottom:8px; } h2 { font-size:36px; font-weight:700; }
+    .table-wrap { flex:1; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:12px; padding:22px; }
+    table { width:100%; border-collapse:collapse; } th { text-align:left; font-family:var(--font-code); color:var(--text-muted); font-size:14px; padding:14px 12px; border-bottom:1px solid var(--border-subtle); } td { font-size:17px; line-height:1.35; padding:17px 12px; border-bottom:1px solid rgba(255,255,255,.06); vertical-align:top; } td:first-child { width:24%; font-family:var(--font-code); color:var(--accent-purple); font-size:15px; } td:nth-child(2) { width:36%; } td:nth-child(3) { color:var(--text-muted); }
+    .code { font-family:var(--font-code); color:var(--accent-cyan); font-size:15px; } .green { color:var(--accent-green); } .footer { margin-top:auto; padding-top:20px; display:flex; justify-content:space-between; font-size:14px; color:var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="header"><div class="eyebrow">Security Boundary</div><h2>Segurança: Auth primeiro, RLS sempre</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Camada</th><th>Regra recomendada</th><th>Por que importa</th></tr></thead>
+        <tbody>
+          <tr><td>Chave no cliente</td><td>Somente <span class="code">publishable / anon</span>; nunca <span class="code">service_role</span>.</td><td>A chave pública identifica o projeto; a autorização vem da sessão e das policies.</td></tr>
+          <tr><td>Postgres RLS</td><td>Exigir <span class="code">auth.uid()</span> e filtrar por usuário/owner nas tabelas.</td><td>Evita que um usuário leia ou escreva dados de outro, mesmo conhecendo a API.</td></tr>
+          <tr><td>Storage policies</td><td>Permitir <span class="code green">INSERT/UPDATE</span> somente no prefixo do usuário autenticado.</td><td>O caminho do objeto vira uma fronteira de isolamento, não apenas uma convenção.</td></tr>
+          <tr><td>Observabilidade</td><td>Mapear erros <span class="code">401 / 403 / RLS</span> para estados explícitos da UI.</td><td>“Pendente” e “confirmado” não podem ser confundidos em uma fila assíncrona.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer"><span>MWC / UMS · Supabase integration</span><span style="font-family:var(--font-code);">SLIDE 07</span></div>
+  </div>
+</body>
+</html>

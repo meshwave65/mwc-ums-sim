@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-page: #0B1120;
+      --bg-surface: #131B2F;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-subtle: #1E293B;
+      --accent-cyan: #06B6D4;
+      --font-display: 'Inter', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+    .slide-container {
+      width: 1280px;
+      min-height: 720px;
+      background: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      padding: 40px 60px;
+      font-family: var(--font-display);
+    }
+    .header { margin-bottom: 30px; }
+    .eyebrow { font-family: var(--font-code); font-size: 14px; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; }
+    h2 { font-size: 36px; font-weight: 700; }
+    .flow { display: flex; flex-direction: column; gap: 20px; flex: 1; justify-content: center; }
+    .step { display: flex; align-items: flex-start; gap: 24px; position: relative; }
+    .step:not(:last-child)::after { content: ''; position: absolute; left: 24px; top: 50px; bottom: -20px; width: 2px; background: var(--border-subtle); }
+    .number { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-cyan); display: flex; align-items: center; justify-content: center; font-family: var(--font-code); font-weight: 700; color: var(--accent-cyan); background: var(--bg-page); z-index: 1; flex-shrink: 0; }
+    .step-content { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 20px 30px; flex: 1; }
+    .step-title { font-weight: 700; font-size: 20px; margin-bottom: 8px; }
+    .step-desc { color: var(--text-muted); font-size: 16px; line-height: 1.5; }
+    .code { font-family: var(--font-code); color: var(--accent-cyan); font-size: 14px; }
+    .footer { margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="header">
+      <div class="eyebrow">Módulo de Identidade</div>
+      <h2>Fluxo de autenticação recomendado</h2>
+    </div>
+    <div class="flow">
+      <div class="step">
+        <div class="number">01</div>
+        <div class="step-content">
+          <div class="step-title">Lookup de Usuário</div>
+          <div class="step-desc">Consulta na tabela <span class="code">clients</span> por e-mail ou username para resolver o e-mail real do Supabase Auth.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="number">02</div>
+        <div class="step-content">
+          <div class="step-title">Handshake de Credenciais</div>
+          <div class="step-desc">Chamada ao <span class="code">auth.signInWithPassword</span>. A sessão é persistida automaticamente pelo SDK.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="number">03</div>
+        <div class="step-content">
+          <div class="step-title">Recuperação de Config</div>
+          <div class="step-desc">Carregamento do <span class="code">USER_CONFIG</span> (local) baseado no <span class="code">user.id</span> retornado pela sessão.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="number">04</div>
+        <div class="step-content">
+          <div class="step-title">Sincronização Ativa</div>
+          <div class="step-desc">Disparo imediato do <span class="code">flush()</span> da fila de persistência para processar itens pendentes.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>MWC / UMS · Supabase integration</span>
+      <span style="font-family: var(--font-code);">SLIDE 04</span>
+    </div>
+  </div>
+</body>
+</html>

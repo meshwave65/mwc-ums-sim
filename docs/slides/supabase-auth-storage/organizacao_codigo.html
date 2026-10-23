@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-page: #0B1120;
+      --bg-surface: #131B2F;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-subtle: #1E293B;
+      --accent-cyan: #06B6D4;
+      --font-display: 'Inter', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+    .slide-container {
+      width: 1280px;
+      min-height: 720px;
+      background: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      padding: 40px 60px;
+      font-family: var(--font-display);
+    }
+    .header { margin-bottom: 30px; }
+    .eyebrow { font-family: var(--font-code); font-size: 14px; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; }
+    h2 { font-size: 36px; font-weight: 700; }
+    .code-grid { display: grid; grid-template-columns: 320px 1fr; gap: 30px; flex: 1; }
+    .tree { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 20px; font-family: var(--font-code); font-size: 14px; line-height: 1.6; color: var(--text-muted); }
+    .tree b { color: var(--accent-cyan); font-weight: normal; }
+    .code-block { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; position: relative; overflow: hidden; }
+    pre { font-family: var(--font-code); font-size: 14px; line-height: 1.5; color: #E2E8F0; }
+    .comment { color: #64748B; }
+    .keyword { color: #F472B6; }
+    .func { color: #7DD3FC; }
+    .footer { margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="header">
+      <div class="eyebrow">Project Organization</div>
+      <h2>Como organizar o código Android</h2>
+    </div>
+    <div class="code-grid">
+      <div class="tree">
+        src/<br>
+        ├── <b>persistence/</b><br>
+        │   ├── <b>auth/</b><br>
+        │   │   ├── AuthProvider.tsx<br>
+        │   │   └── useAuth.ts<br>
+        │   ├── <b>sync/</b><br>
+        │   │   ├── indexeddb.ts<br>
+        │   │   ├── processor.ts<br>
+        │   │   └── supabase.ts<br>
+        │   └── <b>api/</b><br>
+        │       └── client.ts<br>
+        └── <b>simulation/</b>
+      </div>
+      <div class="code-block">
+        <pre><span class="comment">// Centralizar criação do cliente</span>
+<span class="keyword">export const</span> <span class="func">createSupabase</span> = () => {
+  <span class="keyword">return</span> <span class="func">createClient</span>(URL, KEY, {
+    auth: { persistSession: <span class="keyword">true</span> }
+  });
+};
+
+<span class="comment">// Separar a lógica de persistência do UI</span>
+<span class="keyword">export class</span> SupabaseRepo {
+  <span class="keyword">async</span> <span class="func">saveSnapshot</span>(data) {
+    <span class="keyword">const</span> { error } = <span class="keyword">await</span> <span class="keyword">this</span>.client
+      .from(<span class="keyword">'mw_snapshots'</span>)
+      .upsert(data);
+    <span class="keyword">if</span> (error) <span class="keyword">throw</span> error;
+  }
+}</pre>
+      </div>
+    </div>
+    <div class="footer">
+      <span>MWC / UMS · Supabase integration</span>
+      <span style="font-family: var(--font-code);">SLIDE 06</span>
+    </div>
+  </div>
+</body>
+</html>

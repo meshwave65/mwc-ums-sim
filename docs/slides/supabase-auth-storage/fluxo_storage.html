@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-page: #0B1120;
+      --bg-surface: #131B2F;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-subtle: #1E293B;
+      --accent-green: #10B981;
+      --font-display: 'Inter', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+    .slide-container {
+      width: 1280px;
+      min-height: 720px;
+      background: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      padding: 40px 60px;
+      font-family: var(--font-display);
+    }
+    .header { margin-bottom: 30px; }
+    .eyebrow { font-family: var(--font-code); font-size: 14px; color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px; }
+    h2 { font-size: 36px; font-weight: 700; }
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex: 1; }
+    .box { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; }
+    .box-title { font-family: var(--font-code); font-size: 15px; color: var(--accent-green); margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th { text-align: left; font-family: var(--font-code); font-size: 13px; color: var(--text-muted); padding: 12px; border-bottom: 1px solid var(--border-subtle); }
+    td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; }
+    .path { font-family: var(--font-code); color: var(--accent-green); font-size: 14px; }
+    .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; background: rgba(16, 185, 129, 0.1); color: var(--accent-green); font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+    .footer { margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="header">
+      <div class="eyebrow">Object Persistence</div>
+      <h2>Storage: snapshots e caminhos determinísticos</h2>
+    </div>
+    <div class="content-grid">
+      <div class="box">
+        <div class="box-title">Estrutura no Bucket <span style="color: var(--text-main)">sofia_storage_user</span></div>
+        <table>
+          <thead><tr><th>Entidade</th><th>Caminho (Path)</th></tr></thead>
+          <tbody>
+            <tr><td>Snapshots</td><td class="path">mwc-ums/{chain_id}/snapshots/{block}.json</td></tr>
+            <tr><td>Histórico</td><td class="path">mwc-ums/{chain_id}/history/full_report.csv</td></tr>
+            <tr><td>Meta</td><td class="path">mwc-ums/{chain_id}/metadata.json</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box">
+        <div class="box-title">Regras de Upload</div>
+        <div class="tag">IDEMPOTÊNCIA</div>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">Uso obrigatório de <span class="path">upsert: true</span> para garantir que re-enviar o mesmo bloco não gere erros nem arquivos duplicados.</p>
+        <div class="tag">METADADOS</div>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--text-muted);">Inclusão de <span class="path">contentType: 'application/json'</span> e <span class="path">cacheControl</span> de 1 hora para otimizar leituras repetidas do mesmo bloco.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <span>MWC / UMS · Supabase integration</span>
+      <span style="font-family: var(--font-code);">SLIDE 05</span>
+    </div>
+  </div>
+</body>
+</html>
