@@ -69,7 +69,7 @@ describe('SupabaseRemoteChainRepository — contrato de persistência', () => {
     )
 
     const second = makeClient()
-    second.upload.mockResolvedValue({ data: null, error: { message: 'storage denied', code: '42501' } })
+    second.upload.mockResolvedValue({ data: null, error: { message: 'storage denied', code: '42501' } } as never)
     const failingRepository = new SupabaseRemoteChainRepository(second.client as never)
     await expect(failingRepository.saveSnapshot({ chainId: 'chain-test', blockNumber: 9, state: {} }))
       .rejects.toMatchObject({ message: 'storage denied', code: '42501' })
