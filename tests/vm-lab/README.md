@@ -1,50 +1,39 @@
-# Laboratório de testes com VMs — MWC Storage Node
+# Laboratório de testes — MWC Storage Node
 
-## Objetivo
+## Estado atual
 
-Validar o agente de armazenamento em máquinas virtuais isoladas antes de aprovar a etapa e antes de qualquer expansão para participantes reais. Este diretório separa os testes de integração distribuída dos testes unitários do agente em `node-agent/` e dos testes do simulador em `tests/`.
+- Testes unitários do agente: executados no GitHub Actions.
+- Integração HTTP entre dois processos: automatizada em `scripts/two_node_integration.py`; executada no workflow `MWC VM Lab — two-node integration`.
+- **Duas VMs independentes: ainda não provisionadas nem testadas.**
 
-## Estado
+## Etapa 1 — Integração antes de provisionar VMs
 
-**Planejamento do laboratório; execução em VMs ainda não configurada.** Não assumir que testes unitários locais comprovam comportamento distribuído, disponibilidade entre máquinas ou resistência a falhas de rede.
+O cenário inicia dois processos independentes do agente, com diretórios de dados, portas, identidades e tokens separados. Verifica:
 
-## Pré-requisitos para iniciar
+1. autenticação nas rotas protegidas;
+2. identidade distinta de cada nó;
+3. isolamento: o nó B não tem o objeto do nó A até que o cliente o transfira explicitamente;
+4. transferência explícita, recuperação dos bytes e SHA-256;
+5. desafio e evidência de integridade no nó B;
+6. rejeição de replay do desafio.
 
-- Definir o provedor e a forma de provisionamento das VMs.
-- Definir como as VMs se comunicam numa rede privada e como as credenciais são fornecidas com segurança.
-- Fixar a versão/commit do agente testado e registrar configuração, sistema operacional, recursos e resultados.
-- Não usar dados reais/sensíveis nem expor o agente diretamente à internet.
-- Manter os nós de teste e o validador identificáveis separadamente; um nó não deve ser tratado como prova independente de seu próprio comportamento.
+**Limitação:** ambos os processos executam no mesmo runner Linux hospedado pelo GitHub. Este cenário não prova isolamento de VM, independência de rede, replicação automática, tolerância a partições ou descentralização. O agente atual não implementa replicação automática nem emissão de UMS.
 
-## Matriz inicial
+## Etapa 2 — Testes em VMs independentes
 
-| Cenário | Preparação | Evidência esperada |
-|---|---|---|
-| Nó único | Uma VM, armazenamento vazio | Health/status, gravar e recuperar objeto, SHA-256 igual |
-| Dois nós | Duas VMs independentes | Confirmar isolamento dos dados; registrar explicitamente que replicação ainda não existe |
-| Persistência | Reiniciar o processo e depois a VM | Objeto previamente confirmado continua legível e íntegro |
-| Limite de disco lógico | Quota pequena e carga acima do limite | Escritas dentro da quota aceitas; excesso recusado sem corromper objetos anteriores |
-| Indisponibilidade | Parar um nó durante uma operação | Falha detectada, timeout/erro registrado e recuperação após retorno; sem declarar disponibilidade automática |
-| Integridade | Comparar hash enviado, recebido e relido | Divergência detectada e evidência preservada |
-| Desafio/replay | Reutilizar a mesma evidência/desafio | Reutilização recusada; testar também requisições concorrentes antes de alegar proteção robusta |
-| Autenticação | Token ausente ou incorreto | Operações protegidas recusadas |
-| Rede degradada | Introduzir latência/perda de pacotes de forma controlada | Latência, falhas e recuperação medidas e registradas |
+Após a etapa 1 passar, escolher um provedor que permita criar e destruir duas VMs sob demanda. Manter as VMs em rede privada, sem expor a API do nó à internet pública. Registrar o commit testado, configuração das VMs, logs e resultados sanitizados. Não versionar tokens ou dados sensíveis.
+
+Matriz de VM a executar:
+- comunicação entre VMs por rede privada;
+- isolamento de dados e transferência explícita;
+- reinicialização do processo e da VM com verificação de integridade;
+- autenticação, indisponibilidade e recuperação;
+- latência e falhas de rede controladas.
 
 ## Critérios de aprovação
 
-1. Cada cenário tem resultado reproduzível, log e identificação do commit testado.
-2. Integridade verificada por hash calculado sobre os bytes recuperados, não apenas por resposta declarada pelo nó.
-3. Falhas e limitações são reportadas; nenhum teste não executado é marcado como aprovado.
-4. Os resultados de VM são avaliados separadamente dos testes unitários.
-5. Não declarar PoUW resistente a conluio, descentralização ou replicação: esses requisitos não são demonstrados por este agente V0.1.
-
-## Organização planejada
-
-- `README.md`: escopo, matriz e critérios de aprovação.
-- `scenarios/`: cenários reproduzíveis de integração entre VMs, quando a infraestrutura estiver definida.
-- `scripts/`: inicialização/limpeza segura do laboratório, sem segredos versionados.
-- `results/`: relatórios sanitizados por execução; nunca incluir tokens ou dados sensíveis.
-
-## Próximo passo
-
-Definir o provedor e o método de provisionamento das VMs. Só então adicionar scripts executáveis adequados à infraestrutura escolhida. Até lá, este documento é o plano de testes, não evidência de execução.
+- Resultado reproduzível e vinculado ao commit exato.
+- Hash calculado sobre os bytes realmente recuperados.
+- Logs sem segredos e artefatos de execução preservados.
+- Não classificar testes não executados como aprovados.
+- Não declarar PoUW resistente a conluio, descentralização ou replicação sem testes e mecanismos próprios.
