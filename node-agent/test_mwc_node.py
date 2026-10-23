@@ -10,7 +10,8 @@ class StorageNodeTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
-        self.node = StorageNode(self.root, 16, "test-token-long-enough-for-lab")
+        # Keep general storage/evidence tests separate from the quota boundary test.
+        self.node = StorageNode(self.root, 1024, "test-token-long-enough-for-lab")
 
     def tearDown(self):
         self.temp.cleanup()
@@ -20,14 +21,15 @@ class StorageNodeTests(unittest.TestCase):
         stored = self.node.store(data)
         self.assertEqual(stored["object_hash"], digest(data))
         self.assertEqual(self.node.read(stored["object_hash"]), data)
-        restarted = StorageNode(self.root, 16, "test-token-long-enough-for-lab")
+        restarted = StorageNode(self.root, 1024, "test-token-long-enough-for-lab")
         self.assertEqual(restarted.read(stored["object_hash"]), data)
         self.assertEqual(restarted.status()["objects"], 1)
 
     def test_quota_is_enforced(self):
-        self.node.store(b"1234567890123456")
+        quota_node = StorageNode(self.root / "quota-case", 16, "test-token-long-enough-for-lab")
+        quota_node.store(b"1234567890123456")
         with self.assertRaises(OverflowError):
-            self.node.store(b"x")
+            quota_node.store(b"x")
 
     def test_challenge_evidence_and_replay_rejection(self):
         data = b"proof of stored bytes"
