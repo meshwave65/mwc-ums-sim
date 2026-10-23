@@ -20,6 +20,13 @@ export function HeaderStatus({ state, targetRounds }: HeaderStatusProps) {
         </div>
       </div>
       <div className="topbar-metrics">
+        <a
+          href="/storage-node.html"
+          aria-label="Abrir MWC Storage Node"
+          style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '10px 14px', border: '1px solid rgba(84, 226, 208, .48)', borderRadius: 10, background: 'rgba(84, 226, 208, .08)', color: '#54e2d0', fontSize: 11, fontWeight: 750, letterSpacing: '.06em', textDecoration: 'none', whiteSpace: 'nowrap' }}
+        >
+          STORAGE-NODE <span aria-hidden="true">↗</span>
+        </a>
         <div className="telemetry-item">
           <span>RODADA</span>
           <strong>{formatNumber(state.round)}</strong>
