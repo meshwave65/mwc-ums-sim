@@ -1,68 +1,185 @@
-# Relatório da missão — evolução MWC–UMS
+# Relatório da missão — evolução MWC/UMS e Storage Node
 
-## Estado inicial
+## 1. Estado atual
 
-O repositório `meshwave65/mwc-ums-sim` já continha um simulador funcional em Vite + React + TypeScript, com motor econômico puro, histórico de rodadas, eventos, conversão UMS/MWC, gráficos, relatório e um observador local da MWBlockchain. A cadeia era reconstruída em memória a partir do histórico e já tinha SHA-256 e validação de `previous_hash`.
+O repositório `meshwave65/mwc-ums-sim` contém um simulador educacional em Vite + React + TypeScript para observar a economia simplificada MWC/UMS: serviços em UMS, validação PoUW didática, geração de capacidade, conversão em MWC, mercado externo contábil e reconversão em UMS.
 
-Também existia uma camada parcial de sincronização: fila IndexedDB, processador com retry/backoff e adaptador de upsert para as quatro tabelas `mw_*`. Ela estava montada no `main.tsx`, mas não era alimentada pelo estado da simulação.
+A aplicação principal possui motor econômico determinístico por seed, histórico de rodadas, eventos, usuários, mercado, gráficos, relatório final, parâmetros configuráveis e um observador local da MWBlockchain. A cadeia é reconstruída a partir do estado da simulação, usa SHA-256, mantém uma âncora estável no navegador e valida `previous_hash`, payload, sequência e integridade dos blocos.
 
-## Inspeção do Supabase
+Desde o relatório anterior, o projeto evoluiu em três frentes:
 
-O projeto Supabase correspondente foi identificado como `ufylccbdjfzydbwhpmpp`. A inspeção somente leitura confirmou as tabelas existentes e vazias:
+1. ampliação da suíte de testes de invariantes, robustez e experimentos econômicos;
+2. criação do protótipo independente `public/storage-node.html`;
+3. integração autenticada do Storage Node com Supabase Storage e uma tabela de metadados compartilhados.
 
-- `public.mw_chain_metadata`: chave primária `chain_id`.
-- `public.mw_blocks`: unicidade em `(chain_id, block_hash)` e `(chain_id, block_number)`; FK para os metadados.
-- `public.mw_transactions`: unicidade em `(chain_id, transaction_hash)`; FK opcional para bloco e FK para metadados.
-- `public.mw_state_snapshots`: unicidade em `(chain_id, block_number)`; FK para metadados.
+O Storage Node é acessível pelo botão `STORAGE-NODE` no topo do simulador e também diretamente pela rota estática `/storage-node.html`.
 
-As quatro tabelas estão com RLS ativo e as políticas observadas permitem operações somente ao papel `authenticated`. O repositório `meshwave65/AppAndroidSWE-Start` confirmou o contrato real: `VITE_SUPABASE_URL`, chave pública, login em `clients` via `signInWithPassword` e bucket `sofia_storage_user`. Leituras sem escrita retornaram HTTP 200 para `clients` e para o Storage. Não foi criada migração, tabela paralela ou dado de teste, e nenhuma credencial foi adicionada ao código.
+## 2. Inspeção e contrato Supabase
 
-## Arquivos alterados
+O projeto Supabase utilizado é `ufylccbdjfzydbwhpmpp`. A integração do simulador continua usando somente cliente público no frontend, com `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` ou `VITE_SUPABASE_ANON_KEY`. Nenhuma `service_role` deve ser usada no navegador ou commitada no repositório.
 
-- `src/persistence/sync/chainPersistence.ts`: novo mapeamento idempotente do estado real do simulador para metadados, blocos, transações e snapshots.
-- `src/persistence/sync/runtime.ts`: expõe se a configuração pública do Supabase está disponível, sem expor segredos.
-- `src/App.tsx`: enfileira a cadeia derivada sempre que o estado do simulador muda.
-- `src/components/MWBlockchainPanel.tsx`: exibe `CHAIN_ID`, estado efetivo da fila e botão de sincronização; não apresenta sucesso remoto sem confirmação.
-- `src/simulation/blockchain.ts`: mantém o `machine_anchor` estável entre recargas do mesmo navegador usando armazenamento local, evitando uma gênese diferente a cada inicialização.
-- `src/persistence/sync/indexeddb.ts`: corrige recuperação de locks com idade zero (`<=`), eliminando uma regressão intermitente da fila.
-- `src/persistence/auth/SupabaseAuthProvider.tsx`: login e sessão persistente compatíveis com `AppAndroidSWE-Start`.
-- `src/persistence/sync/supabase.ts`: upload idempotente de snapshots para `sofia_storage_user` após confirmação do upsert no banco.
-- `src/main.tsx` e `src/styles/blockchain.css`: montagem e estilo do fluxo de autenticação.
+O contrato anterior da blockchain permanece:
 
-## Funcionalidades reutilizadas
+- `public.mw_chain_metadata`, com chave primária `chain_id`;
+- `public.mw_blocks`, com unicidade por cadeia e número/hash do bloco;
+- `public.mw_transactions`, com unicidade por cadeia e hash de transação;
+- `public.mw_state_snapshots`, com unicidade por cadeia e número do bloco.
 
-Foram preservados o motor `runRound`, os eventos e saldos produzidos pelo simulador, a construção e validação da MWBlockchain, o layout existente, a fila IndexedDB, o processador de retries e o adaptador Supabase já presente.
+Essas tabelas continuam protegidas por RLS e a persistência do simulador exige sessão `authenticated`.
 
-A cadeia usa o identificador estável `mwc-ums-simulator-v1`. Os IDs da fila são determinísticos por cadeia, bloco, transação e snapshot. Repetições fazem `put` na fila e usam as constraints `UNIQUE` existentes, sem criar operações econômicas duplicadas.
+### 2.1. Novo contrato Storage Node
 
-As transações não recebem remetente, destinatário ou valor artificialmente: o evento original só contém usuário, tipo, contagem e detalhes; essas informações ficam no `payload`, enquanto campos financeiros permanecem nulos.
+A migration `supabase/migrations/20261022000000_create_mwc_storage_v0.sql` adiciona:
 
-## Testes executados
+- `public.mwc_storage_objects`;
+- `id` UUID como chave primária;
+- `owner_id` referenciando `auth.users(id)`;
+- `node_id` UUID;
+- `object_hash` SHA-256 em hexadecimal com 64 caracteres;
+- `storage_path`, `original_name`, `content_type`, `size_bytes` e `created_at`;
+- unicidade em `(node_id, object_hash)` e em `storage_path`;
+- índice por hash e por proprietário/data.
 
-- Build de produção: **aprovado** (`tsc -b` + `vite build`).
-- Suíte Vitest: **14 testes aprovados**.
-- Regressão da fila: persistência entre instâncias, recuperação de locks, retry de falha de rede, classificação de RLS e exclusão após sucesso.
-- Regressão econômica: motor, baseline de 1/100/1.000 rodadas e validação criptográfica da cadeia.
-- Integridade: sequência, `previous_hash`, recálculo do hash e detecção de corrupção continuam cobertos.
+A migration cria o bucket privado `mwc-storage-objects`, com limite de 20 MiB por objeto, e adiciona policies para usuários autenticados. A policy de metadados permite leitura autenticada compartilhada e inserção somente quando `owner_id = auth.uid()`.
 
-Os cenários de navegador com usuário real, reinicialização com leitura remota e upload autenticado não foram declarados aprovados porque não há credenciais de usuário para entrar nesta sessão. A conectividade pública de leitura do projeto e do bucket foi confirmada sem expor dados.
+O Storage Node usa caminhos determinísticos no formato:
 
-## Persistência e limitações atuais
+```text
+{owner_id}/{node_id}/{object_hash}
+```
 
-A aplicação agora produz itens reais para sincronização e oferece o login real do AppAndroidSWE-Start. A persistência remota só deve ser considerada confirmada quando o Supabase responder positivamente. Com as variáveis públicas ausentes, o painel mostra `NÃO CONFIGURADA`; sem login, mostra `AGUARDANDO LOGIN`. Após autenticação, os snapshots também são enviados a `sofia_storage_user` em caminhos determinísticos.
+O objeto é identificado pelo hash do conteúdo, e não pelo nome original do arquivo.
 
-A gravação atual é uma fila de upserts independentes. Ela é idempotente e resiliente a falhas, mas ainda não é uma transação PostgreSQL única entre metadados, bloco, transações, snapshot e head. Não foi feita alteração de esquema para mascarar essa limitação.
+## 3. Funcionalidades implementadas
 
-A recuperação completa da cadeia a partir do Supabase após refresh permanece como próxima etapa: requer métodos de leitura paginada, validação do head remoto e hidratação do estado econômico somente a partir de snapshots efetivamente persistidos.
+### 3.1. Simulador principal
 
-## Reversão
+- `src/simulation/engine.ts`: execução pura das rodadas, saldos, serviços, validação e conversões.
+- `src/simulation/defaults.ts`: configuração inicial, usuários, serviços, demanda, custos e seed.
+- `src/simulation/blockchain.ts`: construção e validação da cadeia observadora.
+- `src/persistence/sync/`: fila IndexedDB, retries/backoff, locks, classificação de falhas e mapeamento idempotente para as tabelas `mw_*`.
+- `src/persistence/auth/SupabaseAuthProvider.tsx`: login e sessão persistente compatíveis com o fluxo do `AppAndroidSWE-Start`.
+- `src/persistence/sync/supabase.ts`: upserts remotos e upload idempotente de snapshots para `sofia_storage_user`.
+- `src/components/MWBlockchainPanel.tsx`: exibição de sessão, estado efetivo da fila, autenticação e sincronização.
+- `src/components/HeaderStatus.tsx`: botão de acesso ao Storage Node.
 
-Para voltar ao estado anterior, reverta o commit desta missão. A alteração é localizada e não modifica o esquema ou apaga dados. Como nenhuma escrita remota de teste foi realizada, não há registros de teste para remover.
+A cadeia usa o identificador estável `mwc-ums-simulator-v1`. Os IDs da fila são determinísticos por cadeia, bloco, transação e snapshot. Repetições usam `upsert` e as constraints existentes, sem criar operações econômicas duplicadas.
 
-## Situação Git e implantação
+### 3.2. Storage Node V0
 
-O código foi validado localmente no sandbox. A implantação pública em Render não foi alterada nem declarada atualizada. A etapa de commit/push deve ocorrer somente após a revisão do bloqueio de autenticação/RLS e da estratégia de leitura/recuperação remota.
+A página `public/storage-node.html` é um protótipo estático independente com as seguintes capacidades:
 
-## Próxima etapa recomendada
+- configuração local de capacidade elegível, percentual cedido e limite absoluto;
+- cálculo visual da reserva configurada em GB;
+- pausa e retomada do nó local;
+- armazenamento de arquivos de teste em IndexedDB;
+- cálculo de SHA-256 com `crypto.subtle.digest`;
+- verificação local de integridade byte a byte;
+- histórico local de períodos/configurações;
+- gráfico de espaço reservado por configuração;
+- placeholder explícito para UMS confirmadas, sem emitir créditos simulados;
+- login e logout via Supabase Auth;
+- listagem autenticada de metadados compartilhados;
+- upload de objetos locais ao bucket `mwc-storage-objects`;
+- registro de metadados em `mwc_storage_objects`;
+- verificação remota imediata após upload, comparando tamanho e SHA-256;
+- revalidação de objetos já existentes antes de evitar novo upload;
+- download de objetos remotos com nova verificação de tamanho e hash;
+- estados explícitos `VERIFIED` e `FAILED` na interface.
 
-Executar um login de usuário autorizado no painel e validar um ciclo completo de upsert no banco mais upload no Storage. Em seguida, implementar uma função transacional no Postgres ou Edge Function para append atômico, métodos paginados de leitura e hidratação do estado após refresh. Só depois disso executar os testes B, D, E e F contra o ambiente autenticado e considerar a integração Supabase concluída.
+A sincronização usa `upsert: false` para objetos novos e a chave `(node_id, object_hash)` para reconhecer um objeto já registrado no mesmo nó. O fluxo não considera um upload concluído antes de baixar o objeto novamente e conferir seu tamanho e digest.
+
+## 4. Modelo de confiança e limitações do Storage Node
+
+O Storage Node é um protótipo de armazenamento e verificação, não uma rede distribuída de nós nem um mecanismo de emissão econômica. O texto da própria página informa que:
+
+- os objetos continuam disponíveis localmente quando offline;
+- a capacidade total do disco não é detectada automaticamente;
+- UMS reais não são emitidas;
+- PoUW, blockchain distribuída e créditos confirmados ainda não estão conectados a essa tela;
+- a existência de um hash local não prova disponibilidade em outro nó.
+
+A página contém apenas valores de cliente públicos para conexão ao Supabase. O usuário entra com sua própria conta; não há segredo administrativo no frontend.
+
+A policy V0 de leitura compartilhada (`using (true)` para usuários autenticados) e a policy de leitura do bucket permitem o modelo de rede compartilhada do protótipo, mas devem ser revisadas antes de produção. Uma próxima versão deve decidir explicitamente se objetos serão públicos entre participantes, privados por proprietário ou acessíveis por autorização de projeto. Também deve restringir melhor os prefixos de Storage, em vez de confiar apenas na convenção do caminho.
+
+## 5. Testes e evidências atuais
+
+### 5.1. Suíte automatizada
+
+Execução local realizada no commit atual:
+
+```text
+7 arquivos de teste aprovados
+28 testes aprovados
+pnpm build aprovado
+```
+
+Arquivos e cobertura principal:
+
+- `tests/engine.test.ts` — contrato inicial, seed determinística, fixture econômica após 10 rodadas e evolução de rodada;
+- `tests/blockchain.test.ts` — gênese, usuários, exchange, blocos por rodada, corrupção de payload e validação criptográfica;
+- `tests/sync-queue.test.ts` — persistência IndexedDB entre instâncias, locks abandonados, sucesso, retry, RLS permanente e flush concorrente;
+- `tests/baseline.test.ts` — baseline de 1, 100 e 1.000 rodadas, histórico e quantidade de blocos;
+- `tests/robustness.test.ts` — nove testes de invariantes econômicas e da cadeia em cinco seeds, demanda zero, saldo inicial baixo, validação reduzida, comprimentos variados, remoção de bloco e quebra de hash anterior;
+- `tests/economic-experiments.test.ts` — uma matriz exploratória com 50 execuções pareadas;
+- `tests/supabase-repository.test.ts` — quatro testes do contrato do adaptador Supabase, incluindo mapeamento, upsert, upload de snapshot, propagação de falha do Storage e rejeição de payload inválido.
+
+### 5.2. Matriz econômica exploratória
+
+A matriz de `tests/economic-experiments.test.ts` executa:
+
+- 5 cenários: baseline, demanda a 150%, validação a 90%, saldo inicial de 1.000 UMS e limiar de conversão de 5.000 UMS;
+- 10 seeds fixas pareadas por cenário;
+- 40 rodadas por execução;
+- 50 execuções no total;
+- distribuição por cenário com mínimo, P10, mediana, P90 e máximo;
+- invariantes contábeis verificadas em todas as execuções.
+
+No resultado local atual, por exemplo, o cenário `validation_90pct` apresentou taxa de demanda não atendida entre aproximadamente 10,7% e 17,6%, enquanto o cenário de saldo inicial baixo apresentou entre aproximadamente 61,6% e 73,7%. Esses números são propriedades do modelo sob os parâmetros configurados; não são previsões de mercado, métricas de uma rede real ou evidência de viabilidade econômica.
+
+### 5.3. Verificações de build e página
+
+- `pnpm test:run`: aprovado com 28 testes.
+- `pnpm build`: aprovado com `tsc -b` e `vite build`.
+- `public/storage-node.html`: arquivo presente e servido como página estática.
+- Integração do botão `STORAGE-NODE` no topo do simulador confirmada.
+- Código do Storage Node contém cálculo local e remoto de SHA-256, consulta autenticada, upload, revalidação e download.
+
+## 6. O que ainda não está validado
+
+A suíte `tests/supabase-repository.test.ts` usa cliente simulado. Ela valida o contrato do adaptador, mas não substitui um teste contra o projeto Supabase remoto.
+
+Ainda não deve ser declarado como concluído:
+
+- um ciclo completo de login com usuário autorizado no navegador real;
+- upload, registro de metadados, download e revalidação contra o bucket remoto em ambiente controlado;
+- teste de usuário não autorizado e confirmação das policies RLS em todas as operações;
+- teste de concorrência entre dois nós reais usando o mesmo hash;
+- recuperação após falha entre upload do objeto e inserção dos metadados;
+- recuperação após falha entre inserção dos metadados e upload do objeto;
+- leitura paginada e hidratação do estado econômico principal a partir do Supabase;
+- atomicidade entre Postgres e Storage;
+- detecção automática de capacidade de disco;
+- emissão ou validação real de UMS por PoUW;
+- consenso, réplica, disponibilidade ou tolerância a falhas de uma rede distribuída;
+- validação econômica, regulatória, de mercado ou com participantes externos.
+
+O Storage Node grava primeiro o objeto e depois os metadados em operações remotas separadas. Se uma etapa falhar, pode haver estado parcial. O código remove o objeto quando a verificação pós-upload ou a inserção dos metadados falha, mas esse comportamento ainda precisa ser exercitado contra o ambiente real e analisado para casos de timeout ou resposta ambígua.
+
+## 7. Reversão e implantação
+
+A evolução está publicada no branch `main` do repositório `meshwave65/mwc-ums-sim`. O build usa `render.yaml` para implantação estática a partir do branch principal, e a página Storage Node é um arquivo público independente dentro de `public/`.
+
+Para reverter apenas a evolução do Storage Node, deve-se reverter os commits dessa funcionalidade em conjunto, incluindo a página, o botão no topo, a migration e as alterações de documentação. A reversão não deve apagar manualmente objetos ou metadados remotos sem uma operação de limpeza previamente autorizada.
+
+## 8. Próximos passos recomendados
+
+1. Executar a matriz I-01 a I-10 do `docs/ROTEIRO_INTEGRACAO_SUPABASE.md` em um projeto Supabase de teste, com identidades autorizada e não autorizada.
+2. Registrar evidências de cada operação sem salvar tokens, senhas ou dados pessoais nos logs.
+3. Reforçar policies de Storage para limitar prefixos por `auth.uid()` e decidir formalmente o modelo de compartilhamento.
+4. Definir reconciliação para estados parciais entre objeto e metadados.
+5. Implementar leitura paginada e recuperação do simulador principal após refresh.
+6. Considerar uma Edge Function ou RPC transacional para coordenar metadados, snapshots e head da cadeia.
+7. Separar explicitamente resultados de software, resultados econômicos do modelo, teste de PoUW e validação externa.
+8. Só considerar UMS/MWC operacional após tarefa PoUW concreta, critérios de validação, observabilidade e piloto externo documentados.
