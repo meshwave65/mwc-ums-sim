@@ -20,7 +20,13 @@ pnpm build
 pnpm preview
 ```
 
-## Como usar
+## Protótipo de nó de armazenamento
+
+Com o servidor Vite em execução, abra [`/storage-node.html`](./public/storage-node.html) para testar a primeira interface do participante: percentual de capacidade, limite de reserva, persistência local de objetos, cálculo/verificação de SHA-256 e histórico por configuração.
+
+**Limites atuais:** é um protótipo local no navegador. Ainda não executa um agente distribuído entre computadores, não sincroniza objetos com Supabase, não registra eventos na blockchain e não emite UMSs. O painel deixa isso explícito; nenhum crédito exibido é apresentado como real. O escopo congelado está em [network/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md](https://github.com/meshwave65/network/blob/main/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md).
+
+## Como usar o simulador econômico
 
 1. Pressione **Iniciar**.
 2. Observe a tabela de usuários, os KPIs, o mercado externo, os gráficos e o log.
@@ -39,6 +45,7 @@ pnpm preview
 - `src/persistence/auth/`: sessão Supabase persistente e login compatível com `clients` do AppAndroidSWE-Start.
 - `src/persistence/sync/`: fila IndexedDB, retries e mapeamento idempotente para as tabelas `mw_*` do Supabase.
 - `src/styles/global.css`: linguagem visual responsiva e estados.
+- `public/storage-node.html`: interface isolada do protótipo local de armazenamento V0.
 - `public/manus-routes.json`: manifesto de rota `/` exigido pelo Webdev.
 - `DOCUMENTACAO.md`: regras e leitura dos painéis.
 - `RELATORIO_TECNICO.md`: decisões de arquitetura, limitações e evidências.
