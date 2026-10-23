@@ -87,19 +87,6 @@ function App() {
         <FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} />
         <ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} />
         <MWBlockchainPanel state={state} />
-        <section className="panel-surface" aria-labelledby="storage-node-title" style={{ marginTop: 24, padding: 24, border: '1px solid rgba(84, 226, 208, .28)', borderRadius: 16, background: 'linear-gradient(135deg, rgba(16, 43, 61, .94), rgba(7, 19, 29, .94))' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
-            <div style={{ minWidth: 240, flex: '1 1 420px' }}>
-              <p className="eyebrow">Módulo integrado</p>
-              <h2 id="storage-node-title" style={{ margin: '0 0 10px', color: '#eff8fb', fontSize: 24 }}>MWC Storage Node</h2>
-              <p style={{ margin: 0, maxWidth: 720, color: '#91abb9', lineHeight: 1.7 }}>Acesse o protótipo do nó de armazenamento para testar envio de arquivos, metadados e verificação de integridade no fluxo de armazenamento.</p>
-            </div>
-            <a href="/storage-node.html" aria-label="Abrir o módulo MWC Storage Node" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '12px 18px', border: '1px solid rgba(84, 226, 208, .55)', borderRadius: 10, background: 'rgba(84, 226, 208, .1)', color: '#54e2d0', fontWeight: 700, textDecoration: 'none', whiteSpace: 'nowrap' }}>
-              Abrir Storage Node <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-          <p style={{ margin: '14px 0 0', color: '#7f9aaa', fontSize: 12 }}>O módulo abre no mesmo domínio do simulador publicado.</p>
-        </section>
         <footer className="footer-note"><span className="brand-mark mini"><span>MW</span><i /></span><p><strong>MWC / UMS Simulator</strong> · Protótipo educacional. Nenhum valor representa moeda, investimento ou operação financeira real.</p><span className="footer-version">v0.1 · em memória</span></footer>
       </main>
     </div>
