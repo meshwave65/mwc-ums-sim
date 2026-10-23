@@ -82,6 +82,7 @@ const remoteClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
 const remote$ = (id) => document.getElementById(id);
 const REMOTE_BUCKET = 'mwc-storage-objects';
 let remoteUser = null;
+const remoteVerification = new Map();
 let nodeId = localStorage.getItem('mwc-storage-node-id-v0');
 if (!nodeId) {
   nodeId = crypto.randomUUID();
@@ -110,44 +111,83 @@ async function listRemoteObjects() {
     .select('id,owner_id,node_id,object_hash,storage_path,original_name,content_type,size_bytes,created_at')
     .order('created_at', { ascending: false }).limit(100);
   if (error) { remoteMessage('syncStatus', 'Falha ao consultar rede: ' + error.message); return; }
-  remote$('remoteObjects').innerHTML = data.length ? data.map(o =>
-    '<div class="item"><div><strong>' + remoteEscape(o.original_name) + '</strong><small>' + remoteBytes(Number(o.size_bytes)) + ' · SHA-256 ' + o.object_hash.slice(0,18) + '… · ' + (o.owner_id === remoteUser.id ? 'seu nó' : 'outro participante') + '</small></div><button class="secondary" data-download="' + remoteEscape(o.id) + '">Baixar</button></div>'
-  ).join('') : '<div class="empty">Nenhum objeto remoto cadastrado.</div>';
+  remote$('remoteObjects').innerHTML = data.length ? data.map(o => {
+    const verification = remoteVerification.get(o.id);
+    const verificationLabel = verification === 'verified' ? ' · VERIFIED' : verification === 'failed' ? ' · FAILED' : '';
+    return '<div class="item"><div><strong>' + remoteEscape(o.original_name) + '</strong><small>' + remoteBytes(Number(o.size_bytes)) + ' · SHA-256 ' + o.object_hash.slice(0,18) + '… · ' + (o.owner_id === remoteUser.id ? 'seu nó' : 'outro participante') + verificationLabel + '</small></div><button class="secondary" data-download="' + remoteEscape(o.id) + '">Baixar e verificar</button></div>';
+  }).join('') : '<div class="empty">Nenhum objeto remoto cadastrado.</div>';
   remote$('remoteObjects').querySelectorAll('[data-download]').forEach(btn => btn.addEventListener('click', () => downloadRemote(btn.dataset.download, data)));
   remoteMessage('syncStatus', data.length + ' objeto(s) remoto(s) encontrado(s).');
 }
 function remoteEscape(value) { return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function remoteBytes(n) { return n < 1e6 ? (n/1e3).toLocaleString('pt-BR',{maximumFractionDigits:1})+' KB' : (n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:2})+' MB'; }
+async function verifyRemoteBytes(path, expectedHash, expectedSize) {
+  const { data, error } = await remoteClient.storage.from(REMOTE_BUCKET).download(path);
+  if (error) throw new Error('Download remoto para verificação falhou: ' + error.message);
+  const buffer = await data.arrayBuffer();
+  if (buffer.byteLength !== Number(expectedSize)) {
+    throw new Error('FAILED: tamanho divergente. Esperado ' + expectedSize + ' bytes; recebido ' + buffer.byteLength + ' bytes.');
+  }
+  const actualHash = await remoteDigest(buffer);
+  if (actualHash !== expectedHash) {
+    throw new Error('FAILED: SHA-256 divergente. Esperado ' + expectedHash + '; recebido ' + actualHash + '.');
+  }
+  return { size: buffer.byteLength, hash: actualHash };
+}
 async function syncLocalObjects() {
   if (!remoteUser) throw new Error('Entre primeiro.');
   const localObjects = await allObjects();
   if (!localObjects.length) { remoteMessage('syncStatus','Não há objetos locais para sincronizar.'); return; }
-  let sent = 0, skipped = 0;
+  let sent = 0, existingVerified = 0, verified = 0;
   remote$('syncLocal').disabled = true;
   try {
-    for (const object of localObjects) {
+    for (let index = 0; index < localObjects.length; index++) {
+      const object = localObjects[index];
+      remoteMessage('syncStatus', 'Preparando verificação remota ' + (index + 1) + '/' + localObjects.length + ': ' + object.name);
       const { data: existing, error: lookupError } = await remoteClient.from('mwc_storage_objects')
-        .select('id').eq('node_id',nodeId).eq('object_hash',object.hash).maybeSingle();
+        .select('id,storage_path,object_hash,size_bytes').eq('node_id',nodeId).eq('object_hash',object.hash).maybeSingle();
       if (lookupError) throw lookupError;
-      if (existing) { skipped++; continue; }
+      if (existing) {
+        try {
+          await verifyRemoteBytes(existing.storage_path, existing.object_hash, existing.size_bytes);
+          remoteVerification.set(existing.id, 'verified');
+          existingVerified++;
+          verified++;
+          remoteMessage('syncStatus', 'VERIFIED · objeto já existente: ' + object.name + ' — tamanho e SHA-256 conferidos.');
+        } catch (error) {
+          remoteVerification.set(existing.id, 'failed');
+          await listRemoteObjects();
+          throw new Error('FAILED · ' + object.name + ': ' + (error.message || String(error)));
+        }
+        continue;
+      }
       const path = remoteUser.id + '/' + nodeId + '/' + object.hash;
       const blob = new Blob([object.buffer], { type: object.type || 'application/octet-stream' });
       const { error: uploadError } = await remoteClient.storage.from(REMOTE_BUCKET).upload(path, blob, {
         contentType: object.type || 'application/octet-stream', upsert: false
       });
-      if (uploadError) throw uploadError;
-      const { error: insertError } = await remoteClient.from('mwc_storage_objects').insert({
+      if (uploadError) throw new Error('Upload falhou para ' + object.name + ': ' + uploadError.message);
+      let result;
+      try {
+        result = await verifyRemoteBytes(path, object.hash, object.size);
+      } catch (error) {
+        await remoteClient.storage.from(REMOTE_BUCKET).remove([path]);
+        throw new Error('FAILED · verificação após upload de ' + object.name + ': ' + (error.message || String(error)));
+      }
+      const { data: inserted, error: insertError } = await remoteClient.from('mwc_storage_objects').insert({
         owner_id: remoteUser.id, node_id: nodeId, object_hash: object.hash, storage_path: path,
         original_name: object.name, content_type: object.type || 'application/octet-stream', size_bytes: object.size
-      });
+      }).select('id').single();
       if (insertError) {
         await remoteClient.storage.from(REMOTE_BUCKET).remove([path]);
-        throw insertError;
+        throw new Error('Verificado, mas falhou o registro de metadados para ' + object.name + ': ' + insertError.message);
       }
+      remoteVerification.set(inserted.id, 'verified');
       sent++;
-      remoteMessage('syncStatus', 'Sincronizando… ' + sent + '/' + localObjects.length);
+      verified++;
+      remoteMessage('syncStatus', 'VERIFIED · ' + object.name + ' — ' + result.size + ' bytes e SHA-256 conferidos.');
     }
-    remoteMessage('syncStatus', 'Concluído: ' + sent + ' enviado(s), ' + skipped + ' já sincronizado(s).');
+    remoteMessage('syncStatus', 'Concluído: ' + sent + ' enviado(s), ' + existingVerified + ' existente(s) revalidado(s); ' + verified + '/' + localObjects.length + ' objeto(s) com tamanho e SHA-256 verificados remotamente.');
     await listRemoteObjects();
   } finally { remote$('syncLocal').disabled = !remoteUser; }
 }
@@ -160,10 +200,16 @@ async function downloadRemote(id, rows) {
   if (error) { remoteMessage('syncStatus', 'Falha no download: ' + error.message); return; }
   const buffer = await data.arrayBuffer();
   const actualHash = await remoteDigest(buffer);
-  if (actualHash !== object.object_hash) {
-    remoteMessage('syncStatus', 'ERRO: hash do arquivo baixado não corresponde ao metadado remoto.');
+  const expectedSize = Number(object.size_bytes);
+  if (buffer.byteLength !== expectedSize || actualHash !== object.object_hash) {
+    remoteVerification.set(object.id, 'failed');
+    await listRemoteObjects();
+    remoteMessage('syncStatus', 'FAILED · ' + object.original_name + ': ' +
+      (buffer.byteLength !== expectedSize ? 'tamanho divergente (' + buffer.byteLength + '/' + expectedSize + ' bytes)' : 'SHA-256 divergente (' + actualHash + ' ≠ ' + object.object_hash + ')'));
     return;
   }
+  remoteVerification.set(object.id, 'verified');
+  await listRemoteObjects();
   const url = URL.createObjectURL(new Blob([buffer], { type: object.content_type || 'application/octet-stream' }));
   const a = document.createElement('a'); a.href = url; a.download = object.original_name; a.click();
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
