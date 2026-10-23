@@ -22,9 +22,9 @@ pnpm preview
 
 ## Protótipo de nó de armazenamento
 
-Com o servidor Vite em execução, abra [`/storage-node.html`](./public/storage-node.html) para testar a primeira interface do participante: percentual de capacidade, limite de reserva, persistência local de objetos, cálculo/verificação de SHA-256 e histórico por configuração.
+Com o servidor Vite em execução, abra [`/storage-node.html`](./public/storage-node.html). A tela permite configurar a reserva, persistir objetos localmente, calcular/verificar SHA-256 e registrar o histórico. A seção **Rede compartilhada** autentica o participante com a conta Supabase, envia os objetos locais para o bucket privado `mwc-storage-objects` e permite listar/baixar objetos remotos com verificação de hash. A sincronização exige conexão e sessão autenticada; sem isso, o armazenamento local continua funcionando.
 
-**Limites atuais:** é um protótipo local no navegador. Ainda não executa um agente distribuído entre computadores, não sincroniza objetos com Supabase, não registra eventos na blockchain e não emite UMSs. O painel deixa isso explícito; nenhum crédito exibido é apresentado como real. O escopo congelado está em [network/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md](https://github.com/meshwave65/network/blob/main/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md).
+**Limites atuais:** esta é a primeira integração de armazenamento compartilhado, não um agente distribuído completo. A disponibilidade remota depende do Supabase e de autenticação; ainda não há replicação automática entre nós, blockchain distribuída, validação PoUW nem emissão de UMSs. Nenhum crédito é simulado. O escopo congelado está em [network/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md](https://github.com/meshwave65/network/blob/main/projects/mwc/blueprints/PROTOTIPO_ARMAZENAMENTO_VOLUNTARIO_V0.md).
 
 ## Como usar o simulador econômico
 
@@ -45,7 +45,8 @@ Com o servidor Vite em execução, abra [`/storage-node.html`](./public/storage-
 - `src/persistence/auth/`: sessão Supabase persistente e login compatível com `clients` do AppAndroidSWE-Start.
 - `src/persistence/sync/`: fila IndexedDB, retries e mapeamento idempotente para as tabelas `mw_*` do Supabase.
 - `src/styles/global.css`: linguagem visual responsiva e estados.
-- `public/storage-node.html`: interface isolada do protótipo local de armazenamento V0.
+- `public/storage-node.html`: interface do nó de armazenamento V0, com persistência local e sincronização remota autenticada.
+- `supabase/migrations/20261022000000_create_mwc_storage_v0.sql`: esquema RLS e bucket privado dedicados ao armazenamento MWC.
 - `public/manus-routes.json`: manifesto de rota `/` exigido pelo Webdev.
 - `DOCUMENTACAO.md`: regras e leitura dos painéis.
 - `RELATORIO_TECNICO.md`: decisões de arquitetura, limitações e evidências.
