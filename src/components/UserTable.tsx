@@ -1,12 +1,15 @@
-import type { UserState } from '../simulation/types'
+import type { SimulationConfig, UserState } from '../simulation/types'
 import { statusLabel, statusTone } from '../simulation/selectors'
 import { formatBrl, formatNumber, formatPercent } from '../utils/format'
 
 interface UserTableProps {
   users: UserState[]
+  config: SimulationConfig
+  onConvert: (userId: string) => void
 }
 
-export function UserTable({ users }: UserTableProps) {
+export function UserTable({ users, config, onConvert }: UserTableProps) {
+  const reserve = Math.max(0, config.conversionThreshold)
   return (
     <section className="panel-surface table-panel">
       <div className="section-heading">
@@ -15,10 +18,11 @@ export function UserTable({ users }: UserTableProps) {
       </div>
       <div className="table-wrap">
         <table>
-          <thead><tr><th>Usuário</th><th>Perfil / rodada</th><th>UMS</th><th>BRL</th><th>Serviços</th><th>Gerado</th><th>Utilizado</th><th>Status</th></tr></thead>
+          <thead><tr><th>Usuário</th><th>Perfil / rodada</th><th>UMS</th><th>BRL</th><th>Serviços</th><th>Gerado</th><th>Utilizado</th><th>Status</th><th>Decisão</th></tr></thead>
           <tbody>
             {users.map((user) => {
               const tone = statusTone(user.status)
+              const canConvert = user.ums - reserve >= config.umsPerMwc && config.umsPerMwc > 0
               return <tr key={user.id}>
                 <td><div className="user-cell"><span className={`user-avatar tone-${tone}`}>{user.id.slice(-2)}</span><div><strong>{user.id}</strong><small>{user.lastActivity}</small></div></div></td>
                 <td><span className={`profile-value ${user.roundProfile >= 0 ? 'is-positive' : 'is-negative'}`}>{formatPercent(user.roundProfile)}</span></td>
@@ -28,12 +32,13 @@ export function UserTable({ users }: UserTableProps) {
                 <td><span className="metric-positive">+{formatNumber(user.lastGenerated)}</span><small className="metric-total">{formatNumber(user.generated)} total</small></td>
                 <td><span className="metric-negative">−{formatNumber(user.lastUsed)}</span><small className="metric-total">{formatNumber(user.used)} total</small></td>
                 <td><span className={`status-badge tone-${tone}`}>{statusLabel(user)}</span></td>
+                <td><button className="convert-button" type="button" disabled={!canConvert} onClick={() => onConvert(user.id)} title={canConvert ? `Converter voluntariamente ${formatNumber(config.umsPerMwc)} UMS em 1 MWC` : `Preserve ${formatNumber(reserve)} UMS; conversão indisponível`}>Converter 1 MWC</button></td>
               </tr>
             })}
           </tbody>
         </table>
       </div>
-      <div className="table-footer"><span><i className="legend-dot positive" /> Superávit / geração</span><span><i className="legend-dot negative" /> Déficit / consumo</span><span><i className="legend-dot market" /> Mercado externo</span></div>
+      <div className="table-footer"><span><i className="legend-dot positive" /> Superávit / geração</span><span><i className="legend-dot negative" /> Déficit / consumo</span><span><i className="legend-dot market" /> Mercado externo</span><span>Conversão sempre voluntária</span></div>
     </section>
   )
 }
