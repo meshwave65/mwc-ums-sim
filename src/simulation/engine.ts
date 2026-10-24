@@ -50,8 +50,6 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
   const totals = { ...state.totals }
   const events = [...state.events]
   const buckets = new Map<string, UsageBucket>()
-  const marketAvailableAtStart = market.mwcAvailable
-  let mwcReconvertedThisRound = 0
   addRoundEvent(events, nextRound, 'info', `RODADA ${String(nextRound).padStart(3, '0')}`, 'Rodada iniciada: demanda distribuída entre os usuários.')
   const configuredMin = Number.isFinite(config.profileMin) ? config.profileMin : -30
   const configuredMax = Number.isFinite(config.profileMax) ? config.profileMax : 30
@@ -68,27 +66,11 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     user.lastMwcCreated = 0
     user.lastMwcUsed = 0
     let availableCapacity = user.ums
-    let mwcUsed = 0
+    const mwcUsed = 0
     let unmetUms = 0
 
     if (usage.cost > availableCapacity) {
-      const neededUms = usage.cost - availableCapacity
-      const requiredMwc = Math.ceil(neededUms / Math.max(1, config.umsPerMwc))
-      // MWC gerado nesta rodada só entra como reserva para a rodada seguinte.
-      // Isso evita que a geração e a reconversão se anulem na mesma passagem.
-      mwcUsed = Math.min(requiredMwc, Math.max(0, marketAvailableAtStart - mwcReconvertedThisRound))
-      if (mwcUsed > 0) {
-        const restoredUms = mwcUsed * config.umsPerMwc
-        availableCapacity += restoredUms
-        market.mwcAvailable -= mwcUsed
-        market.mwcReconverted += mwcUsed
-        market.brlVolume += mwcUsed * config.brlPerMwc
-        user.brl -= mwcUsed * config.brlPerMwc
-        user.mwcUsed += mwcUsed
-        user.lastMwcUsed = mwcUsed
-        mwcReconvertedThisRound += mwcUsed
-        addRoundEvent(events, nextRound, 'market', 'RECONVERSÃO', `${user.id} recebeu ${restoredUms.toLocaleString('pt-BR')} UMS via ${mwcUsed} MWC do mercado.`)
-      }
+      // Reconversion MWC→UMS is a voluntary MeshWalker action, not an automatic response to a deficit.
       unmetUms = Math.max(0, usage.cost - availableCapacity)
     }
 
