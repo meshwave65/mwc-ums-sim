@@ -210,3 +210,8 @@ tbody tr:hover { background: rgba(84, 226, 208, .035); }
 .convert-button { padding: 7px 9px; border: 1px solid rgba(241, 184, 91, .34); border-radius: 7px; color: var(--amber); background: rgba(241, 184, 91, .08); font-size: 9px; font-weight: 700; white-space: nowrap; }
 .convert-button:hover:not(:disabled) { border-color: var(--amber); background: rgba(241, 184, 91, .15); }
 .convert-button:disabled { opacity: .35; }
+
+.conversion-actions { display: flex; flex-direction: column; align-items: stretch; gap: 5px; }
+.reconvert-button { padding: 7px 9px; border: 1px solid rgba(84, 226, 208, .3); border-radius: 7px; color: var(--cyan); background: rgba(84, 226, 208, .06); font-size: 9px; font-weight: 700; white-space: nowrap; }
+.reconvert-button:hover:not(:disabled) { border-color: var(--cyan); background: rgba(84, 226, 208, .13); }
+.reconvert-button:disabled { opacity: .35; }
