@@ -68,7 +68,7 @@ Para instruções de execução, endpoints, limites e testes, consulte [`node-ag
 - MWC não é saldo interno do usuário: usuários exibem UMS e BRL.
 - Perfis positivos tendem a gerar excedente; perfis negativos tendem a consumir mais capacidade.
 - Operações validadas pelo PoUW reconhecem UMS. Operações inválidas permanecem no histórico, sem reconhecimento definitivo.
-- Blocos completos de UMS acima do nível inicial geram MWC.
+- A conversão de UMS em MWC é voluntária e ocorre apenas por ação explícita do usuário; o motor não converte UMS automaticamente por rodada.
 - Déficit de capacidade tenta usar uma unidade inteira de MWC disponível; se não houver reserva, a operação fica não atendida.
 
 ## Persistência e limitações conhecidas
