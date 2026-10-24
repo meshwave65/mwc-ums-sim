@@ -20,6 +20,15 @@ import { useSupabaseAuth } from './persistence/auth/SupabaseAuthProvider'
 
 const speedIntervals: Record<SpeedKey, number> = { slow: 1500, normal: 720, fast: 330, turbo: 170 }
 
+const navigation = [
+  { href: '#overview', icon: '◫', label: 'Dashboard' },
+  { href: '#users', icon: '♙', label: 'Usuários' },
+  { href: '#market', icon: '◇', label: 'Mercado' },
+  { href: '#events', icon: '⌁', label: 'Eventos' },
+  { href: '#reports', icon: '▥', label: 'Relatórios' },
+  { href: '#settings', icon: '⚙', label: 'Configurações' },
+]
+
 function App() {
   const { user, loading: authLoading } = useSupabaseAuth()
   const [config, setConfig] = useState<SimulationConfig>(() => createDefaultConfig())
@@ -62,33 +71,48 @@ function App() {
   const applyConfig = () => { setConfig(draftConfig); setState(createInitialState(draftConfig)) }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell admin-app-shell">
       <div className="background-grid" aria-hidden="true" />
-      <HeaderStatus state={state} targetRounds={targetRounds} />
-      <main className="dashboard">
-        <section className="intro-grid">
-          <div className="hero-copy">
-            <div className="hero-label"><span className="pulse-mark" /> simulação em memória · sem mercado real</div>
-            <h2>Veja a capacidade<br /><em>ganhar forma.</em></h2>
-            <p>Um modelo mínimo para observar como serviços úteis, saldos UMS e o mercado externo MWC se relacionam rodada a rodada.</p>
-            <div className="hero-note"><span>i</span><p><strong>Como ler:</strong> usuários com perfil positivo tendem a gerar excedente; usuários deficitários podem recorrer às reservas do mercado.</p></div>
+      <aside className="admin-sidebar">
+        <a className="admin-brand" href="#overview" aria-label="MeshWave Dashboard">
+          <span className="brand-mark"><span>MW</span><i /></span>
+          <span><strong>MeshWave</strong><small>MWC / UMS SIMULATOR</small></span>
+        </a>
+        <nav className="admin-nav" aria-label="Navegação administrativa">
+          {navigation.map((item, index) => <a className={index === 0 ? 'is-current' : ''} href={item.href} key={item.href}><span className="nav-icon">{item.icon}</span>{item.label}</a>)}
+        </nav>
+        <div className="sidebar-status">
+          <span className={state.status === 'running' ? 'sidebar-live-dot is-live' : 'sidebar-live-dot'} />
+          <strong>{state.status === 'running' ? 'Simulação ativa' : state.status === 'paused' ? 'Simulação pausada' : 'Simulação pronta'}</strong>
+          <dl><div><dt>Rodada atual</dt><dd>{state.round}</dd></div><div><dt>Meta</dt><dd>{targetRounds === Infinity ? '∞' : targetRounds.toLocaleString('pt-BR')}</dd></div><div><dt>Modo</dt><dd>Automático</dd></div></dl>
+        </div>
+        <div className="sidebar-foot"><span className="network-orbit">⌘</span><strong>MeshWave</strong><p>Conectando capacidade ao que importa.</p></div>
+      </aside>
+      <div className="admin-main">
+        <HeaderStatus state={state} targetRounds={targetRounds} />
+        <main className="dashboard admin-dashboard">
+          <section id="overview" className="admin-overview">
+            <div className="admin-page-title"><div><p className="eyebrow">CENTRO DE OPERAÇÕES · MESHWAVE</p><h2>Painel Administrativo</h2><p>Visão geral da economia simulada e da atividade da rede.</p></div><span className="system-online"><i /> Sistema operacional</span></div>
+            <KpiStrip state={state} brlPerMwc={config.brlPerMwc} />
+          </section>
+          <section className="admin-control-row" aria-label="Controles da simulação">
+            <SimulationControls state={state} speed={speed} targetRounds={targetRounds} onSpeedChange={setSpeed} onTargetRoundsChange={setTargetRounds} onStart={start} onPause={pause} onContinue={continueSimulation} onStop={stop} onReset={reset} />
+            <CycleFlow state={state} config={config} />
+          </section>
+          <div className="workspace-grid admin-workspace">
+            <div id="users" className="admin-anchor"><UserTable users={state.users} /></div>
+            <aside className="side-stack">
+              <div id="market" className="admin-anchor"><MarketPanel state={state} config={config} /></div>
+              <div id="events" className="admin-anchor"><EventLog events={state.events} /></div>
+            </aside>
           </div>
-          <div className="hero-diagram" aria-label="Resumo visual do fluxo econômico">
-            <div className="diagram-orbit orbit-one" /><div className="diagram-orbit orbit-two" /><div className="diagram-core"><span>MW</span><small>capacidade<br />em fluxo</small></div>
-            <div className="diagram-node node-top"><b>UMS</b><small>interno</small></div><div className="diagram-node node-right"><b>MWC</b><small>externo</small></div><div className="diagram-node node-bottom"><b>BRL</b><small>referência</small></div>
-            <div className="diagram-arrow arrow-one">↗</div><div className="diagram-arrow arrow-two">↘</div><div className="diagram-arrow arrow-three">↙</div>
-          </div>
-        </section>
-        <SimulationControls state={state} speed={speed} targetRounds={targetRounds} onSpeedChange={setSpeed} onTargetRoundsChange={setTargetRounds} onStart={start} onPause={pause} onContinue={continueSimulation} onStop={stop} onReset={reset} />
-        <CycleFlow state={state} config={config} />
-        <KpiStrip state={state} brlPerMwc={config.brlPerMwc} />
-        <div className="workspace-grid"><UserTable users={state.users} /><aside className="side-stack"><MarketPanel state={state} config={config} /><EventLog events={state.events} /></aside></div>
-        <SimulationCharts state={state} />
-        <FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} />
-        <ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} />
-        <MWBlockchainPanel state={state} />
-        <footer className="footer-note"><span className="brand-mark mini"><span>MW</span><i /></span><p><strong>MWC / UMS Simulator</strong> · Protótipo educacional. Nenhum valor representa moeda, investimento ou operação financeira real.</p><span className="footer-version">v0.1 · em memória</span></footer>
-      </main>
+          <section id="analytics" className="admin-anchor"><SimulationCharts state={state} /></section>
+          <section id="reports" className="admin-anchor"><FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} /></section>
+          <section id="settings" className="admin-anchor"><ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} /></section>
+          <section className="admin-anchor"><MWBlockchainPanel state={state} /></section>
+          <footer className="footer-note"><span className="brand-mark mini"><span>MW</span><i /></span><p><strong>MWC / UMS Simulator</strong> · Protótipo educacional. Nenhum valor representa moeda, investimento ou operação financeira real.</p><span className="footer-version">v0.1 · em memória</span></footer>
+        </main>
+      </div>
     </div>
   )
 }
