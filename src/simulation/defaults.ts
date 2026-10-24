@@ -37,8 +37,6 @@ export function createInitialUser(id: string, profile: number, initialUms: numbe
     profile,
     roundProfile: profile,
     ums: initialUms,
-    mwcBalance: 0,
-    autoReconversion: true,
     brl: 0,
     servicesExecuted: 0,
     servicesUnmet: 0,
