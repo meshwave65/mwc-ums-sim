@@ -66,13 +66,21 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     user.lastMwcCreated = 0
     user.lastMwcUsed = 0
     let availableCapacity = user.ums
-    const mwcUsed = 0
+    let mwcUsed = 0
     let unmetUms = 0
 
-    if (usage.cost > availableCapacity) {
-      // Reconversion MWC→UMS is a voluntary MeshWalker action, not an automatic response to a deficit.
-      unmetUms = Math.max(0, usage.cost - availableCapacity)
+    if (usage.cost > availableCapacity && user.autoReconversion && user.mwcBalance > 0 && config.umsPerMwc > 0) {
+      const deficit = usage.cost - availableCapacity
+      const requiredMwc = Math.ceil(deficit / config.umsPerMwc)
+      mwcUsed = Math.min(user.mwcBalance, requiredMwc)
+      const reconvertedUms = mwcUsed * config.umsPerMwc
+      user.mwcBalance -= mwcUsed
+      availableCapacity += reconvertedUms
+      market.mwcAvailable = Math.max(0, market.mwcAvailable - mwcUsed)
+      market.mwcReconverted += mwcUsed
+      pushEvent(events, nextRound, 'market', 'RECONVERSÃO AUTOMÁTICA', `${user.id}: reconversão automática de ${mwcUsed} MWC em ${reconvertedUms.toLocaleString('pt-BR')} UMS para cobrir a demanda operacional.`)
     }
+    if (usage.cost > availableCapacity) unmetUms = Math.max(0, usage.cost - availableCapacity)
 
     const actualUsed = Math.min(usage.cost, availableCapacity)
     const estimatedUnmetOperations = unmetUms > 0
