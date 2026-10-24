@@ -1,8 +1,8 @@
-# Protocolo de validação externa — UMS/MWC
+# Protocolo de validação externa — UMS/MWN
 
 ## Objetivo
 
-Verificar se usuários e parceiros potenciais reconhecem um problema concreto que a proposta UMS/MWC poderia resolver, quais evidências exigiriam e sob quais condições aceitariam participar de um piloto. O protocolo não apresenta o simulador como rede operacional nem MWC como ativo negociável.
+Verificar se usuários e parceiros potenciais reconhecem um problema concreto que a proposta UMS/MWN poderia resolver, quais evidências exigiriam e sob quais condições aceitariam participar de um piloto. O protocolo não apresenta o simulador como rede operacional nem MWN como ativo negociável.
 
 ## Regras de abordagem
 
