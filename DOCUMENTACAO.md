@@ -1,4 +1,4 @@
-# Documentação funcional — MWC / UMS Simulator
+# Documentação funcional — MWN / UMS Simulator
 
 ## 1. O que o protótipo demonstra
 
@@ -7,7 +7,7 @@ O simulador apresenta dois universos claramente separados:
 | Universo | O que contém | Unidade principal |
 | --- | --- | --- |
 | Ecossistema MeshWave | usuários, serviços, execução, capacidade e saldo contábil | UMS |
-| Mercado externo | capacidade convertida, reserva e reconversão | MWC |
+| Mercado externo | capacidade convertida, reserva e reconversão | MWN |
 
 BRL aparece como consequência contábil das operações de mercado. Não há pagamento, carteira, exchange, banco, PIX ou conexão com dinheiro real.
 
@@ -20,14 +20,14 @@ serviço solicitado
   → UMS reconhecida
   → saldo do usuário
   → bloco de 1.000 UMS
-  → MWC no mercado externo
+  → MWN no mercado externo
   → reconversão para capacidade quando necessário
   → BRL contábil
 ```
 
 ## 2. Estado inicial
 
-A tela começa no estado mais simples possível: rodada 0, dez usuários com 10.000 UMS, BRL zerado e mercado sem MWC. Isso torna visível que nenhum MWC nasce previamente no mercado.
+A tela começa no estado mais simples possível: rodada 0, dez usuários com 10.000 UMS, BRL zerado e mercado sem MWN. Isso torna visível que nenhum MWN nasce previamente no mercado.
 
 Os valores abaixo permanecem apenas como referências históricas da configuração inicial; eles não determinam a rodada. O perfil real é sorteado diretamente pelos limites configuráveis:
 
@@ -49,8 +49,8 @@ Em cada rodada, cada usuário recebe diretamente um percentual de perfil sortead
 ### Parâmetros econômicos configuráveis
 
 - **Perfil mínimo e máximo:** definem a faixa absoluta do sorteio por rodada. O padrão `−30% a +30%` tem média próxima de zero e evita uma drenagem sistemática de UMS causada por uma tendência média positiva ou negativa.
-- **Limiar de conversão:** quantidade de UMS que o usuário precisa preservar antes de converter blocos adicionais em MWC. O padrão é `10.000 UMS`; reduzir esse limiar faz o mercado receber MWC mais cedo.
-- **UMS por MWC:** tamanho do bloco convertido e também quantidade devolvida em uma reconversão.
+- **Limiar de conversão:** quantidade de UMS que o usuário precisa preservar antes de converter blocos adicionais em MWN. O padrão é `10.000 UMS`; reduzir esse limiar faz o mercado receber MWN mais cedo.
+- **UMS por MWN:** tamanho do bloco convertido e também quantidade devolvida em uma reconversão.
 - **UMS inicial:** saldo de partida de cada usuário. Ele pode ser diferente do limiar de conversão.
 
 ## 3. Serviços e demanda
@@ -76,9 +76,9 @@ A tabela configurável traz custo em UMS por operação e demanda padrão da rod
 2. O uso em UMS é obtido multiplicando operações alocadas pelo custo do serviço.
 3. O perfil efetivo da rodada determina a capacidade bruta estimada: perfil positivo aumenta geração; perfil negativo reduz. Ele é sorteado diretamente entre o perfil mínimo e o perfil máximo configurados, sem alterar a demanda recebida.
 4. O PoUW aplica uma taxa de validação. A parcela validada entra como UMS reconhecida; a parcela inválida fica registrada, mas não entra no saldo. Se a operação não for atendida, a geração é proporcional à parte efetivamente executada e não cria capacidade artificial.
-5. Se o usuário não tiver capacidade para usar o serviço, o motor tenta reconverter MWC inteiro do mercado.
+5. Se o usuário não tiver capacidade para usar o serviço, o motor tenta reconverter MWN inteiro do mercado.
 6. O usuário paga a utilização em UMS, recebe a geração validada e pode atingir um novo bloco acima do limiar de conversão.
-7. Cada bloco completo acima do limiar configurado vira MWC inteiro e credita BRL de referência ao usuário.
+7. Cada bloco completo acima do limiar configurado vira MWN inteiro e credita BRL de referência ao usuário.
 8. O mercado, os KPIs, a tabela, os gráficos, o relatório histórico e o log recebem o novo estado.
 
 A operação é implementada em uma função pura (`runRound`) para manter a regra econômica independente da interface.
@@ -99,27 +99,27 @@ A operação é implementada em uma função pura (`runRound`) para manter a reg
 
 - **Serviços executados:** operações que tiveram capacidade suficiente; o detalhe mostra não atendidos.
 - **UMS reconhecida:** capacidade validada pelo PoUW no acumulado; o detalhe mostra utilização.
-- **MWC no mercado:** reserva disponível naquele momento; o detalhe mostra o total gerado.
-- **Reconversões:** MWC que retornaram para UMS; o detalhe mostra o volume BRL de referência.
+- **MWN no mercado:** reserva disponível naquele momento; o detalhe mostra o total gerado.
+- **Reconversões:** MWN que retornaram para UMS; o detalhe mostra o volume BRL de referência.
 - **UMS no ecossistema:** soma dos saldos atuais dos usuários.
 
 ### Tabela de usuários
 
-A coluna Gerado mostra o valor da última rodada e o acumulado. Utilizado segue o mesmo padrão. O status resume a última variação: `SUPERÁVIT`, `DÉFICIT`, `NÃO ATENDIDO` ou `ESTÁVEL`. Quando a atividade recente inclui mercado, o badge pode destacar `MWC GERADO` ou `USOU MERCADO`.
+A coluna Gerado mostra o valor da última rodada e o acumulado. Utilizado segue o mesmo padrão. O status resume a última variação: `SUPERÁVIT`, `DÉFICIT`, `NÃO ATENDIDO` ou `ESTÁVEL`. Quando a atividade recente inclui mercado, o badge pode destacar `MWN GERADO` ou `USOU MERCADO`.
 
 ### Mercado externo
 
-O mercado nunca inicia com reserva. MWC cresce quando um usuário converte bloco completo de UMS e diminui quando uma unidade é reconvertida em 1.000 UMS. A geração de uma rodada fica disponível para consumo a partir da rodada seguinte, deixando a reserva observável e evitando que geração e reconversão se anulem na mesma passagem. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
+O mercado nunca inicia com reserva. MWN cresce quando um usuário converte bloco completo de UMS e diminui quando uma unidade é reconvertida em 1.000 UMS. A geração de uma rodada fica disponível para consumo a partir da rodada seguinte, deixando a reserva observável e evitando que geração e reconversão se anulem na mesma passagem. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
 
 ### Gráficos
 
 - **Evolução dos saldos UMS:** uma linha por usuário ao longo do histórico.
-- **MWC em circulação:** linhas para gerado, reconvertido e disponível.
+- **MWN em circulação:** linhas para gerado, reconvertido e disponível.
 - **Comparativo final:** barras ordenadas pelo saldo UMS no encerramento, visualização de BRL positivo/negativo e tabela com a posição completa.
 
 ## 6. Configuração
 
-O painel permite alterar UMS inicial, UMS por MWC, BRL por MWC, seed, perfis, demandas e custos. PoUW e a variação máxima aparecem como parâmetros informativos do protótipo. As edições ficam em rascunho e só entram no motor ao pressionar **Aplicar e resetar**, evitando mudar uma execução no meio.
+O painel permite alterar UMS inicial, UMS por MWN, BRL por MWN, seed, perfis, demandas e custos. PoUW e a variação máxima aparecem como parâmetros informativos do protótipo. As edições ficam em rascunho e só entram no motor ao pressionar **Aplicar e resetar**, evitando mudar uma execução no meio.
 
 ## 7. Exportações
 
@@ -133,6 +133,6 @@ O relatório final pode ser baixado como:
 O protótipo não persiste estado, não faz autenticação, não chama API externa e não usa banco de dados. A reconversão não modela preço variável ou ordens de mercado. A aleatoriedade é controlada, mas o resultado sem seed pode variar. Os valores são exclusivamente demonstrativos.
 
 
-## 9. Invariante econômica UMS/MWC
+## 9. Invariante econômica UMS/MWN
 
-Este simulador é didático e não implementa transferências entre carteiras. A regra de protocolo que deve orientar evoluções é: recompensas e reconhecimentos internos são denominados em UMS; MWC é a única via de conversão entre ativos negociáveis e UMS; e não há transferência direta de UMS entre MeshWalkers. Para transferir valor entre participantes, a rota conceitual é UMS→MWC, transferência de MWC e decisão voluntária do destinatário de reconverter MWC→UMS. A reserva de mercado do simulador representa uma abstração de mercado/exchange, não um mecanismo real de liquidação P2P.
+Este simulador é didático e não implementa transferências entre carteiras. A regra de protocolo que deve orientar evoluções é: recompensas e reconhecimentos internos são denominados em UMS; MWN é a única via de conversão entre ativos negociáveis e UMS; e não há transferência direta de UMS entre MeshWalkers. Para transferir valor entre participantes, a rota conceitual é UMS→MWN, transferência de MWN e decisão voluntária do destinatário de reconverter MWN→UMS. A reserva de mercado do simulador representa uma abstração de mercado/exchange, não um mecanismo real de liquidação P2P.
