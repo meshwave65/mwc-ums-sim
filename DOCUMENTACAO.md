@@ -136,3 +136,8 @@ O protótipo não persiste estado, não faz autenticação, não chama API exter
 ## 9. Invariante econômica UMS/MWC
 
 Este simulador é didático e não implementa transferências entre carteiras. A regra de protocolo que deve orientar evoluções é: recompensas e reconhecimentos internos são denominados em UMS; MWC é a única via de conversão entre ativos negociáveis e UMS; e não há transferência direta de UMS entre MeshWalkers. Para transferir valor entre participantes, a rota conceitual é UMS→MWC, transferência de MWC e decisão voluntária do destinatário de reconverter MWC→UMS. A reserva de mercado do simulador representa uma abstração de mercado/exchange, não um mecanismo real de liquidação P2P.
+
+
+## 10. Regra de escolha do MeshWalker
+
+A conversão UMS→MWC e a reconversão MWC→UMS são ações voluntárias acionadas na tabela de usuários. O motor de rodada não executa nenhuma das duas automaticamente. A reconversão só é possível quando existe pelo menos 1 MWC na reserva do mercado; se o usuário não tiver UMS suficiente e optar por não reconverter, a operação correspondente pode ficar não atendida. Esta regra prevalece sobre qualquer descrição anterior que pareça indicar conversão automática por superávit ou déficit.
