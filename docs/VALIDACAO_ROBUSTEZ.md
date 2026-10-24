@@ -1,4 +1,4 @@
-# Plano de validação robusta — MWC / UMS
+# Plano de validação robusta — MWN / UMS
 
 ## Objetivo
 
@@ -13,9 +13,9 @@ Separar evidência de funcionamento do código, consistência interna do modelo 
 ## Nível 2 — Invariantes e testes de fronteira
 
 Critérios a manter automatizados:
-- nenhum saldo UMS, contador de geração/uso/rejeição ou quantidade de MWC pode ser negativo ou não finito;
+- nenhum saldo UMS, contador de geração/uso/rejeição ou quantidade de MWN pode ser negativo ou não finito;
 - totais agregados devem corresponder à soma dos valores individuais;
-- MWC disponível deve corresponder a MWC gerado menos MWC reconvertido;
+- MWN disponível deve corresponder a MWN gerado menos MWN reconvertido;
 - demanda zero não deve gerar execução, uso ou serviços não atendidos;
 - a cadeia deve detectar alteração de payload, hash anterior, sequência e remoção de bloco;
 - a mesma configuração e seed devem produzir a mesma projeção econômica, desconsiderando campos temporais/ambientais que não fazem parte dessa projeção.
@@ -32,7 +32,7 @@ Executar lotes de seeds fixas e publicadas, variando um parâmetro por vez:
 - limiar e tamanho do bloco de conversão;
 - razão entre demanda e capacidade agregada.
 
-Para cada cenário, registrar: configuração completa, seeds, rodadas, serviços solicitados/executados/não atendidos, UMS geradas/usadas/rejeitadas, MWC criado/reconvertido/disponível, BRL contábil, usuários em déficit, tempo de execução e versão/commit do código. Publicar distribuição, mediana, percentis e extremos; não escolher somente uma execução favorável.
+Para cada cenário, registrar: configuração completa, seeds, rodadas, serviços solicitados/executados/não atendidos, UMS geradas/usadas/rejeitadas, MWN criado/reconvertido/disponível, BRL contábil, usuários em déficit, tempo de execução e versão/commit do código. Publicar distribuição, mediana, percentis e extremos; não escolher somente uma execução favorável.
 
 Os resultados são propriedades do modelo e dos parâmetros simulados, não previsões do mundo real. Limites aceitáveis devem ser definidos antes da execução dos experimentos, evitando ajustar os critérios após ver os resultados.
 
@@ -52,7 +52,7 @@ Usar projeto e credenciais de teste, sem dados reais ou segredos em logs.
 
 ## Nível 5 — Validação econômica e externa
 
-O simulador documenta PoUW como taxa didática, preço de MWC como referência contábil e ausência de uma exchange/mercado real. Portanto, os testes de software não validam:
+O simulador documenta PoUW como taxa didática, preço de MWN como referência contábil e ausência de uma exchange/mercado real. Portanto, os testes de software não validam:
 - trabalho útil verificável ou resistência a fraude;
 - consenso e operação distribuída entre nós independentes;
 - preço, liquidez, formação de mercado ou conversibilidade em BRL;
@@ -79,9 +79,9 @@ A suíte `tests/economic-experiments.test.ts` executa uma matriz exploratória p
 - 10 seeds fixas por cenário;
 - 40 rodadas por execução;
 - 50 execuções no total, com as mesmas seeds reutilizadas entre cenários para permitir comparação pareada;
-- distribuição por cenário com mínimo, percentil 10, mediana, percentil 90 e máximo para taxa de demanda não atendida, UMS geradas/usadas/rejeitadas, MWC gerado/reconvertido/disponível e usuários com demanda não atendida/saldo zero;
+- distribuição por cenário com mínimo, percentil 10, mediana, percentil 90 e máximo para taxa de demanda não atendida, UMS geradas/usadas/rejeitadas, MWN gerado/reconvertido/disponível e usuários com demanda não atendida/saldo zero;
 - invariantes contábeis verificadas em cada execução.
 
-O teste imprime a linha `MWC_UMS_EXPERIMENT_SUMMARY=` no log da CI para facilitar a recuperação do resumo. Os valores são resultados do simulador sob parâmetros declarados, não previsões reais. Esta matriz é exploratória: não substitui análise de sensibilidade mais ampla, calibração com dados operacionais, intervalos de confiança adequados ou validação independente.
+O teste imprime a linha `MWN_UMS_EXPERIMENT_SUMMARY=` no log da CI para facilitar a recuperação do resumo. Os valores são resultados do simulador sob parâmetros declarados, não previsões reais. Esta matriz é exploratória: não substitui análise de sensibilidade mais ampla, calibração com dados operacionais, intervalos de confiança adequados ou validação independente.
 
 A execução da CI para o commit que adiciona a matriz deve terminar antes de os resultados serem classificados como aprovados. Se falhar, investigar a causa com base no log antes de modificar o motor ou afrouxar as asserções.
