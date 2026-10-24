@@ -1,7 +1,7 @@
-# Blueprint HH — Validação externa do projeto MWC/UMS
+# Blueprint HH — Validação externa do projeto MWN/UMS
 
 **Agente responsável:** HH (Head Hunter)  
-**Projeto:** MWC/UMS — simulador e proposta de infraestrutura distribuída  
+**Projeto:** MWN/UMS — simulador e proposta de infraestrutura distribuída  
 **Tipo de missão:** identificar aderência entre contatos já mapeados e a validação externa do projeto  
 **Estado inicial:** protocolo de pesquisa definido; não presumir que entrevistas, pilotos, clientes ou compromissos já existam  
 **Documento-base:** `docs/PROTOCOLO_VALIDACAO_EXTERNA.md`  
@@ -9,14 +9,14 @@
 
 ## 1. Missão
 
-Encontrar, entre os contatos já mapeados e disponíveis no repositório/contexto de contatos autorizado, pessoas ou organizações com aderência demonstrável a pelo menos uma das frentes de validação externa do MWC/UMS. Para cada contato relevante, produzir uma avaliação fundamentada e, quando houver aderência suficiente, uma mensagem de primeiro contato personalizada que proponha uma conversa exploratória sobre o problema operacional — sem apresentar o simulador como produto operacional comprovado nem pedir investimento como primeiro passo.
+Encontrar, entre os contatos já mapeados e disponíveis no repositório/contexto de contatos autorizado, pessoas ou organizações com aderência demonstrável a pelo menos uma das frentes de validação externa do MWN/UMS. Para cada contato relevante, produzir uma avaliação fundamentada e, quando houver aderência suficiente, uma mensagem de primeiro contato personalizada que proponha uma conversa exploratória sobre o problema operacional — sem apresentar o simulador como produto operacional comprovado nem pedir investimento como primeiro passo.
 
 O resultado esperado é evidência de problema, requisitos e possível disposição para avaliar um piloto; não uma lista de nomes genericamente associados a tecnologia.
 
 ## 2. Contexto que o HH deve preservar
 
 O estado conhecido do projeto é limitado:
-- Existe um simulador de MWC/UMS e testes automatizados de robustez e experimentos econômicos.
+- Existe um simulador de MWN/UMS e testes automatizados de robustez e experimentos econômicos.
 - A matriz experimental executa 50 combinações de cenário/semente e 2.000 rodadas simuladas no total. Isso caracteriza testes do modelo, não evidência de desempenho no mundo real.
 - Os testes do adaptador Supabase são baseados em cliente simulado; não equivalem a integração remota real.
 - A taxa denominada PoUW no simulador é parametrizada e não constitui prova independente de trabalho útil verificável.
@@ -27,7 +27,7 @@ Antes de analisar os contatos, o HH deve ler o protocolo-base e, se disponíveis
 
 ## 3. Pergunta de validação
 
-A investigação deve verificar se existe um problema operacional real, mensurável e relevante que justifique explorar a proposta MWC/UMS. O primeiro objetivo não é convencer o contato de que a arquitetura é correta, mas descobrir:
+A investigação deve verificar se existe um problema operacional real, mensurável e relevante que justifique explorar a proposta MWN/UMS. O primeiro objetivo não é convencer o contato de que a arquitetura é correta, mas descobrir:
 1. se o problema existe para aquela organização;
 2. como é resolvido atualmente e qual é seu custo;
 3. quais requisitos de segurança, qualidade, integração e governança seriam obrigatórios;
@@ -64,7 +64,7 @@ Não classificar alguém como aderente apenas por ser investidor, executivo, pes
 
 1. Este blueprint.
 2. `docs/PROTOCOLO_VALIDACAO_EXTERNA.md`.
-3. Documentação técnica atual do MWC/UMS pertinente à conversa.
+3. Documentação técnica atual do MWN/UMS pertinente à conversa.
 4. Diretório de contatos já mapeados, normalmente `contacts/` no ambiente de trabalho autorizado.
 5. Registros anteriores de avaliação ou abordagem do projeto, se existirem.
 
@@ -118,7 +118,7 @@ Preparar mensagem individual apenas para contatos cuja aderência justifique o c
 - referenciar somente fatos verificáveis sobre a pessoa/organização;
 - ser curta, profissional e específica;
 - apresentar o contato como conversa exploratória de validação, não como venda disfarçada;
-- descrever MWC/UMS com linguagem proporcional à evidência disponível;
+- descrever MWN/UMS com linguagem proporcional à evidência disponível;
 - convidar a discutir um problema, requisitos ou crítica técnica;
 - não pedir aporte financeiro no primeiro contato;
 - não prometer retorno, valorização, conversibilidade, preço, liquidez ou remuneração;
