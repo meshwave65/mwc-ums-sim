@@ -141,3 +141,11 @@ Este simulador é didático e não implementa transferências entre carteiras. A
 ## 10. Regra de escolha do MeshWalker
 
 A conversão UMS→MWC e a reconversão MWC→UMS são ações voluntárias acionadas na tabela de usuários. O motor de rodada não executa nenhuma das duas automaticamente. A reconversão só é possível quando existe pelo menos 1 MWC na reserva do mercado; se o usuário não tiver UMS suficiente e optar por não reconverter, a operação correspondente pode ficar não atendida. Esta regra prevalece sobre qualquer descrição anterior que pareça indicar conversão automática por superávit ou déficit.
+
+## 11. Saldo MWC próprio e reconversão automática
+
+Cada usuário possui saldo MWC próprio na carteira simulada, separado do saldo UMS. Converter UMS→MWC credita MWC na própria carteira; reconverter MWC→UMS debita o MWC do próprio usuário e credita UMS. A reserva/indicador agregado MWC representa os MWC mantidos nas carteiras simuladas, não uma autorização para um usuário gastar o saldo de outro.
+
+A opção Auto-reconversão é individual e começa desabilitada. Quando ativada, se a demanda operacional superar o saldo UMS, o motor reconverte automaticamente a quantidade inteira necessária de MWC da própria carteira, respeitando a razão configurada. Se o saldo MWC for insuficiente, a parcela descoberta pode continuar não atendida. Com a opção desligada, a reconversão depende da ação manual MWC → UMS.
+
+O simulador mantém essas preferências apenas em memória e é didático. Na blockchain piloto, a RPC de reconversão voluntária foi implementada; persistência da preferência e integração automática a todos os pontos de execução operacional ainda exigem implementação específica.
