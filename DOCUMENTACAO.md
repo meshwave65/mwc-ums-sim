@@ -131,3 +131,8 @@ O relatório final pode ser baixado como:
 ## 8. Limitações
 
 O protótipo não persiste estado, não faz autenticação, não chama API externa e não usa banco de dados. A reconversão não modela preço variável ou ordens de mercado. A aleatoriedade é controlada, mas o resultado sem seed pode variar. Os valores são exclusivamente demonstrativos.
+
+
+## 9. Invariante econômica UMS/MWC
+
+Este simulador é didático e não implementa transferências entre carteiras. A regra de protocolo que deve orientar evoluções é: recompensas e reconhecimentos internos são denominados em UMS; MWC é a única via de conversão entre ativos negociáveis e UMS; e não há transferência direta de UMS entre MeshWalkers. Para transferir valor entre participantes, a rota conceitual é UMS→MWC, transferência de MWC e decisão voluntária do destinatário de reconverter MWC→UMS. A reserva de mercado do simulador representa uma abstração de mercado/exchange, não um mecanismo real de liquidação P2P.
