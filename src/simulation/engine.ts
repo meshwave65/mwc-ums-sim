@@ -128,21 +128,7 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     addRoundEvent(events, nextRound, validated > 0 ? 'success' : 'warning', 'PoUW', `${user.id}: ${validated.toLocaleString('pt-BR')} UMS reconhecidas; ${invalid.toLocaleString('pt-BR')} UMS rejeitadas na validação.`)
     if (unmetUms > 0) addRoundEvent(events, nextRound, 'danger', 'NÃO ATENDIDO', `${user.id}: ${unmetUms.toLocaleString('pt-BR')} UMS ficaram sem cobertura; nenhuma capacidade foi fabricada.`)
 
-    const conversionThreshold = Number.isFinite(config.conversionThreshold) ? config.conversionThreshold : config.initialUms
-    const conversionBlocks = Math.max(0, Math.floor((user.ums - conversionThreshold) / Math.max(1, config.umsPerMwc)))
-    if (conversionBlocks > 0) {
-      const convertedUms = conversionBlocks * config.umsPerMwc
-      user.ums -= convertedUms
-      user.brl += conversionBlocks * config.brlPerMwc
-      user.mwcCreated += conversionBlocks
-      user.lastMwcCreated = conversionBlocks
-      market.mwcAvailable += conversionBlocks
-      market.mwcGenerated += conversionBlocks
-      market.brlVolume += conversionBlocks * config.brlPerMwc
-      totals.mwcGenerated += conversionBlocks
-      totals.brlVolume += conversionBlocks * config.brlPerMwc
-      addRoundEvent(events, nextRound, 'market', 'UMS → MWC', `${user.id}: ${convertedUms.toLocaleString('pt-BR')} UMS convertidas em ${conversionBlocks} MWC.`)
-    }
+    // UMS→MWC conversion is an explicit MeshWalker decision, never automatic per round.
 
     if (unmetUms > 0) user.status = 'NÃO ATENDIDO'
     else if (user.lastVariation > 0) user.status = 'SUPERÁVIT'
