@@ -1,4 +1,4 @@
-# MWC Storage Node Agent — laboratório V0.1
+# MWN Storage Node Agent — laboratório V0.1
 
 Este agente é o primeiro componente executável para testar armazenamento real em disco antes de provisionar VMs. Usa apenas a biblioteca padrão do Python 3.11+; não altera o frontend nem o esquema Supabase.
 
@@ -19,7 +19,7 @@ Em outro terminal, use o mesmo `MWC_NODE_TOKEN`:
 
 ```bash
 curl -sS http://127.0.0.1:8787/health
-printf 'MWC lab object' > /tmp/mwc-object.bin
+printf 'MWN lab object' > /tmp/mwc-object.bin
 curl -sS -X POST http://127.0.0.1:8787/v1/objects \
   -H "Authorization: Bearer $MWC_NODE_TOKEN" \
   --data-binary @/tmp/mwc-object.bin
