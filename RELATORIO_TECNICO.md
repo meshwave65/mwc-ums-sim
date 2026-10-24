@@ -40,13 +40,13 @@ A ordem contábil da rodada é:
 3. debitar utilização efetiva;
 4. reconhecer geração validada;
 5. classificar o estado do usuário;
-6. converter blocos completos acima do limiar configurável;
+6. permitir conversão voluntária de um bloco UMS→MWC somente por ação explícita do usuário;
 7. atualizar o mercado e os totais;
 8. salvar snapshot e eventos.
 
 O motor usa `Math.ceil` para pedir unidades inteiras de MWC e nunca fabrica frações. Se não houver reserva suficiente, calcula a parcela não atendida e mantém o fato auditável no estado.
 
-O perfil efetivo padrão é sorteado uniformemente entre −30% e +30%. Como essa faixa é simétrica e a demanda não depende do perfil, a tendência média de geração fica próxima do uso normal. A taxa PoUW padrão é 100%, e pode ser reduzida no código/configuração para simular rejeições. O `conversionThreshold` é independente do saldo inicial e permite controlar quando os excedentes começam a alimentar o mercado MWC.
+O perfil efetivo padrão é sorteado uniformemente entre −30% e +30%. Como essa faixa é simétrica e a demanda não depende do perfil, a tendência média de geração fica próxima do uso normal. A taxa PoUW padrão é 100%, e pode ser reduzida no código/configuração para simular rejeições. O `conversionThreshold` é independente do saldo inicial e representa a reserva que o usuário preserva. O motor não converte UMS automaticamente; a interface oferece uma ação explícita para converter um bloco excedente em MWC.
 
 ## 4. Estado e histórico
 
