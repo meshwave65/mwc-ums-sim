@@ -47,12 +47,12 @@ export function SimulationCharts({ state }: SimulationChartsProps) {
         <div className="chart-legend">{state.users.slice(0, 5).map((user, index) => <span key={user.id}><i style={{ background: userColors[index] }} />{user.id}</span>)}<span className="legend-more">+ 5 usuários</span></div>
       </article>
       <article className="panel-surface chart-card">
-        <div className="chart-title"><div><span className="chart-kicker amber">MERCADO EXTERNO</span><h3>MWC em circulação</h3></div><span className="chart-unit">unidades</span></div>
-        {hasRounds ? <ChartFrame max={marketMax} label="Evolução do MWC gerado, reconvertido e disponível" lastLabel={lastLabel}>
+        <div className="chart-title"><div><span className="chart-kicker amber">MERCADO EXTERNO</span><h3>MWN em circulação</h3></div><span className="chart-unit">unidades</span></div>
+        {hasRounds ? <ChartFrame max={marketMax} label="Evolução do MWN gerado, reconvertido e disponível" lastLabel={lastLabel}>
           <path className="chart-line" stroke="#f1b85b" d={linePath(history.map((snapshot) => snapshot.market.mwcGenerated), marketMax, 620, 172, 48, 22)} />
           <path className="chart-line" stroke="#ef8d7d" d={linePath(history.map((snapshot) => snapshot.market.mwcReconverted), marketMax, 620, 172, 48, 22)} />
           <path className="chart-line" stroke="#54e2d0" d={linePath(history.map((snapshot) => snapshot.market.mwcAvailable), marketMax, 620, 172, 48, 22)} />
-        </ChartFrame> : <EmptyChart message="O mercado inicia vazio e começa a receber MWC quando surgem blocos completos." />}
+        </ChartFrame> : <EmptyChart message="O mercado inicia vazio e começa a receber MWN quando surgem blocos completos." />}
         <div className="chart-legend"><span><i className="legend-line amber" />Gerado</span><span><i className="legend-line coral" />Reconvertido</span><span><i className="legend-line cyan" />Disponível</span></div>
       </article>
     </div>
