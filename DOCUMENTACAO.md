@@ -78,7 +78,7 @@ A tabela configurável traz custo em UMS por operação e demanda padrão da rod
 4. O PoUW aplica uma taxa de validação. A parcela validada entra como UMS reconhecida; a parcela inválida fica registrada, mas não entra no saldo. Se a operação não for atendida, a geração é proporcional à parte efetivamente executada e não cria capacidade artificial.
 5. Se o usuário não tiver capacidade para usar o serviço, o motor tenta reconverter MWC inteiro do mercado.
 6. O usuário paga a utilização em UMS, recebe a geração validada e pode atingir um novo bloco acima do limiar de conversão.
-7. Cada bloco completo acima do limiar configurado vira MWC inteiro e credita BRL de referência ao usuário.
+7. A conversão de UMS para MWC não ocorre automaticamente. Quando o saldo excede a reserva configurada em pelo menos um bloco, o usuário pode pressionar **Converter 1 MWC** na própria linha; cada ação debita o bloco de UMS e credita um MWC à reserva do mercado. A conversão, por si só, não representa venda externa nem gera BRL recebido pelo usuário.
 8. O mercado, os KPIs, a tabela, os gráficos, o relatório histórico e o log recebem o novo estado.
 
 A operação é implementada em uma função pura (`runRound`) para manter a regra econômica independente da interface.
@@ -109,7 +109,7 @@ A coluna Gerado mostra o valor da última rodada e o acumulado. Utilizado segue 
 
 ### Mercado externo
 
-O mercado nunca inicia com reserva. MWC cresce quando um usuário converte bloco completo de UMS e diminui quando uma unidade é reconvertida em 1.000 UMS. A geração de uma rodada fica disponível para consumo a partir da rodada seguinte, deixando a reserva observável e evitando que geração e reconversão se anulem na mesma passagem. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
+O mercado nunca inicia com reserva. MWC cresce somente quando um usuário decide explicitamente converter um bloco de UMS pelo botão da tabela; não há conversão automática por rodada. A reserva diminui quando uma unidade é reconvertida em 1.000 UMS para atender uma operação. A geração de uma rodada fica disponível para consumo a partir da rodada seguinte, deixando a reserva observável e evitando que geração e reconversão se anulem na mesma passagem. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
 
 ### Gráficos
 
