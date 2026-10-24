@@ -61,54 +61,6 @@ function App() {
   const reset = () => setState(createInitialState(config))
   const applyConfig = () => { setConfig(draftConfig); setState(createInitialState(draftConfig)) }
 
-  const reconvertMwcToUms = (userId: string) => {
-    setState((current) => {
-      if (config.umsPerMwc <= 0 || current.market.mwcAvailable < 1) return current
-      const userIndex = current.users.findIndex((user) => user.id === userId)
-      if (userIndex < 0) return current
-      const user = current.users[userIndex]
-      if (current.market.mwcAvailable < 1) return current
-      const users = current.users.map((item, index) => index === userIndex ? {
-        ...item,
-        ums: item.ums + config.umsPerMwc,
-        mwcUsed: item.mwcUsed + 1,
-        lastMwcUsed: 1,
-        lastActivity: `Reconversão voluntária de 1 MWC para ${config.umsPerMwc.toLocaleString('pt-BR')} UMS`,
-      } : item)
-      const market = {
-        ...current.market,
-        mwcAvailable: current.market.mwcAvailable - 1,
-        mwcReconverted: current.market.mwcReconverted + 1,
-        brlReference: (current.market.mwcAvailable - 1) * config.brlPerMwc,
-      }
-      const totals = { ...current.totals, mwcReconverted: current.totals.mwcReconverted + 1 }
-      const timestamp = new Date().toISOString()
-      const events = [...current.events, {
-        id: `manual-reconvert-${current.round}-${current.events.length}-${userId}`,
-        round: current.round,
-        time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        tone: 'market' as const,
-        label: 'RECONVERSÃO VOLUNTÁRIA',
-        message: `${userId} adquiriu 1 MWC da reserva de mercado e o reconverteu em ${config.umsPerMwc.toLocaleString('pt-BR')} UMS. Nenhuma transferência direta de UMS ocorreu.`,
-      }].slice(-360)
-      const history = [...current.history]
-      const snapshot = { round: current.round, timestamp, users: users.map((item) => ({ ...item })), market: { ...market }, totals: { ...totals } }
-      if (history.length > 0 && history[history.length - 1].round === current.round) history[history.length - 1] = snapshot
-      else history.push(snapshot)
-      return { ...current, users, market, totals, events, history, report: null }
-    })
-  }
-
-  const toggleAutoReconversion = (userId: string, enabled: boolean) => {
-    setState((current) => ({
-      ...current,
-      users: current.users.map((item) => item.id === userId ? { ...item, autoReconversion: enabled, lastActivity: enabled ? 'Reconversão automática habilitada' : 'Reconversão automática desabilitada' } : item),
-      events: [...current.events, { id: `auto-reconversion-${current.round}-${current.events.length}-${userId}`, round: current.round, time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }), tone: 'market' as const, label: enabled ? 'AUTO-RECONVERSÃO ATIVADA' : 'AUTO-RECONVERSÃO DESATIVADA', message: `${userId}: ${enabled ? 'MWC será reconvertido automaticamente quando faltar UMS, até o saldo MWC disponível.' : 'reconversão MWC→UMS exige ação manual.'}` }].slice(-360),
-    }))
-  }
-
-
-
   return (
     <div className="app-shell">
       <div className="background-grid" aria-hidden="true" />
@@ -130,7 +82,7 @@ function App() {
         <SimulationControls state={state} speed={speed} targetRounds={targetRounds} onSpeedChange={setSpeed} onTargetRoundsChange={setTargetRounds} onStart={start} onPause={pause} onContinue={continueSimulation} onStop={stop} onReset={reset} />
         <CycleFlow state={state} config={config} />
         <KpiStrip state={state} brlPerMwc={config.brlPerMwc} />
-        <div className="workspace-grid"><UserTable users={state.users} config={config} market={state.market} onReconvert={reconvertMwcToUms} onToggleAutoReconversion={toggleAutoReconversion} /><aside className="side-stack"><MarketPanel state={state} config={config} /><EventLog events={state.events} /></aside></div>
+        <div className="workspace-grid"><UserTable users={state.users} config={config} market={state.market} /><aside className="side-stack"><MarketPanel state={state} config={config} /><EventLog events={state.events} /></aside></div>
         <SimulationCharts state={state} />
         <FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} />
         <ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} />
