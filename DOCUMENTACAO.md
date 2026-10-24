@@ -76,9 +76,9 @@ A tabela configurável traz custo em UMS por operação e demanda padrão da rod
 2. O uso em UMS é obtido multiplicando operações alocadas pelo custo do serviço.
 3. O perfil efetivo da rodada determina a capacidade bruta estimada: perfil positivo aumenta geração; perfil negativo reduz. Ele é sorteado diretamente entre o perfil mínimo e o perfil máximo configurados, sem alterar a demanda recebida.
 4. O PoUW aplica uma taxa de validação. A parcela validada entra como UMS reconhecida; a parcela inválida fica registrada, mas não entra no saldo. Se a operação não for atendida, a geração é proporcional à parte efetivamente executada e não cria capacidade artificial.
-5. Se o usuário não tiver capacidade para usar o serviço, o motor tenta reconverter MWC inteiro do mercado.
+5. Se o usuário não tiver UMS suficiente e a auto-reconversão estiver habilitada, o motor adquire MWC disponível no mercado e o reconverte em UMS antes de calcular a parcela não atendida. Se a opção estiver desabilitada, o usuário pode acionar a reconversão manual na tabela.
 6. O usuário paga a utilização em UMS, recebe a geração validada e pode atingir um novo bloco acima do limiar de conversão.
-7. A conversão de UMS para MWC não ocorre automaticamente. Quando o saldo excede a reserva configurada em pelo menos um bloco, o usuário pode pressionar **Converter 1 MWC** na própria linha; cada ação debita o bloco de UMS e credita um MWC à reserva do mercado. A conversão, por si só, não representa venda externa nem gera BRL recebido pelo usuário.
+7. Após o uso e o reconhecimento PoUW, o saldo UMS que exceder o limiar de reserva é convertido automaticamente em blocos inteiros de MWC. Os MWC são disponibilizados no mercado externo; a conversão não representa venda externa nem gera BRL recebido pelo usuário.
 8. O mercado, os KPIs, a tabela, os gráficos, o relatório histórico e o log recebem o novo estado.
 
 A operação é implementada em uma função pura (`runRound`) para manter a regra econômica independente da interface.
@@ -109,7 +109,7 @@ A coluna Gerado mostra o valor da última rodada e o acumulado. Utilizado segue 
 
 ### Mercado externo
 
-O mercado nunca inicia com reserva. MWC cresce somente quando um usuário decide explicitamente converter um bloco de UMS pelo botão da tabela; não há conversão automática por rodada. A reserva diminui quando uma unidade é reconvertida em 1.000 UMS para atender uma operação. A geração de uma rodada fica disponível para consumo a partir da rodada seguinte, deixando a reserva observável e evitando que geração e reconversão se anulem na mesma passagem. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
+O mercado nunca inicia com reserva. MWC cresce automaticamente quando o saldo UMS de um usuário, após uso e reconhecimento PoUW, supera o limiar configurado em pelo menos um bloco. A reserva diminui quando um usuário adquire MWC do mercado e o reconverte em UMS. Com a auto-reconversão habilitada, essa compra/reconversão ocorre automaticamente antes da operação; caso contrário, depende da ação manual. MWC recém-gerado fica disponível para usuários processados depois dele na ordem da rodada, sujeito à reserva de mercado disponível. O BRL de referência do mercado é uma dimensão contábil de reserva; não é forçado a ser igual à soma do BRL dos usuários.
 
 ### Gráficos
 
@@ -140,12 +140,10 @@ Este simulador é didático e não implementa transferências entre carteiras. A
 
 ## 10. Regra de escolha do MeshWalker
 
-A conversão UMS→MWC e a reconversão MWC→UMS são ações voluntárias acionadas na tabela de usuários. O motor de rodada não executa nenhuma das duas automaticamente. A reconversão só é possível quando existe pelo menos 1 MWC na reserva do mercado; se o usuário não tiver UMS suficiente e optar por não reconverter, a operação correspondente pode ficar não atendida. Esta regra prevalece sobre qualquer descrição anterior que pareça indicar conversão automática por superávit ou déficit.
+A conversão UMS→MWC ocorre automaticamente sobre o saldo acima do limiar configurado, em blocos inteiros. A reconversão MWC→UMS pode ser voluntária/manual ou automática, conforme preferência individual. A reconversão exige MWC disponível na reserva do mercado; se não houver UMS suficiente e a auto-reconversão estiver desligada ou a reserva MWC for insuficiente, a operação correspondente pode ficar não atendida.
 
 ## 11. Saldo MWC próprio e reconversão automática
 
-Cada usuário possui saldo MWC próprio na carteira simulada, separado do saldo UMS. Converter UMS→MWC credita MWC na própria carteira; reconverter MWC→UMS debita o MWC do próprio usuário e credita UMS. A reserva/indicador agregado MWC representa os MWC mantidos nas carteiras simuladas, não uma autorização para um usuário gastar o saldo de outro.
+A reserva agregada MWC representa os MWC disponíveis no mercado/exchange simulado, não saldos MWC individuais transferíveis. A opção Auto-reconversão é individual e começa desabilitada. Quando ativada, se a demanda operacional exceder o saldo UMS, o motor adquire a quantidade inteira necessária de MWC da reserva disponível e a reconverte em UMS, respeitando a razão configurada. Se a reserva MWC for insuficiente, a parcela descoberta pode continuar não atendida. Com a opção desligada, o usuário pode acionar manualmente **MWC → UMS**, que também exige MWC disponível no mercado.
 
-A opção Auto-reconversão é individual e começa desabilitada. Quando ativada, se a demanda operacional superar o saldo UMS, o motor reconverte automaticamente a quantidade inteira necessária de MWC da própria carteira, respeitando a razão configurada. Se o saldo MWC for insuficiente, a parcela descoberta pode continuar não atendida. Com a opção desligada, a reconversão depende da ação manual MWC → UMS.
-
-O simulador mantém essas preferências apenas em memória e é didático. Na blockchain piloto, a RPC de reconversão voluntária foi implementada; persistência da preferência e integração automática a todos os pontos de execução operacional ainda exigem implementação específica.
+A conversão automática UMS→MWC acima do limiar, a reconversão manual e a reconversão automática por preferência são comportamentos do simulador em memória. A blockchain piloto já possui a RPC de reconversão voluntária, mas a persistência da preferência e a integração automática a todos os pontos de execução operacional ainda exigem implementação específica.
