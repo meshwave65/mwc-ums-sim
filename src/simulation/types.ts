@@ -34,6 +34,8 @@ export interface SimulationConfig {
 export interface UserState extends UserConfig {
   roundProfile: number
   ums: number
+  mwcBalance: number
+  autoReconversion: boolean
   brl: number
   servicesExecuted: number
   servicesUnmet: number
