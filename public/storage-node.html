@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MWC Storage Node — protótipo V0</title>
+<title>MWN Storage Node — protótipo V0</title>
 <style>
 :root{color-scheme:dark;--bg:#07131d;--panel:#102433;--line:#244353;--text:#e3edf2;--muted:#8ba6b5;--cyan:#54e2d0;--green:#62d69b;--amber:#f1b85b}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0,#123344 0,transparent 36rem),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
@@ -17,7 +17,7 @@ input[type=email],input[type=password]{width:100%;padding:10px;background:#07172
 </head>
 <body>
 <main>
-<header class="top"><div><div class="eyebrow">MeshWave · protótipo de armazenamento</div><h1>MWC Storage Node</h1><p>Configuração local, persistência de objetos e acompanhamento da contribuição.</p></div><span class="status" id="connection">Modo local · offline</span></header>
+<header class="top"><div><div class="eyebrow">MeshWave · protótipo de armazenamento</div><h1>MWN Storage Node</h1><p>Configuração local, persistência de objetos e acompanhamento da contribuição.</p></div><span class="status" id="connection">Modo local · offline</span></header>
 <div class="notice" style="margin-top:16px">Protótipo V0: os objetos e as configurações são guardados neste navegador. A sincronização Supabase fica disponível após autenticação. Blockchain distribuída e créditos UMS reais ainda não estão conectados. Nenhum valor abaixo representa crédito confirmado.</div>
 <section class="grid">
 <article class="card"><h2>Capacidade cedida</h2><div class="field"><label for="capacity">Capacidade elegível declarada (GB)</label><input id="capacity" type="number" min="1" max="100000" step="1" value="500"></div>
@@ -33,7 +33,7 @@ input[type=email],input[type=password]{width:100%;padding:10px;background:#07172
 <article class="card wide" id="networkCard">
   <div class="row"><div><h2>Rede compartilhada</h2><p>Sincronização autenticada com o Supabase. Objetos continuam guardados localmente se estiver offline.</p></div><span class="status" id="remoteStatus">Não conectado</span></div>
   <div id="authPanel">
-    <div class="field"><label for="remoteEmail">E-mail da conta MWC</label><input id="remoteEmail" type="email" autocomplete="username" placeholder="seu e-mail"></div>
+    <div class="field"><label for="remoteEmail">E-mail da conta MWN</label><input id="remoteEmail" type="email" autocomplete="username" placeholder="seu e-mail"></div>
     <div class="field"><label for="remotePassword">Senha</label><input id="remotePassword" type="password" autocomplete="current-password" placeholder="Senha da conta"></div>
     <div class="row"><button id="remoteLogin">Entrar no Supabase</button><button id="remoteLogout" class="secondary" hidden>Sair</button></div>
     <p class="muted" id="authStatus">A sincronização exige uma conta autenticada. Não use chaves administrativas aqui.</p>
@@ -44,7 +44,7 @@ input[type=email],input[type=password]{width:100%;padding:10px;background:#07172
 </article>
 <article class="card wide"><div class="row"><h2>Objetos armazenados</h2><button class="secondary" id="clearObjects">Apagar objetos de teste</button></div><div id="objectList" class="list"><div class="empty">Nenhum objeto armazenado.</div></div></article>
 </section>
-<footer class="footer">MWC Storage Node V0 · protótipo local para testes de interface e persistência. Feche esta página somente depois de concluir operações em andamento.</footer>
+<footer class="footer">MWN Storage Node V0 · protótipo local para testes de interface e persistência. Feche esta página somente depois de concluir operações em andamento.</footer>
 </main>
 <script>
 const DB_NAME='mwc-storage-node-v0', STORE='objects', CONFIG_KEY='mwc-storage-config-v0', HISTORY_KEY='mwc-storage-history-v0';
