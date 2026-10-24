@@ -1,13 +1,13 @@
 # Manifesto Público da Emissão Genesis MeshWave
 **Documento de transparência — versão para revisão**
 
-## Apêndice econômico: formação do valor de referência da MWC
+## Apêndice econômico: formação do valor de referência da MWN
 
-A metodologia preliminar, as premissas de custo da máquina-padrão, a relação de conta entre UMS e MWC, o deságio hipotético de 50% e a comparação com armazenamento por GB-mês estão documentados em [Apêndice — Formação do valor econômico de referência da MWC](APPENDIX_MWC_REFERENCE_VALUE.md). O apêndice também distingue essa metodologia de uma hipótese anterior de R$ 0,006 por MWC, baseada em premissas diferentes de armazenamento.
+A metodologia preliminar, as premissas de custo da máquina-padrão, a relação de conta entre UMS e MWN, o deságio hipotético de 50% e a comparação com armazenamento por GB-mês estão documentados em [Apêndice — Formação do valor econômico de referência da MWN](APPENDIX_MWC_REFERENCE_VALUE.md). O apêndice também distingue essa metodologia de uma hipótese anterior de R$ 0,006 por MWN, baseada em premissas diferentes de armazenamento.
 
-O valor inicial de referência combina parâmetros econômicos indicativos com a credibilidade do fundador e a confiança na capacidade de execução e no potencial de utilidade do ecossistema MeshWave. Os cálculos tornam a origem do parâmetro transparente, mas não esgotam a formação de valor da MWC. Nesta etapa, a prioridade é dispor de uma referência simples, razoável e explicável; a auditoria futura deverá revisar as premissas objetivas à luz de evidências e dados operacionais. Confiança e potencial não equivalem a garantia de preço realizável, liquidez, conversibilidade ou valorização.
+O valor inicial de referência combina parâmetros econômicos indicativos com a credibilidade do fundador e a confiança na capacidade de execução e no potencial de utilidade do ecossistema MeshWave. Os cálculos tornam a origem do parâmetro transparente, mas não esgotam a formação de valor da MWN. Nesta etapa, a prioridade é dispor de uma referência simples, razoável e explicável; a auditoria futura deverá revisar as premissas objetivas à luz de evidências e dados operacionais. Confiança e potencial não equivalem a garantia de preço realizável, liquidez, conversibilidade ou valorização.
 
-## 1. Definições oficiais: UMS e MWC
+## 1. Definições oficiais: UMS e MWN
 
 ### UMS — Unidade MeshWave de Serviços
 
@@ -15,15 +15,15 @@ A **UMS (Unidade MeshWave de Serviços)** é a unidade econômica nativa da Mesh
 
 A UMS representa capacidade de pagamento e acesso a serviços dentro da economia operacional da MeshWave. Sua utilidade interna não depende, por definição, de cotação em reais, dólares ou outra moeda externa. A definição de UMS não estabelece, por si só, preço monetário, conversibilidade externa, liquidez ou valorização.
 
-### MWC — MeshWave Crypto Coin
+### MWN — MeshWave Network
 
-A **MWC (MeshWave Crypto Coin)** é a unidade cripto concebida como possível instrumento de representação e conexão entre a economia interna da MeshWave e o ambiente econômico externo. Seu uso, emissão, eventual conversão a partir de UMS e disponibilização ao mercado dependem de decisões expressas do fundador e de regras formalmente publicadas.
+A **MWN (MeshWave Network)** é a unidade cripto concebida como possível instrumento de representação e conexão entre a economia interna da MeshWave e o ambiente econômico externo. Seu uso, emissão, eventual conversão a partir de UMS e disponibilização ao mercado dependem de decisões expressas do fundador e de regras formalmente publicadas.
 
-MWC não é a unidade de pagamento necessária ao funcionamento interno da MeshWave. A existência de UMS não implica a emissão de MWC, uma taxa automática de conversão, direito de resgate, preço de mercado ou liquidez garantida. MWC é uma opção de desenho econômico e de experiência do usuário para uma possível conexão externa, não uma condição para a utilidade operacional da UMS.
+MWN não é a unidade de pagamento necessária ao funcionamento interno da MeshWave. A existência de UMS não implica a emissão de MWN, uma taxa automática de conversão, direito de resgate, preço de mercado ou liquidez garantida. MWN é uma opção de desenho econômico e de experiência do usuário para uma possível conexão externa, não uma condição para a utilidade operacional da UMS.
 
 ### Distinção essencial
 
-**UMS é a unidade da economia operacional interna; MWC é o instrumento cripto potencial de conexão com a economia externa.** As duas unidades não são sinônimas e não devem ser tratadas como equivalentes sem uma regra explícita e formalmente aprovada.
+**UMS é a unidade da economia operacional interna; MWN é o instrumento cripto potencial de conexão com a economia externa.** As duas unidades não são sinônimas e não devem ser tratadas como equivalentes sem uma regra explícita e formalmente aprovada.
 
 ## 1. Como funciona a economia do ecossistema
 
@@ -33,23 +33,23 @@ A MeshWave distingue a economia interna do ecossistema da sua relação com a ec
 
 A UMS está vinculada à capacidade de operar dentro do ecossistema — por exemplo, pagar por serviços, processamento e recursos disponíveis nele. Sua função não depende de possuir um preço monetário externo. Utilidade operacional interna, avaliação econômica do patrimônio que fundamenta a Genesis e eventual preço externo são conceitos diferentes e não devem ser confundidos.
 
-**MWC é uma possibilidade de conexão com a economia exterior, não um requisito para a economia interna funcionar.** Quando utilizado, MWC pode servir como portal entre o ecossistema e o mundo econômico externo. Sua adoção facilita a compreensão do modelo por usuários familiarizados com criptomoedas, mas não transforma a UMS em uma moeda cujo funcionamento dependa de cotação externa.
+**MWN é uma possibilidade de conexão com a economia exterior, não um requisito para a economia interna funcionar.** Quando utilizado, MWN pode servir como portal entre o ecossistema e o mundo econômico externo. Sua adoção facilita a compreensão do modelo por usuários familiarizados com criptomoedas, mas não transforma a UMS em uma moeda cujo funcionamento dependa de cotação externa.
 
-Em uma implementação mais restrita, a conexão poderia ser tratada como uma transferência de UMS, sem introduzir MWC como unidade separada. A opção de representar essa conexão por meio de MWC é uma escolha de desenho e experiência do usuário, não uma necessidade econômica intrínseca da UMS.
+Em uma implementação mais restrita, a conexão poderia ser tratada como uma transferência de UMS, sem introduzir MWN como unidade separada. A opção de representar essa conexão por meio de MWN é uma escolha de desenho e experiência do usuário, não uma necessidade econômica intrínseca da UMS.
 
-A eventual conversão de UMS em MWC e a decisão de disponibilizar MWC ao mercado são atos discricionários do fundador, sujeitos às regras e decisões que forem formalmente publicadas. Não são operações automáticas decorrentes do uso da UMS, nem direitos acionados unilateralmente pelo sistema. O sistema pode registrar e executar operações autorizadas, mas não decide por conta própria que deve converter UMS em MWC, emitir MWC ou colocá-lo no mercado.
+A eventual conversão de UMS em MWN e a decisão de disponibilizar MWN ao mercado são atos discricionários do fundador, sujeitos às regras e decisões que forem formalmente publicadas. Não são operações automáticas decorrentes do uso da UMS, nem direitos acionados unilateralmente pelo sistema. O sistema pode registrar e executar operações autorizadas, mas não decide por conta própria que deve converter UMS em MWN, emitir MWN ou colocá-lo no mercado.
 
-Portanto, três coisas não podem ser confundidas: a existência e o uso interno da UMS; o reconhecimento Genesis de uma quantidade de UMS; e uma eventual decisão de converter UMS em MWC ou disponibilizar MWC externamente. Uma não implica automaticamente as outras.
+Portanto, três coisas não podem ser confundidas: a existência e o uso interno da UMS; o reconhecimento Genesis de uma quantidade de UMS; e uma eventual decisão de converter UMS em MWN ou disponibilizar MWN externamente. Uma não implica automaticamente as outras.
 
 Este manifesto destina-se a usuários, MeshWalkers, potenciais parceiros e auditores. Deve permanecer acessível para consulta e ser atualizado quando houver decisões formais, evidências novas ou resultados de auditoria.
 
-**Este documento descreve uma política proposta. Não afirma que a auditoria independente já ocorreu, que uma quantidade definitiva de UMS foi certificada, que MWC tenha sido emitido ou disponibilizado ao mercado, que exista preço de mercado, nem que haja liquidez garantida.**
+**Este documento descreve uma política proposta. Não afirma que a auditoria independente já ocorreu, que uma quantidade definitiva de UMS foi certificada, que MWN tenha sido emitido ou disponibilizado ao mercado, que exista preço de mercado, nem que haja liquidez garantida.**
 
 ## 2. O que a emissão Genesis reconhece — e o que não reconhece
 
 A emissão Genesis refere-se à **UMS**. Ela busca reconhecer, em uma alocação inicial, o trabalho intelectual, conceitual e técnico desenvolvido pelo fundador e a contribuição desse patrimônio para a formação e o potencial do ecossistema. Esse reconhecimento inicial do trabalho acumulado é distinto da remuneração por trabalhos futuros realizados dentro da MeshWave: o trabalho dentro do ecossistema, inclusive o do fundador, é pago em UMS segundo as regras aplicáveis.
 
-A emissão Genesis não é uma emissão de MWC. O reconhecimento de UMS não cria, por si só, MWC, não determina uma taxa automática de conversão e não obriga o fundador a disponibilizar MWC ao mercado. Essas decisões são distintas e permanecem discricionárias do fundador, conforme as regras que forem publicadas.
+A emissão Genesis não é uma emissão de MWN. O reconhecimento de UMS não cria, por si só, MWN, não determina uma taxa automática de conversão e não obriga o fundador a disponibilizar MWN ao mercado. Essas decisões são distintas e permanecem discricionárias do fundador, conforme as regras que forem publicadas.
 
 A proposta Genesis parte do trabalho acumulado pelo fundador ao longo de mais de dois anos de desenvolvimento contínuo declarado. Esse trabalho abrange, entre outros materiais a inventariar e verificar:
 
@@ -79,7 +79,7 @@ A avaliação deverá separar dimensões que não são equivalentes:
 
 A avaliação deverá evitar dupla contagem de componentes que pertençam ao mesmo sistema, dependam uns dos outros ou representem versões sucessivas de uma mesma solução. Projeções financeiras e potencial de mercado não serão apresentados como ativos realizados.
 
-A conclusão da avaliação deverá fundamentar a quantidade de UMS reconhecida na Genesis. Não deverá ser interpretada automaticamente como avaliação de MWC, preço de oferta de MWC ou preço de mercado.
+A conclusão da avaliação deverá fundamentar a quantidade de UMS reconhecida na Genesis. Não deverá ser interpretada automaticamente como avaliação de MWN, preço de oferta de MWN ou preço de mercado.
 
 ## 4. Avaliação preliminar e auditoria independente
 
@@ -107,7 +107,7 @@ O período Genesis permanece aberto apenas conforme as regras publicadas e termi
 
 A confirmação de pagamento e o registro da transferência são eventos distintos: uma intenção de compra, uma ordem ou uma notificação de pagamento ainda não confirmada não deve ser registrada como aquisição concluída.
 
-A distribuição de UMS a participantes não constitui, por si só, conversão em MWC. Qualquer conversão de UMS em MWC, assim como a quantidade de MWC eventualmente disponibilizada ao mercado, depende de decisão discricionária do fundador e de regras específicas publicadas para essa operação. Não se deve inferir uma taxa de conversão, disponibilidade ou obrigação de conversão apenas a partir da emissão Genesis.
+A distribuição de UMS a participantes não constitui, por si só, conversão em MWN. Qualquer conversão de UMS em MWN, assim como a quantidade de MWN eventualmente disponibilizada ao mercado, depende de decisão discricionária do fundador e de regras específicas publicadas para essa operação. Não se deve inferir uma taxa de conversão, disponibilidade ou obrigação de conversão apenas a partir da emissão Genesis.
 
 ## 6. Se a auditoria encontrar emissão Genesis de UMS excedente
 
@@ -120,24 +120,24 @@ A carteira de conciliação Genesis só será criada se a auditoria identificar 
 
 Uma recompra comum é diferente de uma recompra designada para conciliação. A operação GENESIS_RECONCILIATION_BURN destina unidades adquiridas voluntariamente à destruição permanente, sem retorno à circulação. O valor econômico reconhecido para a recompra reduz a obrigação de conciliação; quantidade destruída e valor amortizado são registrados separadamente. Essa operação não autoriza, por si só, confisco ou retirada compulsória de unidades de titulares.
 
-Qualquer obrigação de conciliação derivada da auditoria deverá ser registrada separadamente dos saldos de UMS e MWC. A existência de uma obrigação econômica não autoriza criar saldo negativo em uma carteira de titular, nem significa que MWC será emitido automaticamente para cobri-la.
+Qualquer obrigação de conciliação derivada da auditoria deverá ser registrada separadamente dos saldos de UMS e MWN. A existência de uma obrigação econômica não autoriza criar saldo negativo em uma carteira de titular, nem significa que MWN será emitido automaticamente para cobri-la.
 
-## 7. Relação entre UMS, MWC e economia externa
+## 7. Relação entre UMS, MWN e economia externa
 
-UMS e MWC têm funções distintas:
+UMS e MWN têm funções distintas:
 
 - **UMS:** moeda de pagamento da economia interna do ecossistema e unidade à qual se refere a emissão Genesis.
-- **MWC:** único portal de conexão entre a economia do ecossistema e o mundo econômico exterior, cuja eventual conversão a partir de UMS e disponibilização ao mercado dependem de decisão discricionária do fundador.
+- **MWN:** único portal de conexão entre a economia do ecossistema e o mundo econômico exterior, cuja eventual conversão a partir de UMS e disponibilização ao mercado dependem de decisão discricionária do fundador.
 
-A quantidade de UMS reconhecida, a quantidade de MWC eventualmente emitida ou disponibilizada, uma eventual equivalência contábil, o preço de oferta e o preço de mercado são grandezas distintas. Não devem ser tratadas como equivalentes sem regras explícitas.
+A quantidade de UMS reconhecida, a quantidade de MWN eventualmente emitida ou disponibilizada, uma eventual equivalência contábil, o preço de oferta e o preço de mercado são grandezas distintas. Não devem ser tratadas como equivalentes sem regras explícitas.
 
-A política de conversão, quando definida, deverá declarar os critérios aplicáveis, as condições, os limites e a forma de registro das operações. Este manifesto não fixa uma taxa final de conversão, um preço de mercado, uma obrigação de conversão ou uma promessa de valorização de MWC.
+A política de conversão, quando definida, deverá declarar os critérios aplicáveis, as condições, os limites e a forma de registro das operações. Este manifesto não fixa uma taxa final de conversão, um preço de mercado, uma obrigação de conversão ou uma promessa de valorização de MWN.
 
-A existência de UMS no ecossistema não garante que haja MWC disponível para conversão. A conversão não é condição necessária para que a UMS tenha utilidade operacional dentro da MeshWave. Se MWC for adotado como mecanismo de conexão externa, sua disponibilização continua sendo uma decisão separada do fundador e não altera retroativamente a natureza da emissão Genesis de UMS.
+A existência de UMS no ecossistema não garante que haja MWN disponível para conversão. A conversão não é condição necessária para que a UMS tenha utilidade operacional dentro da MeshWave. Se MWN for adotado como mecanismo de conexão externa, sua disponibilização continua sendo uma decisão separada do fundador e não altera retroativamente a natureza da emissão Genesis de UMS.
 
 ## 8. Transparência, rastreabilidade e correções
 
-A emissão e a conciliação deverão deixar um histórico verificável de eventos, incluindo a referência ao relatório de auditoria, os ativos e quantidades envolvidos, a regra de valoração aplicada e o saldo remanescente de qualquer obrigação. Os registros deverão distinguir operações de UMS das operações eventualmente relacionadas a MWC.
+A emissão e a conciliação deverão deixar um histórico verificável de eventos, incluindo a referência ao relatório de auditoria, os ativos e quantidades envolvidos, a regra de valoração aplicada e o saldo remanescente de qualquer obrigação. Os registros deverão distinguir operações de UMS das operações eventualmente relacionadas a MWN.
 
 Correções posteriores deverão ser registradas por novos eventos que referenciem os anteriores; não deverão apagar silenciosamente o histórico. Os registros públicos devem minimizar dados pessoais e segredos comerciais, preservando evidências e documentos detalhados em repositórios controlados quando necessário.
 
@@ -152,18 +152,18 @@ Antes de declarar a emissão Genesis definitiva, a MeshWave deverá publicar, na
 - identificação e escopo do auditor independente;
 - relatório final de auditoria ou sumário verificável com ressalvas;
 - quantidade final de UMS reconhecida e regras de encerramento Genesis;
-- regras específicas para qualquer conversão de UMS em MWC, se e quando forem aprovadas;
+- regras específicas para qualquer conversão de UMS em MWN, se e quando forem aprovadas;
 - distinção entre valor de referência, preço de oferta e preço de mercado, quando aplicável;
 - registro de emissão, transferências, destruições e conciliações relevantes;
-- decisões formais do fundador relativas à eventual disponibilização de MWC ao mercado.
+- decisões formais do fundador relativas à eventual disponibilização de MWN ao mercado.
 
-A publicação desses elementos deverá preservar a distinção entre regras internas de pagamento, emissão Genesis de UMS e decisões externas relativas a MWC.
+A publicação desses elementos deverá preservar a distinção entre regras internas de pagamento, emissão Genesis de UMS e decisões externas relativas a MWN.
 
 ## 10. Declaração de princípio
 
 A proposta Genesis não se fundamenta na alegação de que uma ideia, por si só, garante valor econômico. Fundamenta-se na existência de trabalho intelectual e técnico que deverá ser documentado, classificado, avaliado e submetido a verificação independente. O potencial do ecossistema é relevante para a análise, mas deve ser distinguido do valor comprovado dos artefatos existentes e dos resultados comerciais efetivamente realizados.
 
-A Genesis reconhece UMS; não constitui emissão de MWC. A UMS é a moeda nativa utilizada para pagar o trabalho e os serviços dentro do ecossistema, inclusive o trabalho do fundador, e sua utilidade está ligada à capacidade de operar na MeshWave, não à existência necessária de um preço externo. MWC é uma possibilidade de conexão com a economia exterior, adotada também por facilitar a compreensão do modelo pelo usuário, mas não é requisito para a economia interna funcionar. Qualquer conversão ou disponibilização de MWC permanece uma decisão discricionária do fundador, não um ato automático do sistema.
+A Genesis reconhece UMS; não constitui emissão de MWN. A UMS é a moeda nativa utilizada para pagar o trabalho e os serviços dentro do ecossistema, inclusive o trabalho do fundador, e sua utilidade está ligada à capacidade de operar na MeshWave, não à existência necessária de um preço externo. MWN é uma possibilidade de conexão com a economia exterior, adotada também por facilitar a compreensão do modelo pelo usuário, mas não é requisito para a economia interna funcionar. Qualquer conversão ou disponibilização de MWN permanece uma decisão discricionária do fundador, não um ato automático do sistema.
 
 A confiança deverá resultar da transparência dos critérios, da possibilidade de verificação, da independência da auditoria e do respeito às regras de emissão e conciliação — não apenas da autoridade de quem fundou o projeto.
 
@@ -172,4 +172,4 @@ A confiança deverá resultar da transparência dos critérios, da possibilidade
 **Estado deste documento:** minuta de política para revisão.  
 **Estado da auditoria independente:** não declarada como concluída neste documento.  
 **Estado da emissão Genesis definitiva de UMS:** depende da aprovação das regras, da avaliação e da auditoria.  
-**Estado da conversão e disponibilização de MWC:** decisão separada, discricionária do fundador; nenhuma conversão ou disponibilização é afirmada por este documento.
+**Estado da conversão e disponibilização de MWN:** decisão separada, discricionária do fundador; nenhuma conversão ou disponibilização é afirmada por este documento.
