@@ -69,16 +69,17 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     let mwcUsed = 0
     let unmetUms = 0
 
-    if (usage.cost > availableCapacity && user.autoReconversion && user.mwcBalance > 0 && config.umsPerMwc > 0) {
+    if (usage.cost > availableCapacity && user.autoReconversion && market.mwcAvailable > 0 && config.umsPerMwc > 0) {
       const deficit = usage.cost - availableCapacity
       const requiredMwc = Math.ceil(deficit / config.umsPerMwc)
-      mwcUsed = Math.min(user.mwcBalance, requiredMwc)
+      // The user acquires MWC from the market and immediately reconverts it.
+      // No other user's UMS is transferred; only market inventory is consumed.
+      mwcUsed = Math.min(market.mwcAvailable, requiredMwc)
       const reconvertedUms = mwcUsed * config.umsPerMwc
-      user.mwcBalance -= mwcUsed
       availableCapacity += reconvertedUms
-      market.mwcAvailable = Math.max(0, market.mwcAvailable - mwcUsed)
+      market.mwcAvailable -= mwcUsed
       market.mwcReconverted += mwcUsed
-      pushEvent(events, nextRound, 'market', 'RECONVERSÃO AUTOMÁTICA', `${user.id}: reconversão automática de ${mwcUsed} MWC em ${reconvertedUms.toLocaleString('pt-BR')} UMS para cobrir a demanda operacional.`)
+      pushEvent(events, nextRound, 'market', 'COMPRA E RECONVERSÃO AUTOMÁTICA', `${user.id}: adquiriu ${mwcUsed} MWC no mercado e reconverteu em ${reconvertedUms.toLocaleString('pt-BR')} UMS para cobrir a demanda operacional.`)
     }
     if (usage.cost > availableCapacity) unmetUms = Math.max(0, usage.cost - availableCapacity)
 
@@ -102,6 +103,8 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     user.unmetUms += unmetUms
     user.lastGenerated = validated
     user.lastUsed = actualUsed
+    user.lastMwcCreated = 0
+    user.lastMwcUsed = mwcUsed
     user.lastVariation = validated - actualUsed
     user.lastValidated = validated
     user.lastInvalid = invalid
@@ -118,7 +121,20 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     addRoundEvent(events, nextRound, validated > 0 ? 'success' : 'warning', 'PoUW', `${user.id}: ${validated.toLocaleString('pt-BR')} UMS reconhecidas; ${invalid.toLocaleString('pt-BR')} UMS rejeitadas na validação.`)
     if (unmetUms > 0) addRoundEvent(events, nextRound, 'danger', 'NÃO ATENDIDO', `${user.id}: ${unmetUms.toLocaleString('pt-BR')} UMS ficaram sem cobertura; nenhuma capacidade foi fabricada.`)
 
-    // UMS→MWC conversion is an explicit MeshWalker decision, never automatic per round.
+    // Validated UMS above the configured reserve is automatically converted into whole MWC.
+    // MWC enters the market; it is not transferred to another MeshWalker's UMS balance.
+    const reserve = Math.max(0, config.conversionThreshold)
+    const convertibleUms = Math.max(0, user.ums - reserve)
+    const mwcCreated = config.umsPerMwc > 0 ? Math.floor(convertibleUms / config.umsPerMwc) : 0
+    if (mwcCreated > 0) {
+      user.ums -= mwcCreated * config.umsPerMwc
+      user.mwcCreated += mwcCreated
+      user.lastMwcCreated = mwcCreated
+      market.mwcAvailable += mwcCreated
+      market.mwcGenerated += mwcCreated
+      totals.mwcGenerated += mwcCreated
+      pushEvent(events, nextRound, 'market', 'CONVERSÃO AUTOMÁTICA UMS → MWC', `${user.id}: ${(mwcCreated * config.umsPerMwc).toLocaleString('pt-BR')} UMS acima do limiar convertidas automaticamente em ${mwcCreated} MWC, disponibilizados no mercado.`)
+    }
 
     if (unmetUms > 0) user.status = 'NÃO ATENDIDO'
     else if (user.lastVariation > 0) user.status = 'SUPERÁVIT'
