@@ -63,13 +63,15 @@ function App() {
 
   const reconvertMwcToUms = (userId: string) => {
     setState((current) => {
-      if (current.market.mwcAvailable < 1 || config.umsPerMwc <= 0) return current
+      if (config.umsPerMwc <= 0) return current
       const userIndex = current.users.findIndex((user) => user.id === userId)
       if (userIndex < 0) return current
       const user = current.users[userIndex]
+      if (user.mwcBalance < 1) return current
       const users = current.users.map((item, index) => index === userIndex ? {
         ...item,
         ums: item.ums + config.umsPerMwc,
+        mwcBalance: item.mwcBalance - 1,
         mwcUsed: item.mwcUsed + 1,
         lastMwcUsed: 1,
         lastActivity: `Reconversão voluntária de 1 MWC para ${config.umsPerMwc.toLocaleString('pt-BR')} UMS`,
@@ -98,6 +100,14 @@ function App() {
     })
   }
 
+  const toggleAutoReconversion = (userId: string, enabled: boolean) => {
+    setState((current) => ({
+      ...current,
+      users: current.users.map((item) => item.id === userId ? { ...item, autoReconversion: enabled, lastActivity: enabled ? 'Reconversão automática habilitada' : 'Reconversão automática desabilitada' } : item),
+      events: [...current.events, { id: `auto-reconversion-${current.round}-${current.events.length}-${userId}`, round: current.round, time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }), tone: 'market' as const, label: enabled ? 'AUTO-RECONVERSÃO ATIVADA' : 'AUTO-RECONVERSÃO DESATIVADA', message: `${userId}: ${enabled ? 'MWC será reconvertido automaticamente quando faltar UMS, até o saldo MWC disponível.' : 'reconversão MWC→UMS exige ação manual.'}` }].slice(-360),
+    }))
+  }
+
   const convertUmsToMwc = (userId: string) => {
     setState((current) => {
       const userIndex = current.users.findIndex((user) => user.id === userId)
@@ -110,6 +120,7 @@ function App() {
       const users = current.users.map((item, index) => index === userIndex ? {
         ...item,
         ums: item.ums - convertedUms,
+        mwcBalance: item.mwcBalance + 1,
         mwcCreated: item.mwcCreated + 1,
         lastMwcCreated: 1,
         lastActivity: `Conversão voluntária de ${convertedUms.toLocaleString('pt-BR')} UMS para 1 MWC`,
@@ -159,7 +170,7 @@ function App() {
         <SimulationControls state={state} speed={speed} targetRounds={targetRounds} onSpeedChange={setSpeed} onTargetRoundsChange={setTargetRounds} onStart={start} onPause={pause} onContinue={continueSimulation} onStop={stop} onReset={reset} />
         <CycleFlow state={state} config={config} />
         <KpiStrip state={state} brlPerMwc={config.brlPerMwc} />
-        <div className="workspace-grid"><UserTable users={state.users} config={config} market={state.market} onConvert={convertUmsToMwc} onReconvert={reconvertMwcToUms} /><aside className="side-stack"><MarketPanel state={state} config={config} /><EventLog events={state.events} /></aside></div>
+        <div className="workspace-grid"><UserTable users={state.users} config={config} market={state.market} onConvert={convertUmsToMwc} onReconvert={reconvertMwcToUms} onToggleAutoReconversion={toggleAutoReconversion} /><aside className="side-stack"><MarketPanel state={state} config={config} /><EventLog events={state.events} /></aside></div>
         <SimulationCharts state={state} />
         <FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} />
         <ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} />
