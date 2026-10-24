@@ -40,13 +40,13 @@ A ordem contábil da rodada é:
 3. debitar utilização efetiva;
 4. reconhecer geração validada;
 5. classificar o estado do usuário;
-6. permitir conversão voluntária de um bloco UMS→MWC somente por ação explícita do usuário;
+6. converter blocos completos acima do limiar configurável;
 7. atualizar o mercado e os totais;
 8. salvar snapshot e eventos.
 
 O motor usa `Math.ceil` para pedir unidades inteiras de MWC e nunca fabrica frações. Se não houver reserva suficiente, calcula a parcela não atendida e mantém o fato auditável no estado.
 
-O perfil efetivo padrão é sorteado uniformemente entre −30% e +30%. Como essa faixa é simétrica e a demanda não depende do perfil, a tendência média de geração fica próxima do uso normal. A taxa PoUW padrão é 100%, e pode ser reduzida no código/configuração para simular rejeições. O `conversionThreshold` é independente do saldo inicial e representa a reserva que o usuário preserva. O motor não converte UMS automaticamente; a interface oferece uma ação explícita para converter um bloco excedente em MWC.
+O perfil efetivo padrão é sorteado uniformemente entre −30% e +30%. Como essa faixa é simétrica e a demanda não depende do perfil, a tendência média de geração fica próxima do uso normal. A taxa PoUW padrão é 100%, e pode ser reduzida no código/configuração para simular rejeições. O `conversionThreshold` é independente do saldo inicial e permite controlar quando os excedentes começam a alimentar o mercado MWC.
 
 ## 4. Estado e histórico
 
@@ -82,13 +82,3 @@ O `public/manus-routes.json` declara a única rota `/`, permitindo que o Preview
 ## 9. Limitações e próximos refinamentos
 
 A primeira versão não persiste o estado e não oferece autenticação ou backend. A taxa PoUW é um parâmetro didático; o preço MWC não varia. Próximos refinamentos podem adicionar cenários de demanda, comparação entre seeds, replay de uma execução e persistência local opcional, mas isso deve ocorrer somente após observar o comportamento do modelo atual.
-
-
-## 10. Invariante econômica de protocolo
-
-O simulador não implementa transferência direta de UMS entre usuários. A diretriz econômica consolidada para o ecossistema determina que toda recompensa interna seja denominada em UMS, que MWC seja o único ativo de conversão entre ativos negociáveis e UMS, e que transferências de valor entre MeshWalkers utilizem MWC. A simulação de reserva de mercado é uma abstração didática e não comprova a implementação de uma exchange ou de liquidação real. A blockchain piloto aplica a restrição no banco Supabase; esse controle não deve ser confundido com consenso distribuído.
-
-
-## 11. Decisão explícita sobre conversões
-
-O motor de rodada não executa automaticamente UMS→MWC nem MWC→UMS. O usuário escolhe a conversão ou reconversão por controles explícitos na tabela. A reconversão requer uma unidade MWC disponível no mercado; sem UMS suficiente e sem solicitação de reconversão, o trabalho pode ficar não atendido. Esta diretriz prevalece sobre qualquer descrição anterior de conversão automática.
