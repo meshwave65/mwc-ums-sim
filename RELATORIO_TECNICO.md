@@ -87,3 +87,8 @@ A primeira versão não persiste o estado e não oferece autenticação ou backe
 ## 10. Invariante econômica de protocolo
 
 O simulador não implementa transferência direta de UMS entre usuários. A diretriz econômica consolidada para o ecossistema determina que toda recompensa interna seja denominada em UMS, que MWC seja o único ativo de conversão entre ativos negociáveis e UMS, e que transferências de valor entre MeshWalkers utilizem MWC. A simulação de reserva de mercado é uma abstração didática e não comprova a implementação de uma exchange ou de liquidação real. A blockchain piloto aplica a restrição no banco Supabase; esse controle não deve ser confundido com consenso distribuído.
+
+
+## 11. Decisão explícita sobre conversões
+
+O motor de rodada não executa automaticamente UMS→MWC nem MWC→UMS. O usuário escolhe a conversão ou reconversão por controles explícitos na tabela. A reconversão requer uma unidade MWC disponível no mercado; sem UMS suficiente e sem solicitação de reconversão, o trabalho pode ficar não atendido. Esta diretriz prevalece sobre qualquer descrição anterior de conversão automática.
