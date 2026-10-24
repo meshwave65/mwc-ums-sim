@@ -205,16 +205,3 @@ tbody tr:hover { background: rgba(84, 226, 208, .035); }
 @media (max-width: 480px) { .topbar, .dashboard { width: min(100% - 20px, 460px); }.topbar-metrics { display: none; }.dashboard { padding-top: 30px; }.controls-panel, .cycle-panel, .table-panel, .market-panel, .event-panel, .chart-card, .report-summary, .report-bars, .report-table-panel { padding: 17px 14px; }.kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }.kpi-card { min-height: 94px; padding: 12px 9px; gap: 8px; }.kpi-card strong { font-size: 16px; }.segmented-control { width: 100%; }.segmented-control button { flex: 1; padding-inline: 5px; font-size: 9px; }.select-control { width: 100%; justify-content: space-between; }.select-control select { flex: 1; }.button-row .button { flex: 1; }.section-heading { align-items: flex-start; }.section-heading > .table-note { display: none; }.chart-frame { height: 205px; }.config-grid { grid-template-columns: 1fr 1fr; }.profile-edit-grid { grid-template-columns: repeat(2, 1fr); }.config-foot { align-items: flex-start; flex-direction: column; }.report-placeholder { align-items: flex-start; margin-top: 32px; padding: 17px 14px; }.report-actions { flex-wrap: wrap; }.hero-copy > p { font-size: 14px; } }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
-
-
-.convert-button { padding: 7px 9px; border: 1px solid rgba(241, 184, 91, .34); border-radius: 7px; color: var(--amber); background: rgba(241, 184, 91, .08); font-size: 9px; font-weight: 700; white-space: nowrap; }
-.convert-button:hover:not(:disabled) { border-color: var(--amber); background: rgba(241, 184, 91, .15); }
-.convert-button:disabled { opacity: .35; }
-
-.conversion-actions { display: flex; flex-direction: column; align-items: stretch; gap: 5px; }
-.reconvert-button { padding: 7px 9px; border: 1px solid rgba(84, 226, 208, .3); border-radius: 7px; color: var(--cyan); background: rgba(84, 226, 208, .06); font-size: 9px; font-weight: 700; white-space: nowrap; }
-.reconvert-button:hover:not(:disabled) { border-color: var(--cyan); background: rgba(84, 226, 208, .13); }
-.reconvert-button:disabled { opacity: .35; }
-
-.auto-reconversion-toggle { display: flex; align-items: center; gap: 5px; font-size: 9px; color: var(--muted); white-space: nowrap; }
-.auto-reconversion-toggle input { accent-color: var(--cyan); }
