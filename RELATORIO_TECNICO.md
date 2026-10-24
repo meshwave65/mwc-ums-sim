@@ -1,10 +1,10 @@
-# Relatório técnico — Simulador Econômico MWC / UMS
+# Relatório técnico — Simulador Econômico MWN / UMS
 
 ## 1. Resumo executivo
 
 Foi implementado um protótipo frontend em Vite, React e TypeScript para tornar observável a economia mínima descrita no prompt MeshWave. O sistema é autocontido, roda em memória no navegador e tem como prioridade mostrar funcionamento, visualização e interação antes de qualquer sofisticação econômica.
 
-A solução mantém a separação estrutural entre o ecossistema interno e o mercado externo. O usuário é representado por UMS e BRL. O MWC aparece somente na reserva de mercado e nos eventos de conversão/reconversão.
+A solução mantém a separação estrutural entre o ecossistema interno e o mercado externo. O usuário é representado por UMS e BRL. O MWN aparece somente na reserva de mercado e nos eventos de conversão/reconversão.
 
 ## 2. Arquitetura
 
@@ -44,15 +44,15 @@ A ordem contábil da rodada é:
 7. atualizar o mercado e os totais;
 8. salvar snapshot e eventos.
 
-O motor usa `Math.ceil` para pedir unidades inteiras de MWC e nunca fabrica frações. Se não houver reserva suficiente, calcula a parcela não atendida e mantém o fato auditável no estado.
+O motor usa `Math.ceil` para pedir unidades inteiras de MWN e nunca fabrica frações. Se não houver reserva suficiente, calcula a parcela não atendida e mantém o fato auditável no estado.
 
-O perfil efetivo padrão é sorteado uniformemente entre −30% e +30%. Como essa faixa é simétrica e a demanda não depende do perfil, a tendência média de geração fica próxima do uso normal. A taxa PoUW padrão é 100%, e pode ser reduzida no código/configuração para simular rejeições. O `conversionThreshold` é independente do saldo inicial e permite controlar quando os excedentes começam a alimentar o mercado MWC.
+O perfil efetivo padrão é sorteado uniformemente entre −30% e +30%. Como essa faixa é simétrica e a demanda não depende do perfil, a tendência média de geração fica próxima do uso normal. A taxa PoUW padrão é 100%, e pode ser reduzida no código/configuração para simular rejeições. O `conversionThreshold` é independente do saldo inicial e permite controlar quando os excedentes começam a alimentar o mercado MWN.
 
 ## 4. Estado e histórico
 
-Cada usuário mantém saldo atual e acumulados de serviços executados, serviços não atendidos, UMS geradas, UMS utilizadas, PoUW validado/rejeitado, MWC criado/usado e UMS não atendida. O mercado mantém MWC disponível, total gerado, total reconvertido, BRL de referência e volume movimentado.
+Cada usuário mantém saldo atual e acumulados de serviços executados, serviços não atendidos, UMS geradas, UMS utilizadas, PoUW validado/rejeitado, MWN criado/usado e UMS não atendida. O mercado mantém MWN disponível, total gerado, total reconvertido, BRL de referência e volume movimentado.
 
-Após cada rodada, um snapshot completo é adicionado à série temporal. Essa série abastece os gráficos sem depender de uma API ou de dados derivados difíceis de reproduzir. A capacidade reconhecida é calculada sobre a parte efetivamente executada: uma operação não atendida não gera UMS, não gera MWC e recebe evento explícito no log.
+Após cada rodada, um snapshot completo é adicionado à série temporal. Essa série abastece os gráficos sem depender de uma API ou de dados derivados difíceis de reproduzir. A capacidade reconhecida é calculada sobre a parte efetivamente executada: uma operação não atendida não gera UMS, não gera MWN e recebe evento explícito no log.
 
 ## 5. PoUW simplificado
 
@@ -60,7 +60,7 @@ Não há hash, consenso ou rede. A validação é uma taxa didática controlada.
 
 ## 6. Relatório final
 
-Ao parar ou atingir o alvo de rodadas, `createFinalReport` ordena os usuários por UMS, preserva totais do mercado e cria uma narrativa objetiva: serviços solicitados/executados/não atendidos, UMS reconhecida/rejeitada, MWC disponível/reconvertido, BRL movimentado, usuários que usaram o mercado, usuários em déficit e maior saldo. A interface acrescenta barras comparativas de UMS, uma visualização dedicada de BRL positivo/negativo, tabela detalhada e downloads JSON/CSV.
+Ao parar ou atingir o alvo de rodadas, `createFinalReport` ordena os usuários por UMS, preserva totais do mercado e cria uma narrativa objetiva: serviços solicitados/executados/não atendidos, UMS reconhecida/rejeitada, MWN disponível/reconvertido, BRL movimentado, usuários que usaram o mercado, usuários em déficit e maior saldo. A interface acrescenta barras comparativas de UMS, uma visualização dedicada de BRL positivo/negativo, tabela detalhada e downloads JSON/CSV.
 
 ## 7. Interface
 
@@ -81,4 +81,4 @@ O `public/manus-routes.json` declara a única rota `/`, permitindo que o Preview
 
 ## 9. Limitações e próximos refinamentos
 
-A primeira versão não persiste o estado e não oferece autenticação ou backend. A taxa PoUW é um parâmetro didático; o preço MWC não varia. Próximos refinamentos podem adicionar cenários de demanda, comparação entre seeds, replay de uma execução e persistência local opcional, mas isso deve ocorrer somente após observar o comportamento do modelo atual.
+A primeira versão não persiste o estado e não oferece autenticação ou backend. A taxa PoUW é um parâmetro didático; o preço MWN não varia. Próximos refinamentos podem adicionar cenários de demanda, comparação entre seeds, replay de uma execução e persistência local opcional, mas isso deve ocorrer somente após observar o comportamento do modelo atual.

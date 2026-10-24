@@ -76,7 +76,7 @@ function App() {
       <aside className="admin-sidebar">
         <a className="admin-brand" href="#overview" aria-label="MeshWave Dashboard">
           <span className="brand-mark"><span>MW</span><i /></span>
-          <span><strong>MeshWave</strong><small>MWC / UMS SIMULATOR</small></span>
+          <span><strong>MeshWave</strong><small>MWN / UMS SIMULATOR</small></span>
         </a>
         <nav className="admin-nav" aria-label="Navegação administrativa">
           {navigation.map((item, index) => <a className={index === 0 ? 'is-current' : ''} href={item.href} key={item.href}><span className="nav-icon">{item.icon}</span>{item.label}</a>)}
@@ -110,7 +110,7 @@ function App() {
           <section id="reports" className="admin-anchor"><FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} /></section>
           <section id="settings" className="admin-anchor"><ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} /></section>
           <section className="admin-anchor"><MWBlockchainPanel state={state} /></section>
-          <footer className="footer-note"><span className="brand-mark mini"><span>MW</span><i /></span><p><strong>MWC / UMS Simulator</strong> · Protótipo educacional. Nenhum valor representa moeda, investimento ou operação financeira real.</p><span className="footer-version">v0.1 · em memória</span></footer>
+          <footer className="footer-note"><span className="brand-mark mini"><span>MW</span><i /></span><p><strong>MWN / UMS Simulator</strong> · Protótipo educacional. Nenhum valor representa moeda, investimento ou operação financeira real.</p><span className="footer-version">v0.1 · em memória</span></footer>
         </main>
       </div>
     </div>

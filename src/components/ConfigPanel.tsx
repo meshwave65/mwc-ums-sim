@@ -17,9 +17,9 @@ export function ConfigPanel({ config, onChange, onApply }: ConfigPanelProps) {
     {open && <div className="config-body">
       <div className="config-grid">
         <label><span>UMS inicial</span><input type="number" min="0" step="100" value={config.initialUms} onChange={(event) => updateRoot('initialUms', Number(event.target.value))} /></label>
-        <label><span>UMS por MWC</span><input type="number" min="1" step="100" value={config.umsPerMwc} onChange={(event) => updateRoot('umsPerMwc', Number(event.target.value))} /></label>
+        <label><span>UMS por MWN</span><input type="number" min="1" step="100" value={config.umsPerMwc} onChange={(event) => updateRoot('umsPerMwc', Number(event.target.value))} /></label>
         <label><span>Limiar conversão</span><input type="number" min="0" step="100" value={config.conversionThreshold ?? config.initialUms} onChange={(event) => updateRoot('conversionThreshold', Number(event.target.value))} /></label>
-        <label><span>BRL por MWC</span><input type="number" min="0" step="0.1" value={config.brlPerMwc} onChange={(event) => updateRoot('brlPerMwc', Number(event.target.value))} /></label>
+        <label><span>BRL por MWN</span><input type="number" min="0" step="0.1" value={config.brlPerMwc} onChange={(event) => updateRoot('brlPerMwc', Number(event.target.value))} /></label>
         <label><span>Seed (opcional)</span><input type="text" placeholder="aleatório" value={config.seed} onChange={(event) => updateRoot('seed', event.target.value)} /></label>
       </div>
       <div className="config-subsection"><div className="config-subtitle"><span>Perfil por rodada</span><small>sorteio independente por faixa</small></div><div className="config-grid"><label><span>Perfil mínimo (%)</span><input type="number" min="-100" max="100" step="1" value={config.profileMin ?? -30} onChange={(event) => updateRoot('profileMin', Number(event.target.value))} /></label><label><span>Perfil máximo (%)</span><input type="number" min="-100" max="100" step="1" value={config.profileMax ?? 30} onChange={(event) => updateRoot('profileMax', Number(event.target.value))} /></label></div><p className="config-note">Cada usuário recebe um novo percentual aleatório entre os limites a cada rodada.</p></div>

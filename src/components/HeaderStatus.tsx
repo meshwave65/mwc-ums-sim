@@ -17,7 +17,7 @@ export function HeaderStatus({ state, targetRounds }: HeaderStatusProps) {
         <div><h1>Painel Administrativo</h1><p>Visão geral da rede MeshWave</p></div>
       </div>
       <div className="topbar-metrics">
-        <a className="storage-link" href="/storage-node.html" aria-label="Abrir MWC Storage Node">STORAGE NODE <span aria-hidden="true">↗</span></a>
+        <a className="storage-link" href="/storage-node.html" aria-label="Abrir MWN Storage Node">STORAGE NODE <span aria-hidden="true">↗</span></a>
         <div className="telemetry-item"><span>RODADA</span><strong>{formatNumber(state.round)}</strong><small>{targetRounds === Infinity ? 'modo infinito' : `de ${formatNumber(targetRounds)}`}</small></div>
         <div className={`status-pill ${statusClass}`}><span className="status-dot" />{status}</div>
       </div>

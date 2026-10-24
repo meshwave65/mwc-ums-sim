@@ -16,7 +16,7 @@ export function statusTone(status: UserStatus): 'positive' | 'negative' | 'neutr
 }
 
 export function statusLabel(user: UserState): string {
-  if (user.lastMwcCreated > 0) return 'MWC GERADO'
+  if (user.lastMwcCreated > 0) return 'MWN GERADO'
   if (user.lastMwcUsed > 0) return 'USOU MERCADO'
   return user.status
 }

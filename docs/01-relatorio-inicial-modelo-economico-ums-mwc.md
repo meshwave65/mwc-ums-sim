@@ -1,11 +1,11 @@
-# MeshWave — Relatório inicial do modelo econômico UMS/MWC
+# MeshWave — Relatório inicial do modelo econômico UMS/MWN
 **Versão:** 0.1 — premissas preliminares  
 **Data:** 20 de outubro de 2026  
 **Status:** Documento de trabalho; não constitui oferta pública nem promessa de valorização.
 
 ## 1. Objetivo
 
-Registrar a primeira formulação do modelo econômico da MeshWave para a Unidade MeshWave de Serviço (UMS), a MWC, a contribuição de recursos pelos MeshWalkers e uma possível emissão inicial. Os parâmetros são rudimentares e servem como ponto de partida; deverão ser revistos com dados operacionais, estudos econômicos, validação técnica e análise jurídica.
+Registrar a primeira formulação do modelo econômico da MeshWave para a Unidade MeshWave de Serviço (UMS), a MWN, a contribuição de recursos pelos MeshWalkers e uma possível emissão inicial. Os parâmetros são rudimentares e servem como ponto de partida; deverão ser revistos com dados operacionais, estudos econômicos, validação técnica e análise jurídica.
 
 ## 2. Unidade de conta e valor de referência
 
@@ -18,7 +18,7 @@ Adotam-se, para este modelo inicial:
 - Custo total de referência: R$ 112/mês.
 - Considerando 30 dias por mês: 2.592.000 segundos/mês.
 - Custo aproximado por segundo/UMS: R$ 112 / 2.592.000 = **R$ 0,00004321 por UMS**.
-- **1.000 UMS = 1 MWC**, resultando em **R$ 0,04321 por MWC** como valor econômico inicial de referência.
+- **1.000 UMS = 1 MWN**, resultando em **R$ 0,04321 por MWN** como valor econômico inicial de referência.
 
 Esses números são premissas de trabalho, não uma avaliação independente do ativo nem garantia de preço de mercado.
 
@@ -33,15 +33,15 @@ Para estabelecer uma primeira equivalência operacional, adota-se um pacote de r
 Como comparação comercial preliminar, utiliza-se o preço publicado como referência para Amazon S3 Standard de US$ 0,023 por GB-mês, com câmbio indicativo de R$ 5,03/US$:
 
 - 1 GB-mês: aproximadamente R$ 0,11569.
-- Dividido pelo valor de referência de R$ 0,04321/MWC: aproximadamente **2,677 MWC por GB-mês**.
-- 100 GB-mês: aproximadamente 267,7 MWC.
-- 1.000 GB-mês (1 TB decimal): aproximadamente 2.677 MWC.
+- Dividido pelo valor de referência de R$ 0,04321/MWN: aproximadamente **2,677 MWN por GB-mês**.
+- 100 GB-mês: aproximadamente 267,7 MWN.
+- 1.000 GB-mês (1 TB decimal): aproximadamente 2.677 MWN.
 
 O preço varia conforme região, classe de armazenamento e condições comerciais. Requisições, recuperação e transferência de dados podem gerar custos adicionais. Este é um benchmark externo de preço, não uma afirmação de que o custo próprio da MeshWave será igual ao da AWS.
 
 ## 5. Preços comerciais livres e registro em UMS
 
-Na fase inicial, a MeshWave poderá vender processamento, armazenamento, conectividade e outros serviços por preços livremente negociados, inclusive em reais, sem exigir que UMS ou MWC sejam desde logo a unidade de cobrança ao cliente.
+Na fase inicial, a MeshWave poderá vender processamento, armazenamento, conectividade e outros serviços por preços livremente negociados, inclusive em reais, sem exigir que UMS ou MWN sejam desde logo a unidade de cobrança ao cliente.
 
 Cada operação deverá, contudo, registrar uma equivalência de referência em UMS. Diferenças entre a referência e o preço efetivamente negociado serão registradas como ágio ou deságio comercial da operação, sem alterar automaticamente o parâmetro de referência da UMS.
 
@@ -51,9 +51,9 @@ Exemplo ilustrativo: se um serviço tiver referência de R$ 120 e for vendido po
 
 O modelo prevê que os MeshWalkers cedam recursos de processamento e armazenamento, incluindo a contribuição mínima compulsória de 1% e contribuições voluntárias adicionais, conforme regras próprias a serem definidas.
 
-A contribuição poderá gerar créditos em UMS de acordo com os recursos reconhecidos e os critérios de remuneração. Esses créditos poderão ser usados para consumir serviços e, segundo regras explícitas de conversão, dar origem a saldo ou recompensa em MWC. A quantidade de MWC não deve ser presumida automaticamente a partir de qualquer contribuição: deverá decorrer de regras de emissão, contabilização e conversão documentadas.
+A contribuição poderá gerar créditos em UMS de acordo com os recursos reconhecidos e os critérios de remuneração. Esses créditos poderão ser usados para consumir serviços e, segundo regras explícitas de conversão, dar origem a saldo ou recompensa em MWN. A quantidade de MWN não deve ser presumida automaticamente a partir de qualquer contribuição: deverá decorrer de regras de emissão, contabilização e conversão documentadas.
 
-Um MeshWalker que disponibilize recursos de valor reconhecido superior ao seu consumo poderá, conforme as regras futuras, reduzir ou até eliminar a necessidade de comprar MWC para pagar pelos serviços utilizados.
+Um MeshWalker que disponibilize recursos de valor reconhecido superior ao seu consumo poderá, conforme as regras futuras, reduzir ou até eliminar a necessidade de comprar MWN para pagar pelos serviços utilizados.
 
 ## 7. Validação provisória e evolução para PoUW
 
@@ -70,18 +70,18 @@ A evolução técnica poderá incluir módulos de registro, medição, verifica�
 
 ## 8. Serviços que podem gerar demanda antes da rede completa
 
-A utilidade econômica da MWC não precisa aguardar a implantação integral da rede distribuída. Serviços do ecossistema — incluindo SOFIA, Jardim do Éden e Condenser — poderão adotar UMS como unidade de mensuração e MWC como meio de pagamento, quando comercial e tecnicamente disponíveis.
+A utilidade econômica da MWN não precisa aguardar a implantação integral da rede distribuída. Serviços do ecossistema — incluindo SOFIA, Jardim do Éden e Condenser — poderão adotar UMS como unidade de mensuração e MWN como meio de pagamento, quando comercial e tecnicamente disponíveis.
 
 Isso pode criar demanda transacional antes da conclusão da infraestrutura MeshWave, desde que os serviços sejam efetivamente oferecidos, a moeda seja aceita nas condições anunciadas e existam regras claras de cobrança, crédito e conversão.
 
 ## 9. Hipótese de emissão inicial
 
-Como exercício preliminar, considera-se o valor de referência de R$ 0,04321/MWC e um deságio de lançamento de 50%:
+Como exercício preliminar, considera-se o valor de referência de R$ 0,04321/MWN e um deságio de lançamento de 50%:
 
-- Valor de referência: R$ 0,04321/MWC.
-- Preço hipotético de emissão com deságio de 50%: R$ 0,021605/MWC.
+- Valor de referência: R$ 0,04321/MWN.
+- Preço hipotético de emissão com deságio de 50%: R$ 0,021605/MWN.
 - Captação hipotética: R$ 500.000.
-- Quantidade matemática correspondente: R$ 500.000 / R$ 0,021605 ≈ **23.142.791,02 MWC**.
+- Quantidade matemática correspondente: R$ 500.000 / R$ 0,021605 ≈ **23.142.791,02 MWN**.
 
 Se a emissão ocorrer apenas em unidades inteiras, será necessário arredondar a quantidade e recalcular o total. A mesma quantidade, ao valor de referência de R$ 0,04321, corresponderia a aproximadamente R$ 1 milhão.
 
@@ -92,7 +92,7 @@ Este cálculo não garante captação, liquidez, resgate ou manutenção do pre�
 1. Manter uma unidade de conta comum (UMS) para comparar serviços diferentes.
 2. Registrar os preços comerciais efetivos separadamente do valor de referência.
 3. Vincular créditos de contribuição a critérios mensuráveis e documentados.
-4. Definir separadamente emissão, crédito, conversão e uso de MWC.
+4. Definir separadamente emissão, crédito, conversão e uso de MWN.
 5. Aproveitar métricas operacionais existentes como evidência provisória, evoluindo para validação própria.
 6. Tratar os parâmetros iniciais como hipóteses revisáveis, registrando a metodologia e as alterações.
 7. Não apresentar o valor de referência como garantia de preço, resgate ou valorização.
@@ -108,7 +108,7 @@ Os preços comerciais, o câmbio e a classificação jurídica devem ser reconfi
 
 ## 12. Próximos artefatos recomendados
 
-- Política de emissão e limites de oferta de MWC.
+- Política de emissão e limites de oferta de MWN.
 - Tabela de conversão de serviços em UMS.
 - Política de remuneração de contribuições dos MeshWalkers.
 - Especificação inicial de evidências e validação (PoUW provisório).
