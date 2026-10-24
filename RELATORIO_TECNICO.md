@@ -82,3 +82,8 @@ O `public/manus-routes.json` declara a única rota `/`, permitindo que o Preview
 ## 9. Limitações e próximos refinamentos
 
 A primeira versão não persiste o estado e não oferece autenticação ou backend. A taxa PoUW é um parâmetro didático; o preço MWC não varia. Próximos refinamentos podem adicionar cenários de demanda, comparação entre seeds, replay de uma execução e persistência local opcional, mas isso deve ocorrer somente após observar o comportamento do modelo atual.
+
+
+## 10. Invariante econômica de protocolo
+
+O simulador não implementa transferência direta de UMS entre usuários. A diretriz econômica consolidada para o ecossistema determina que toda recompensa interna seja denominada em UMS, que MWC seja o único ativo de conversão entre ativos negociáveis e UMS, e que transferências de valor entre MeshWalkers utilizem MWC. A simulação de reserva de mercado é uma abstração didática e não comprova a implementação de uma exchange ou de liquidação real. A blockchain piloto aplica a restrição no banco Supabase; esse controle não deve ser confundido com consenso distribuído.
