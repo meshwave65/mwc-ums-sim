@@ -69,7 +69,7 @@ export function runRound(state: SimulationState, config: SimulationConfig): Simu
     let mwcUsed = 0
     let unmetUms = 0
 
-    if (usage.cost > availableCapacity && user.autoReconversion && market.mwcAvailable > 0 && config.umsPerMwc > 0) {
+    if (usage.cost > availableCapacity && market.mwcAvailable > 0 && config.umsPerMwc > 0) {
       const deficit = usage.cost - availableCapacity
       const requiredMwc = Math.ceil(deficit / config.umsPerMwc)
       // The user acquires MWC from the market and immediately reconverts it.
