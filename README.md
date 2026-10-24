@@ -1,8 +1,8 @@
-# MWC / UMS Simulator
+# MWN / UMS Simulator
 
-Protótipo visual em **Vite + React + TypeScript** para observar, em memória, o ciclo econômico simplificado do ecossistema MeshWave: serviços em UMS, validação PoUW, geração de capacidade, conversão em MWC, mercado externo e reconversão de MWC em UMS.
+Protótipo visual em **Vite + React + TypeScript** para observar, em memória, o ciclo econômico simplificado do ecossistema MeshWave: serviços em UMS, validação PoUW, geração de capacidade, conversão em MWN, mercado externo e reconversão de MWN em UMS.
 
-> **Importante:** este projeto é uma simulação educacional. UMS, MWC e BRL são números de um modelo local e não representam moeda, investimento, pagamento ou operação financeira real.
+> **Importante:** este projeto é uma simulação educacional. UMS, MWN e BRL são números de um modelo local e não representam moeda, investimento, pagamento ou operação financeira real.
 
 ## Executar localmente
 
@@ -30,7 +30,7 @@ Com o servidor Vite em execução, abra [`/storage-node.html`](./public/storage-
 
 A pasta [`node-agent/`](./node-agent/README.md) contém um serviço Python executável para laboratório controlado: armazenamento persistente em disco por SHA-256, limite de capacidade, recuperação de bytes, desafios únicos e evidências JSON. O cliente `mwc_validator.py` baixa o objeto e verifica o conteúdo. O serviço exige token bearer; escuta em localhost por padrão.
 
-Para instruções de execução, endpoints, limites e testes, consulte [`node-agent/README.md`](./node-agent/README.md). Os testes automatizados também são executados pelo workflow [MWC Storage Node tests](./.github/workflows/mwc-node-agent-tests.yml).
+Para instruções de execução, endpoints, limites e testes, consulte [`node-agent/README.md`](./node-agent/README.md). Os testes automatizados também são executados pelo workflow [MWN Storage Node tests](./.github/workflows/mwc-node-agent-tests.yml).
 
 **Limite importante:** esta é uma verificação técnica de integridade, não uma validação PoUW independente resistente a conluio. Não há replicação entre nós, orquestrador de VMs, blockchain ou emissão de UMS. O esquema Supabase existente permanece inalterado por este incremento.
 
@@ -55,7 +55,7 @@ Para instruções de execução, endpoints, limites e testes, consulte [`node-ag
 - `src/styles/global.css`: linguagem visual responsiva e estados.
 - `public/storage-node.html`: interface do nó de armazenamento V0, com persistência local e sincronização remota autenticada.
 - `node-agent/`: serviço executável de armazenamento e cliente de validação técnica.
-- `supabase/migrations/20261022000000_create_mwc_storage_v0.sql`: esquema RLS e bucket privado dedicados ao armazenamento MWC.
+- `supabase/migrations/20261022000000_create_mwc_storage_v0.sql`: esquema RLS e bucket privado dedicados ao armazenamento MWN.
 - `public/manus-routes.json`: manifesto de rota `/` exigido pelo Webdev.
 - `DOCUMENTACAO.md`: regras e leitura dos painéis.
 - `RELATORIO_TECNICO.md`: decisões de arquitetura, limitações e evidências.
@@ -63,13 +63,13 @@ Para instruções de execução, endpoints, limites e testes, consulte [`node-ag
 ## Regras centrais
 
 - 10 usuários começam com 10.000 UMS e R$ 0,00.
-- O mercado começa com 0 MWC e R$ 0,00.
-- 1.000 UMS = 1 MWC = R$ 1,00.
-- MWC não é saldo interno do usuário: usuários exibem UMS e BRL.
+- O mercado começa com 0 MWN e R$ 0,00.
+- 1.000 UMS = 1 MWN = R$ 1,00.
+- MWN não é saldo interno do usuário: usuários exibem UMS e BRL.
 - Perfis positivos tendem a gerar excedente; perfis negativos tendem a consumir mais capacidade.
 - Operações validadas pelo PoUW reconhecem UMS. Operações inválidas permanecem no histórico, sem reconhecimento definitivo.
-- Blocos completos de UMS acima do nível inicial geram MWC.
-- Déficit de capacidade tenta usar uma unidade inteira de MWC disponível; se não houver reserva, a operação fica não atendida.
+- Blocos completos de UMS acima do nível inicial geram MWN.
+- Déficit de capacidade tenta usar uma unidade inteira de MWN disponível; se não houver reserva, a operação fica não atendida.
 
 ## Persistência e limitações conhecidas
 
