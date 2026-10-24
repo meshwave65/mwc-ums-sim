@@ -82,7 +82,7 @@ function App() {
         <SimulationControls state={state} speed={speed} targetRounds={targetRounds} onSpeedChange={setSpeed} onTargetRoundsChange={setTargetRounds} onStart={start} onPause={pause} onContinue={continueSimulation} onStop={stop} onReset={reset} />
         <CycleFlow state={state} config={config} />
         <KpiStrip state={state} brlPerMwc={config.brlPerMwc} />
-        <div className="workspace-grid"><UserTable users={state.users} config={config} market={state.market} /><aside className="side-stack"><MarketPanel state={state} config={config} /><EventLog events={state.events} /></aside></div>
+        <div className="workspace-grid"><UserTable users={state.users} config={config} /><aside className="side-stack"><MarketPanel state={state} config={config} /><EventLog events={state.events} /></aside></div>
         <SimulationCharts state={state} />
         <FinalReport report={state.report} onExportJson={() => state.report && exportReportJson(state.report)} onExportCsv={() => state.report && exportReportCsv(state.report)} />
         <ConfigPanel config={draftConfig} onChange={setDraftConfig} onApply={applyConfig} />
