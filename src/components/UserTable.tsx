@@ -1,15 +1,12 @@
-import type { MarketState, SimulationConfig, UserState } from '../simulation/types'
+import type { UserState } from '../simulation/types'
 import { statusLabel, statusTone } from '../simulation/selectors'
 import { formatBrl, formatNumber, formatPercent } from '../utils/format'
 
 interface UserTableProps {
   users: UserState[]
-  config: SimulationConfig
-  market: MarketState
 }
 
-export function UserTable({ users, config, market }: UserTableProps) {
-  const reserve = Math.max(0, config.conversionThreshold)
+export function UserTable({ users }: UserTableProps) {
   return (
     <section className="panel-surface table-panel">
       <div className="section-heading">
@@ -18,7 +15,7 @@ export function UserTable({ users, config, market }: UserTableProps) {
       </div>
       <div className="table-wrap">
         <table>
-          <thead><tr><th>Usuário</th><th>Perfil / rodada</th><th>UMS</th><th>BRL</th><th>Serviços</th><th>Gerado</th><th>Utilizado</th><th>Status</th><th>Conversão</th></tr></thead>
+          <thead><tr><th>Usuário</th><th>Perfil / rodada</th><th>UMS</th><th>BRL</th><th>Serviços</th><th>Gerado</th><th>Utilizado</th><th>Status</th></tr></thead>
           <tbody>
             {users.map((user) => {
               const tone = statusTone(user.status)
@@ -31,13 +28,12 @@ export function UserTable({ users, config, market }: UserTableProps) {
                 <td><span className="metric-positive">+{formatNumber(user.lastGenerated)}</span><small className="metric-total">{formatNumber(user.generated)} total</small></td>
                 <td><span className="metric-negative">−{formatNumber(user.lastUsed)}</span><small className="metric-total">{formatNumber(user.used)} total</small></td>
                 <td><span className={`status-badge tone-${tone}`}>{statusLabel(user)}</span></td>
-                <td><span className="automatic-conversion-note">Automática: UMS → MWC acima de {formatNumber(reserve)} UMS; MWC → UMS quando houver déficit e estoque no mercado.</span></td>
               </tr>
             })}
           </tbody>
         </table>
       </div>
-      <div className="table-footer"><span><i className="legend-dot positive" /> Superávit / geração</span><span><i className="legend-dot negative" /> Déficit / consumo</span><span><i className="legend-dot market" /> Mercado externo</span><span>Conversões automáticas; nenhum clique por usuário</span></div>
+      <div className="table-footer"><span><i className="legend-dot positive" /> Superávit / geração</span><span><i className="legend-dot negative" /> Déficit / consumo</span><span><i className="legend-dot market" /> Mercado externo</span></div>
     </section>
   )
 }
