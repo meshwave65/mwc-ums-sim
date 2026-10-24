@@ -68,7 +68,7 @@ Para instruções de execução, endpoints, limites e testes, consulte [`node-ag
 - MWC não é saldo interno do usuário: usuários exibem UMS e BRL.
 - Perfis positivos tendem a gerar excedente; perfis negativos tendem a consumir mais capacidade.
 - Operações validadas pelo PoUW reconhecem UMS. Operações inválidas permanecem no histórico, sem reconhecimento definitivo.
-- A conversão de UMS em MWC é voluntária e ocorre apenas por ação explícita do usuário; o motor não converte UMS automaticamente por rodada.
+- Blocos completos de UMS acima do nível inicial geram MWC.
 - Déficit de capacidade tenta usar uma unidade inteira de MWC disponível; se não houver reserva, a operação fica não atendida.
 
 ## Persistência e limitações conhecidas
@@ -78,8 +78,3 @@ O simulador continua sendo a fonte dos eventos econômicos. Quando o Supabase p�
 A persistência remota exige uma sessão `authenticated` compatível com as políticas RLS existentes. O painel usa o mesmo fluxo do AppAndroidSWE-Start: consulta `clients` por e-mail ou nome de usuário e chama `signInWithPassword`. Após o login, snapshots também são enviados ao bucket `sofia_storage_user` em `mwc-ums/mwc-ums-simulator-v1/snapshots/<block>.json`, com `upsert` idempotente.
 
 Configure `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` — ou a chave legada `VITE_SUPABASE_ANON_KEY` — em `.env.local`; nunca use `service_role` no navegador. Sem essa configuração ou sem login, o painel informa que a persistência não foi confirmada; não há fallback que simule sucesso. A recuperação completa do estado econômico a partir de snapshots remotos e o append transacional entre tabelas ainda são etapas posteriores.
-
-
-## Invariante econômica do ecossistema
-
-Toda recompensa e todo reconhecimento interno são denominados em UMS, nunca em MWC. Não há transferência direta de UMS entre MeshWalkers; transferências de valor entre participantes devem usar MWC, e o destinatário decide se converte o MWC recebido em UMS. MWC é a única via de conversão entre outros ativos negociáveis e UMS. O simulador permanece educacional e não implementa liquidação P2P real nem constitui o ledger autoritativo da MeshWave.
