@@ -1,5 +1,7 @@
 # Blueprint HH — Validação externa do projeto MWN/UMS
 
+**Revisão metodológica:** 2026-10-29 — convergência mútua obrigatória antes da recomendação de abordagem.
+
 **Agente responsável:** HH (Head Hunter)  
 **Projeto:** MWN/UMS — simulador e proposta de infraestrutura distribuída  
 **Tipo de missão:** identificar aderência entre contatos já mapeados e a validação externa do projeto  
@@ -9,7 +11,7 @@
 
 ## 1. Missão
 
-Encontrar, entre os contatos já mapeados e disponíveis no repositório/contexto de contatos autorizado, pessoas ou organizações com aderência demonstrável a pelo menos uma das frentes de validação externa do MWN/UMS. Para cada contato relevante, produzir uma avaliação fundamentada e, quando houver aderência suficiente, uma mensagem de primeiro contato personalizada que proponha uma conversa exploratória sobre o problema operacional — sem apresentar o simulador como produto operacional comprovado nem pedir investimento como primeiro passo.
+Encontrar, entre os contatos já mapeados e disponíveis no repositório/contexto de contatos autorizado, pessoas ou organizações com convergência mútua demonstrável com uma frente de validação externa do MWN/UMS. Não basta que o contato possa ajudar o projeto: deve haver uma hipótese específica, sustentada por evidência da agenda atual dessa pessoa, de como uma capacidade ou hipótese documentada do projeto poderia ser útil a ela. Para cada contato elegível, produzir avaliação fundamentada e, quando os critérios forem atendidos, uma mensagem exploratória personalizada, sem apresentar o simulador como produto operacional comprovado nem pedir investimento como primeiro passo.
 
 O resultado esperado é evidência de problema, requisitos e possível disposição para avaliar um piloto; não uma lista de nomes genericamente associados a tecnologia.
 
@@ -34,9 +36,22 @@ A investigação deve verificar se existe um problema operacional real, mensurá
 4. que evidência seria necessária para avaliar a proposta;
 5. se há disposição concreta para uma conversa técnica ou um piloto delimitado.
 
+## 3.1 Gate obrigatório de convergência mútua
+
+A pergunta principal de seleção é: **que utilidade concreta uma capacidade ou hipótese atual de MWN/UMS poderia ter para um interesse, necessidade ou projeto atual deste contato?** A pergunta complementar é o que a pessoa poderia, por sua vez, ajudar a validar ou esclarecer no projeto. Não selecionar alguém apenas porque sua competência é útil para MeshWave.
+
+Antes de recomendar uma conversa, registrar os dois lados com evidências separadas:
+
+- **Agenda do contato:** iniciativa, projeto, pesquisa, produto ou problema profissional atual, sustentado por fonte pública específica da pessoa. Cargo, setor, organização ou experiência histórica isolados não bastam.
+- **Utilidade potencial para o contato:** benefício específico que uma capacidade existente ou hipótese claramente marcada de MWN/UMS poderia ter naquela agenda. Descrever a maturidade e as condições; não apresentar roadmap, simulador ou proposta como serviço comprovado.
+- **Contribuição potencial ao projeto:** requisito, crítica, validação ou cenário que o contato poderia contribuir, ligado à sua atividade atual documentada. Não presumir interesse, disponibilidade, autoridade ou recursos.
+- **Interseção testável:** pergunta curta que convide a pessoa a confirmar, corrigir ou rejeitar a hipótese, sem afirmar que a considera valiosa.
+
+Usar `MUTUAL_FIT_ELIGIBLE` somente quando há evidência específica para a agenda do contato, benefício plausível para ela e contribuição plausível ao projeto; isso autoriza recomendar uma conversa exploratória, não presume interesse. Se faltar evidência, usar `MUTUAL_FIT_UNCONFIRMED` e não preparar mensagem. Se somente o contato puder ajudar MWN/UMS, usar `ONE_WAY_PROJECT_FIT` e não recomendar abordagem por este protocolo. Se não houver interseção atual verificável, usar `NO_CURRENT_FIT`.
+
 ## 4. Perfis prioritários e sinais de aderência
 
-Avaliar contatos já mapeados nas quatro categorias abaixo:
+As categorias abaixo ajudam a identificar possíveis contribuições ao projeto, mas não são, sozinhas, critérios de elegibilidade. Avaliar contatos já mapeados somente após aplicar o gate bilateral acima. Uma hipótese de utilidade para o contato deve estar ligada à agenda atual dele/dela e às capacidades reais ou hipóteses explicitamente delimitadas de MWN/UMS.
 
 ### A. Potenciais usuários de serviços computacionais
 Organizações com custos ou restrições mensuráveis em processamento, armazenamento, banda, roteamento, distribuição de tarefas ou recuperação de informação.
@@ -67,6 +82,7 @@ Não classificar alguém como aderente apenas por ser investidor, executivo, pes
 3. Documentação técnica atual do MWN/UMS pertinente à conversa.
 4. Diretório de contatos já mapeados, normalmente `contacts/` no ambiente de trabalho autorizado.
 5. Registros anteriores de avaliação ou abordagem do projeto, se existirem.
+6. `network/docs/protocols/05_MUTUAL_CONVERGENCE_PROTOCOL.md` v0.3.0, como referência complementar para evidência de agenda atual, benefício mútuo e elegibilidade de mensagem: [link canônico](https://github.com/meshwave65/network/blob/main/docs/protocols/05_MUTUAL_CONVERGENCE_PROTOCOL.md).
 
 O HH deve localizar dinamicamente os arquivos disponíveis, sem presumir um nome único para o arquivo de contatos. Deve verificar se o contato já foi avaliado ou abordado, para evitar duplicidade.
 
@@ -81,6 +97,7 @@ O HH deve localizar dinamicamente os arquivos disponíveis, sem presumir um nome
 
 ### Etapa 1 — Leitura e preparação
 - Ler este blueprint e o protocolo-base integralmente.
+- Ler a referência de convergência mútua indicada nas entradas obrigatórias; registrar divergências e aplicar a regra mais conservadora.
 - Consultar os documentos atuais do projeto necessários para não exagerar suas capacidades.
 - Identificar o local real dos contatos mapeados e os registros anteriores.
 - Registrar a data, os arquivos consultados e a versão/commit dos documentos relevantes, quando disponível.
@@ -90,23 +107,31 @@ Para cada contato existente:
 - preservar nome e organização exatamente como registrados;
 - registrar a fonte disponível e o nível de verificação;
 - identificar a categoria de aderência principal e, se pertinente, uma secundária;
+- identificar a agenda/projeto/necessidade atual do próprio contato e sua evidência;
+- responder “o que MWN/UMS poderia oferecer especificamente a este contato?” e indicar a capacidade/fonte e sua maturidade;
+- registrar separadamente a contribuição possível do contato para o projeto;
+- registrar o estado `MUTUAL_FIT_ELIGIBLE`, `MUTUAL_FIT_UNCONFIRMED`, `ONE_WAY_PROJECT_FIT` ou `NO_CURRENT_FIT`;
+- formular uma pergunta de confirmação/correção que teste a utilidade para o contato;
 - apontar a evidência concreta de aderência;
 - separar fatos explícitos de inferências;
 - verificar duplicatas e histórico de abordagem;
 - classificar a prioridade como **Alta**, **Média**, **Baixa** ou **Sem aderência demonstrada**.
 
-**Prioridade Alta:** aderência específica e verificável, problema ou competência diretamente relacionado e próximo passo plausível.  
-**Prioridade Média:** aderência razoável, mas uma lacuna relevante precisa ser esclarecida.  
-**Prioridade Baixa:** relação temática genérica, sem sinal concreto de necessidade, competência ou disponibilidade.  
-**Sem aderência demonstrada:** as evidências disponíveis não sustentam abordagem para esta missão.
+**Prioridade Alta:** evidência atual e específica da agenda do contato, utilidade plausível para essa agenda, contribuição plausível ao projeto e próximo passo exploratório delimitado.
+**Prioridade Média:** há hipótese de valor nos dois sentidos, mas uma lacuna material ainda impede recomendar abordagem; registrar `MUTUAL_FIT_UNCONFIRMED` e não preparar mensagem.
+**Prioridade Baixa:** relação temática genérica ou possível contribuição apenas unilateral do contato ao projeto; registrar `ONE_WAY_PROJECT_FIT` quando aplicável, sem recomendar abordagem.
+**Sem aderência demonstrada:** as evidências não sustentam uma interseção profissional atual nem utilidade plausível para o contato.
 
-A prioridade não é uma afirmação de interesse. Não confundir relevância profissional com intenção de participar.
+A prioridade não é uma afirmação de interesse. Somente o contato pode confirmar se o benefício existe ou se a conversa é útil para sua agenda.
 
 ### Etapa 3 — Avaliação individual
 Para cada contato com prioridade Alta ou Média, produzir:
 - evidências a favor;
 - evidências contrárias e riscos de abordagem;
 - lacunas que precisam ser confirmadas;
+- evidência da agenda atual do contato e explicação específica do benefício plausível para essa agenda;
+- capacidade/hipótese de MWN/UMS que fundamenta a utilidade, com maturidade, fonte e limites;
+- contribuição potencial do contato e a hipótese de benefício mútuo, sem atribuir interesse confirmado;
 - hipótese específica que a conversa poderia testar;
 - pergunta inicial mais útil;
 - próximo passo recomendado.
@@ -114,7 +139,7 @@ Para cada contato com prioridade Alta ou Média, produzir:
 Não atribuir interesse, autoridade de decisão, orçamento, capacidade de pilotagem ou intenção de investimento sem fonte explícita.
 
 ### Etapa 4 — Preparação de abordagem
-Preparar mensagem individual apenas para contatos cuja aderência justifique o contato. A mensagem deve:
+Preparar mensagem individual somente para contato `MUTUAL_FIT_ELIGIBLE` com Prioridade Alta. Para Prioridade Média, ausência de evidência de benefício ao contato ou `ONE_WAY_PROJECT_FIT`, não preparar mensagem; documentar a lacuna. A mensagem elegível deve apresentar a hipótese bilateral como algo a confirmar e perguntar se a conversa é útil para o trabalho atual do contato. Ela deve:
 - referenciar somente fatos verificáveis sobre a pessoa/organização;
 - ser curta, profissional e específica;
 - apresentar o contato como conversa exploratória de validação, não como venda disfarçada;
@@ -138,7 +163,7 @@ Usar a escala do protocolo:
 - **E4 — Piloto executado:** há dados observados e resultados documentados.
 - **E5 — Adoção/contrato:** há decisão real de uso ou contratação.
 
-O HH não pode atribuir E1–E5 a partir de uma hipótese ou da própria mensagem preparada. Antes de existir resposta externa, registrar **“Ainda não contatado / evidência externa inexistente”**. Registrar E0 com fidelidade, sem excluir respostas negativas do relatório.
+E0–E5 registram evidência externa de validação, não a elegibilidade do contato nem a convergência mútua. Antes de haver contato/resposta verificável, registrar `NOT_ASSESSED` (**“Ainda não contatado / evidência externa inexistente”**), nunca E0. Uma hipótese bilateral não significa interesse confirmado; o contato deve poder corrigi-la ou rejeitá-la. Registrar E0 com fidelidade, sem excluir respostas negativas do relatório.
 
 ### Etapa 6 — Persistência
 Persistir os resultados nos arquivos do projeto e nos caminhos existentes do repositório. Não criar uma nova estrutura paralela se já houver convenção aplicável.
@@ -155,13 +180,14 @@ O relatório consolidado deve conter:
 1. data e versão/commit dos documentos consultados;
 2. total de contatos examinados;
 3. total por prioridade e por categoria;
-4. contatos já abordados anteriormente e duplicidades evitadas;
-5. melhores candidatos, com justificativa e nível de verificação;
-6. mensagens preparadas e caminho de cada arquivo;
-7. lacunas e bloqueios;
-8. evidência externa existente, classificada E0–E5, sem inflar os níveis;
-9. próximos passos recomendados;
-10. limites explícitos: avaliação de contatos não prova demanda; mensagens preparadas não são mensagens enviadas; interesse exploratório não equivale a piloto, receita ou contratação.
+4. total por estado de convergência mútua e quantos foram considerados elegíveis para conversa;
+5. contatos já abordados anteriormente e duplicidades evitadas;
+6. melhores candidatos, justificando os dois lados do benefício e o nível de verificação;
+7. mensagens preparadas e caminho de cada arquivo;
+8. lacunas e bloqueios;
+9. evidência externa existente, classificada E0–E5, sem inflar os níveis;
+10. próximos passos recomendados;
+11. limites explícitos: avaliação de contatos não prova demanda; mensagens preparadas não são mensagens enviadas; interesse exploratório não equivale a piloto, receita ou contratação.
 
 ## 7. Perguntas para entrevistas — guia de preparação
 
@@ -169,28 +195,33 @@ O HH deve selecionar poucas perguntas adequadas ao perfil, não enviar um questi
 
 **Para potenciais usuários**
 - Qual problema operacional relacionado a processamento, armazenamento, banda ou distribuição de tarefas é mais relevante hoje?
+- Há algum projeto ou objetivo seu que poderia se beneficiar de uma capacidade específica de MWN/UMS, se demonstrada? Que evidência ou condição tornaria essa utilidade real para você?
 - Como é medido e qual é o custo ou impacto atual?
 - Que requisito mínimo uma alternativa teria de cumprir para ser avaliada?
 - Quais dados, riscos ou integrações impediriam um teste?
 
 **Para provedores de recursos**
 - Como medem capacidade ociosa, custo marginal e disponibilidade?
+- Que objetivo ou necessidade atual do seu trabalho poderia ser atendido, se algum, por uma hipótese ou capacidade documentada de MWN/UMS? O que teria de ser demonstrado para que isso lhe trouxesse valor?
 - Quais limitações técnicas, contratuais ou regulatórias restringem a oferta?
 - Que dados e controles seriam necessários para avaliar uma utilização alternativa?
 
 **Para especialistas técnicos**
 - Quais hipóteses técnicas da proposta precisam ser demonstradas primeiro?
+- Existe uma iniciativa, pesquisa ou problema técnico atual seu para o qual revisar ou testar essa hipótese seria útil? Qual seria o benefício concreto para seu trabalho, se houver?
 - Como definiria uma tarefa útil verificável e uma prova resistente a fraude?
 - Quais testes adversariais ou condições de falha invalidariam a proposta?
 
 **Para especialistas econômicos/regulatórios**
 - Quais premissas de incentivo, custo e governança precisam ser explicitadas?
+- Que objetivo ou necessidade profissional atual sua poderia se beneficiar de examinar o caso MWN/UMS, se algum, e que escopo tornaria essa conversa útil para você?
 - Que riscos surgem ao representar valores contábeis como se fossem valor realizável?
 - Quais requisitos jurídicos ou de conformidade precisam ser analisados antes de qualquer piloto?
 
 ## 8. Critérios de avanço para um piloto
 
 Não recomendar um piloto somente porque houve resposta positiva. A recomendação exige evidência de:
+- um problema ou objetivo atual do participante e uma hipótese bilateral explícita sobre como MWN/UMS poderia ser útil a ele/ela, sem prometer uma capacidade não demonstrada;
 - tarefa concreta e legalmente autorizada;
 - baseline mensurável da solução atual;
 - critério de qualidade verificável;
