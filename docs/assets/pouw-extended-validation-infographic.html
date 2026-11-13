@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PoUW estendido MeshWave — ciclo de validação</title>
+<style>
+  :root{--ink:#12243a;--muted:#5c6d80;--line:#d9e5ed;--bg:#f4f8fb;--teal:#087f8c;--blue:#1769aa;--violet:#6853b8;--gold:#d78b16;--green:#3e8e5b;--red:#bd4b55;}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink)}
+  main{width:1600px;margin:0 auto;padding:58px 70px 54px;background:linear-gradient(135deg,#f7fbfd 0%,#eef6f7 100%)}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:42px;margin-bottom:34px}.eyebrow{font-size:18px;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);font-weight:800}.brand{font-size:18px;color:var(--muted);font-weight:700;white-space:nowrap;padding-top:5px}
+  h1{font-size:48px;line-height:1.05;margin:10px 0 12px;letter-spacing:-1.3px}.subtitle{font-size:23px;line-height:1.35;color:var(--muted);max-width:1080px}
+  .definition{margin:25px 0 38px;padding:23px 28px;border:1px solid #b8dfe2;border-left:8px solid var(--teal);border-radius:16px;background:#fff;box-shadow:0 12px 30px rgba(18,36,58,.07);font-size:23px;line-height:1.4}.definition b{color:var(--teal)}
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}.card{position:relative;min-height:184px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:21px 21px 18px;box-shadow:0 9px 24px rgba(18,36,58,.08)}.card:after{content:'→';position:absolute;right:-19px;top:73px;font-size:31px;color:#9eb5c2;font-weight:700;z-index:2}.card:nth-child(4):after,.card:nth-child(8):after{display:none}.step{display:inline-flex;width:40px;height:40px;border-radius:12px;align-items:center;justify-content:center;color:#fff;font-weight:850;font-size:19px;margin-bottom:13px}.c1 .step,.c5 .step{background:var(--blue)}.c2 .step,.c6 .step{background:var(--teal)}.c3 .step,.c7 .step{background:var(--violet)}.c4 .step,.c8 .step{background:var(--gold)}.card h2{font-size:21px;margin:0 0 8px}.card p{font-size:16px;line-height:1.38;margin:0;color:var(--muted)}
+  .lower{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:20px;margin-top:29px}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;box-shadow:0 9px 24px rgba(18,36,58,.06)}.panel h3{margin:0 0 13px;font-size:21px}.panel p,.panel li{font-size:16px;line-height:1.4;color:var(--muted)}.panel ul{margin:0;padding-left:20px}.badge{display:inline-block;border-radius:999px;padding:7px 11px;margin:3px 4px 3px 0;font-size:14px;font-weight:750}.b-blue{background:#e4f1fb;color:#1769aa}.b-teal{background:#e2f5f2;color:#087f8c}.b-violet{background:#eee9fb;color:#6853b8}.b-gold{background:#fff1d5;color:#a36309}.footer{margin-top:27px;display:flex;justify-content:space-between;gap:30px;align-items:center;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:16px}.footer strong{color:var(--ink)}
+</style></head>
+<body><main>
+  <div class="top"><div><div class="eyebrow">MeshWave · Proof of Useful Work</div><h1>Ciclo de validação do PoUW estendido</h1><div class="subtitle">Da contribuição declarada ao reconhecimento auditável — computacional ou não computacional.</div></div><div class="brand">Metodologia de validação<br>Versão complementar</div></div>
+  <div class="definition"><b>Princípio central:</b> uma contribuição só pode gerar reconhecimento quando for autorizada, mensurável, atribuível, relevante para o ecossistema, validada segundo sua classe e livre de duplicidade ou disputa bloqueante.</div>
+  <section class="flow">
+    <article class="card c1"><div class="step">01</div><h2>Submissão</h2><p>O participante declara a contribuição, a finalidade MeshWave, o módulo beneficiado e as evidências disponíveis.</p></article>
+    <article class="card c2"><div class="step">02</div><h2>Registro persistente</h2><p>É criado um identificador versionado, com autor, tarefa, tópico, período, estado e referências de evidência.</p></article>
+    <article class="card c3"><div class="step">03</div><h2>Classificação</h2><p>Define-se a classe: computação, storage, software, conhecimento, curadoria, serviço, material, financeira ou governança.</p></article>
+    <article class="card c4"><div class="step">04</div><h2>Elegibilidade</h2><p>Verifica-se autorização, vínculo com o ecossistema, período, identidade e suficiência mínima da documentação.</p></article>
+    <article class="card c5"><div class="step">05</div><h2>Evidência e validação</h2><p>Aplicam-se métodos próprios da classe: testes, revisão, aceite, amostragem, auditoria, inspeção ou reconciliação.</p></article>
+    <article class="card c6"><div class="step">06</div><h2>Utilidade</h2><p>O resultado é relacionado a uma necessidade real: capacidade, segurança, documentação, roteamento, dados ou operação.</p></article>
+    <article class="card c7"><div class="step">07</div><h2>Decisão</h2><p>A contribuição é aprovada, aprovada parcialmente, rejeitada ou encaminhada para esclarecimento ou disputa.</p></article>
+    <article class="card c8"><div class="step">08</div><h2>Reconhecimento</h2><p>A decisão e o resumo da evidência podem ser registrados on-chain; a atribuição de UMS ocorre conforme a política.</p></article>
+  </section>
+  <section class="lower">
+    <div class="panel"><h3>Critérios obrigatórios</h3><span class="badge b-blue">Autorizada</span><span class="badge b-teal">Mensurável</span><span class="badge b-violet">Atribuível</span><span class="badge b-gold">Relevante</span><span class="badge b-blue">Única</span><span class="badge b-teal">Validada</span><p>Sem o atendimento das portas obrigatórias, a atividade permanece uma alegação ou registro, não uma PoUW reconhecida.</p></div>
+    <div class="panel"><h3>Classes não computacionais</h3><ul><li>Trabalho intelectual e conhecimento</li><li>Documentação, revisão e curadoria</li><li>Suporte, coordenação e governança</li><li>Recursos materiais e financiamento autorizado</li></ul></div>
+    <div class="panel"><h3>Separação arquitetural</h3><p><strong>Contribuição útil</strong> produz valor para uma função MeshWave.</p><p><strong>Reconhecimento</strong> valida e atribui a contribuição.</p><p><strong>Consenso</strong> mantém o acordo sobre o estado da blockchain.</p></div>
+  </section>
+  <div class="footer"><span><strong>PoUW estendido MeshWave</strong> · evidência → validação → reconhecimento → UMS</span><span>Não é recompensa automática por participação ou declaração.</span></div>
+</main></body></html>

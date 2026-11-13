@@ -33,25 +33,11 @@ A palavra “prova” não exige que todas as classes possuam uma prova criptogr
 
 ## 3. Ciclo de vida da contribuição
 
-O processo recomendado é:
+O processo recomendado está representado no infográfico abaixo. Ele substitui a versão Mermaid por uma composição visual com hierarquia de etapas, critérios obrigatórios, classes de contribuição e separação arquitetural entre contribuição, reconhecimento e consenso.
 
-```mermaid
-flowchart LR
-    A[Submissão aberta] --> B[Registro persistente]
-    B --> C[Classificação da contribuição]
-    C --> D[Triagem de elegibilidade]
-    D --> E[Validação específica da classe]
-    E --> F{Decisão}
-    F -->|Aprovada| G[Reconhecimento]
-    F -->|Aprovada parcialmente| G
-    F -->|Rejeitada| H[Registro da rejeição]
-    F -->|Revisão| I[Pedido de esclarecimentos]
-    I --> E
-    G --> J[Registro on-chain]
-    J --> K[Atribuição econômica eventual]
-    G --> L[Auditoria e disputa]
-    H --> L
-```
+![Infográfico do ciclo de validação do PoUW estendido MeshWave](./assets/pouw-extended-validation-infographic.png)
+
+O [arquivo-fonte HTML do infográfico](./assets/pouw-extended-validation-infographic.html) permanece versionado para permitir ajustes posteriores de texto, cores e composição.
 
 Cada submissão deve possuir estado versionado. Os estados mínimos são:
 
