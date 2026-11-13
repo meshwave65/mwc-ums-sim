@@ -186,6 +186,24 @@ A validação deve incluir:
 
 A contribuição financeira pode ser reconhecida como financiamento ecossistêmico, mas não deve comprar automaticamente UMS em proporção direta ao valor transferido. O reconhecimento depende também da aplicação e do benefício verificável.
 
+### 7.3 Distinção da emissão UMS Genesis
+
+As contribuições financeiras genéricas, sem destinação clara, direta e previamente definida, ou com uso indefinido, **não são contribuições financeiras elegíveis ao PoUW estendido**. O simples envio de recursos ao ecossistema não constitui prova de utilidade, não compra UMS e não substitui a demonstração de aplicação e resultado.
+
+As atuais contribuições associadas à chamada aquisição de **UMS Genesis** devem ser tratadas em categoria distinta. Conforme a regra de governança declarada para esta fase do projeto, elas não representam compra de UMS nem financiamento de uma tarefa específica. Elas correspondem ao reconhecimento do trabalho realizado pelo fundador, convertido em UMS segundo critérios de governança definidos para a fase Genesis, antes da auditoria que será realizada sobre essa emissão histórica.
+
+Essa distinção deve aparecer nos registros e na documentação econômica:
+
+- **não é compra de UMS**;
+- **não é doação financeira PoUW**;
+- **não é contribuição financeira genérica elegível**;
+- **é uma emissão histórica Genesis atribuída ao trabalho do fundador**, sujeita à auditoria posterior e às regras de governança aplicáveis;
+- **não deve ser confundida com as contribuições futuras**, que deverão seguir o protocolo de evidência, validação e reconhecimento por classe.
+
+A emissão Genesis constitui a única exceção em que UMS podem ser transferidas diretamente aos MeshWalkers sem passar pela conversão na **MW-Ex**. Essa exceção é limitada à fase e à emissão Genesis; não cria um direito geral de transferência direta nem altera o fluxo ordinário de reconhecimento e conversão para contribuições posteriores.
+
+Até a conclusão da auditoria, os registros Genesis devem preservar o estado histórico, a origem da atribuição, a regra de governança aplicada, a quantidade transferida e a indicação de que a emissão permanece sujeita à verificação. Esta descrição registra a regra declarada pelo projeto e não constitui, por si só, auditoria independente ou conclusão jurídica.
+
 ## 8. Modelo de decisão e reconhecimento econômico
 
 Uma contribuição pode ser reconhecida somente se satisfizer as portas obrigatórias:
