@@ -1,0 +1,567 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue}
+\setlist[itemize]{noitemsep,topsep=3pt}
+\setlist[enumerate]{noitemsep,topsep=3pt}
+\title{Extended Proof of Useful Work in the MeshWave Ecosystem\\\large A contribution-recognition framework for computational and non-computational ecosystem utility}
+\author{Diogenes Duarte Sobral\\\href{https://orcid.org/0009-0005-3602-4906}{ORCID: 0009-0005-3602-4906}}
+\date{3 de novembro de 2026}
+\begin{document}
+\maketitle
+\begin{center}\textbf{Licença pretendida:} Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)\end{center}
+\vspace{1em}
+
+
+\textbf{Versão:} 1.0 — proposta técnica para publicação no Zenodo  \\
+\textbf{Data:} 3 de novembro de 2026  \\
+\textbf{Autor:} Diogenes Duarte Sobral  \\
+\textbf{ORCID:} \href{https://orcid.org/0009-0005-3602-4906}{0009-0005-3602-4906}  \\
+\textbf{Licença pretendida:} Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)  \\
+\textbf{Ecossistema:} MeshWave  \\
+\textbf{Aplicação de simulação relacionada:} \texttt{meshware\\_dynrotsimulator}\\
+
+
+\section{Resumo}
+
+A expressão \emph{Proof of Useful Work} (PoUW) é utilizada na literatura técnica principalmente para designar mecanismos que substituem ou complementam o puzzle criptográfico tradicional por tarefas computacionais verificáveis. Nesses modelos, o trabalho útil costuma estar associado à mineração, à produção de blocos ou à segurança do consenso. Este artigo propõe uma formulação ampliada para o ecossistema MeshWave: \textbf{PoUW é a prova verificável de uma contribuição mensurável e relevante para a operação, a manutenção, a expansão ou a utilidade do próprio ecossistema, independentemente de a contribuição ser computacional ou não computacional e independentemente de participar diretamente do consenso da blockchain}.\\
+
+A formulação MeshWave inclui, entre outras classes, processamento, armazenamento, roteamento, desenvolvimento de software, pesquisa, documentação, conhecimento, validação, curadoria, suporte, coordenação e disponibilização de recursos. Também admite, sob regras específicas, contribuições materiais ou financeiras. Neste último caso, a contribuição não é automaticamente tratada como “trabalho”: ela só pode constituir uma PoUW quando produzir uma utilidade ecossistêmica definida, rastreável, proporcionalmente atribuível e validada por critérios previamente estabelecidos.\\
+
+O artigo apresenta uma definição operacional, uma taxonomia de contribuições, um ciclo de evidência e validação, uma separação entre reconhecimento econômico e consenso, um modelo de atribuição de UMS e requisitos de segurança contra fraude, duplicidade, Sybil, conluio e inflação de recompensas. A análise de anterioridade indica que as formulações acadêmicas verificadas de PoUW permanecem predominantemente computacionais. Existem, entretanto, precedentes separados para armazenamento, contribuição, reputação, crowdsourcing, software aberto, financiamento comunitário e serviços. A possível diferenciação da MeshWave está na combinação geral desses elementos dentro de um único ecossistema, e não na alegação de que qualquer componente isolado seja inédito.\\
+
+\textbf{Palavras-chave:} Proof of Useful Work; PoUW; MeshWave; contribuição útil; prova de contribuição; reconhecimento econômico; blockchain; consenso; UMS; MWN.\\
+
+
+\section{1. Introdução}
+
+O Proof of Work (PoW) tradicional utiliza esforço computacional para proteger um registro distribuído e selecionar o participante autorizado a propor um bloco. O esforço empregado é deliberadamente difícil de produzir e relativamente fácil de verificar, mas normalmente não possui utilidade externa além da segurança do próprio mecanismo de consenso [1].\\
+
+A pesquisa sobre Proof of Useful Work procurou alterar essa relação. Primecoin reutiliza trabalho computacional para procurar cadeias de números primos [2]. Permacoin transforma o puzzle de mineração em uma prova relacionada à preservação distribuída de dados [3]. Ball et al. formalizam provas de trabalho baseadas em problemas de complexidade fina, como Orthogonal Vectors, 3SUM e All-Pairs Shortest Path [4] [5]. Propostas posteriores utilizam treinamento de modelos, busca, otimização e outras tarefas computacionais [6] [7] [8].\\
+
+Esses trabalhos são relevantes para a MeshWave, mas não abrangem integralmente o conceito utilizado neste artigo. O ecossistema MeshWave não pretende restringir a utilidade à execução de instruções em CPU, GPU ou outro dispositivo. A utilidade pode surgir da preservação de dados, da disponibilidade de um serviço, da correção de código, da produção de documentação, da pesquisa, da validação de informação, da curadoria, da coordenação de participantes ou da disponibilização de recursos materiais.\\
+
+O problema conceitual é que a ampliação do termo cria uma diferença entre dois sentidos de “prova”. Nos sistemas computacionais, a prova pode ser principalmente criptográfica ou algorítmica. Em contribuições intelectuais, sociais, organizacionais ou materiais, a prova pode combinar artefatos, registros, revisão, reputação, aceitação da tarefa, métricas de impacto e mecanismos de disputa. O framework MeshWave precisa reconhecer essa diferença sem transformar uma alegação subjetiva em direito automático a UMS.\\
+
+Este artigo apresenta a seguinte questão:\\
+
+> Como definir PoUW no ecossistema MeshWave de modo que ele reconheça contribuições computacionais e não computacionais úteis, mensuráveis e relevantes, sem confundir reconhecimento de contribuição com consenso blockchain e sem tratar toda doação ou atividade declarada como trabalho automaticamente recompensável?\\
+
+A resposta proposta é um modelo de \textbf{prova de contribuição útil ao ecossistema}, com classes de contribuição e verificadores específicos. A definição é uma proposta técnica para a MeshWave. Não é apresentada como definição acadêmica já consolidada nem como prova de prioridade absoluta.\\
+
+
+\section{2. Anterioridade e posição conceitual}
+
+\subsection{2.1 O núcleo computacional do termo PoUW}
+
+A literatura primária consultada apresenta um núcleo relativamente consistente. PoUW é associado a uma tarefa computacional delimitada que substitui ou complementa o hash-puzzle da mineração. O participante executa a tarefa, apresenta uma solução ou certificado e recebe uma recompensa, uma prioridade ou a possibilidade de participar da produção do bloco.\\
+
+Em Ball et al., a construção usa problemas computacionais com hipóteses de complexidade fina e mecanismos que permitem verificar ou reconstruir o resultado com custo inferior ao da produção [4] [5]. Coin.AI emprega treinamento de modelos de deep learning ligado aos dados do bloco, com avaliação mais barata que o treinamento [6]. Ofelimos utiliza busca local para problemas de otimização combinatória e provas sucintas de execução [7]. O protocolo Useful Work organiza clientes, workers, verificadores e produtores de bloco em torno de tarefas computacionais [8].\\
+
+O elemento comum é a execução computacional verificável. O significado de “útil” é definido por um problema que pode ser representado, executado e validado por procedimentos formais.\\
+
+\subsection{2.2 Precedentes relacionados fora do núcleo PoUW}
+
+Existem sistemas que reconhecem contribuições não computacionais ou contribuições que não se reduzem a um hash-puzzle. Proof of Contribution pode quantificar ações de uma aplicação para selecionar um produtor de bloco [9]. O tea Protocol calcula impacto de projetos open source por relações de dependência e distribui tokens conforme regras de contribuição [10] [11]. CrowdBC trata de tarefas de inteligência humana e liquidação por blockchain [12]. Gitcoin Quadratic Funding agrega apoio financeiro comunitário, embora seja uma regra de financiamento e não uma prova de trabalho [13]. Filecoin usa provas criptográficas para armazenamento e disponibilidade, representando uma classe específica de serviço verificável [14].\\
+
+Esses precedentes não devem ser chamados automaticamente de PoUW. Eles demonstram que componentes da proposta MeshWave já existem em sistemas separados: contribuição mensurável, validação, reputação, serviço, financiamento, evidência, atribuição e recompensa. O objeto deste artigo é propor uma forma de integrar esses componentes sob a ideia de PoUW estendido próprio do ecossistema MeshWave.\\
+
+\subsection{2.3 O que este artigo não afirma}
+
+Este artigo não afirma que a MeshWave inventou o conceito geral de trabalho útil, que foi a primeira a recompensar trabalho não computacional ou que a combinação descrita é juridicamente nova ou patenteável. A formulação prudente é que a MeshWave propõe uma extensão semântica e operacional de PoUW, potencialmente diferenciada pelo escopo e pela integração entre classes de contribuição.\\
+
+A anterioridade acadêmica deve ser avaliada separadamente para cada elemento. A contribuição computacional útil possui literatura anterior consolidada. Armazenamento verificável, serviços, reputação, conhecimento, software aberto, crowdfunding e trabalho humano também possuem precedentes. A hipótese de diferenciação reside na combinação MeshWave:\\
+
+\begin{enumerate}
+\item uma categoria geral de contribuição útil ao próprio ecossistema;
+\item classes computacionais e não computacionais dentro da mesma economia;
+\item evidência e validação específicas por classe;
+\item atribuição econômica a um participante;
+\item aquisição de uma unidade interna, UMS;
+\item integração com o ecossistema MeshWave, sua blockchain e sua economia MWN/UMS;
+\item separação conceitual entre reconhecimento de contribuição e consenso da blockchain.
+
+
+\section{3. Escopo do ecossistema MeshWave}
+
+\end{enumerate}
+A MeshWave é tratada neste artigo como um ecossistema integrado de recursos, serviços, participantes, módulos de interconexão, blockchain e unidades econômicas internas. O material arquitetural do projeto descreve uma sandbox global formada por parcelas segregadas de recursos disponibilizadas pelos nós, com contribuição nativa e oferta adicional sob demanda [15].\\
+
+Cada participante mantém um domínio privado e um domínio cedido à rede. A integração à MeshWave deve expor apenas interfaces e recursos autorizados. A disponibilidade nominal de uma máquina não equivale automaticamente a trabalho útil. A capacidade precisa ser elegível, alocada, utilizada e validada.\\
+
+A arquitetura conceitual registra dois regimes:\\
+
+\begin{itemize}
+\item \textbf{Contribuição nativa:} parcela estrutural destinada à sustentação da rede. Na documentação arquitetural, é representada como 1\\% da capacidade de processamento e 1\\% da capacidade de armazenamento, sujeita a disponibilidade e às futuras regras de medição.
+\item \textbf{Contribuição adicional:} capacidade que o MeshWalker autoriza além da parcela nativa. Ela só deve ser alocada quando houver demanda compatível e só deve ser remunerada quando houver trabalho útil realizado e validado.
+
+\end{itemize}
+Essa distinção é importante para o PoUW estendido. A simples conexão do nó, a capacidade anunciada, a reserva ociosa ou a obrigação estrutural de participar não constituem necessariamente uma contribuição remunerável. O objeto da prova é a contribuição reconhecida segundo uma tarefa ou finalidade específica.\\
+
+No simulador \texttt{meshware\\_dynrotsimulator}, a infraestrutura pode ser estudada conceitualmente por caches CPA e CLA. Cada equipamento funciona como nó e mantém uma referência à CLA em que se encontra; o CPA agrupa CLAs de uma região. O cache CLA é geolocalizado e fornece consciência espacial para a predição de rotas. A cada mudança na CLA do equipamento, a informação deve ser atualizada no cache de sua CPA. Na primeira simulação, o foco é a validação conceitual e o refinamento do roteamento, sem incorporar latência ou outras variáveis reais. Uma operação de roteamento aceita, uma rota validada ou uma manutenção comprovada de cache pode futuramente constituir uma classe de contribuição de infraestrutura, desde que sua utilidade, evidência e atribuição sejam formalmente definidas.\\
+
+
+\section{4. Definição do PoUW estendido MeshWave}
+
+\subsection{4.1 Definição normativa}
+
+Propõe-se a seguinte definição:\\
+
+> \textbf{PoUW estendido MeshWave é o conjunto de evidências, verificações e decisões de reconhecimento que demonstra que um participante realizou, forneceu ou viabilizou uma contribuição mensurável, relevante e autorizada para a operação, a manutenção, a segurança, a capacidade, o conhecimento ou a utilidade do ecossistema MeshWave, podendo a contribuição ser computacional ou não computacional, e podendo seu reconhecimento ocorrer independentemente da função de consenso da blockchain.}\\
+
+A definição contém seis elementos obrigatórios:\\
+
+\begin{enumerate}
+\item \textbf{Contribuição:} deve existir uma ação, entrega, disponibilização ou resultado atribuível a um participante.
+\item \textbf{Autorização ou elegibilidade:} a contribuição deve estar dentro de uma tarefa, política, contrato, chamada, função ou classe aceita pela MeshWave.
+\item \textbf{Mensurabilidade:} deve haver uma unidade, evento, artefato, período, quantidade ou indicador observável.
+\item \textbf{Relevância ecossistêmica:} a contribuição deve beneficiar uma função definida da MeshWave, e não apenas o participante individual.
+\item \textbf{Evidência e validação:} deve haver material suficiente para que um verificador aplique o critério correspondente.
+\item \textbf{Reconhecimento:} uma autoridade, regra algorítmica, conjunto de validadores ou processo de governança deve aceitar a contribuição e atribuir o resultado ao participante.
+
+\end{enumerate}
+A palavra “prova” não significa que todas as classes terão uma prova criptográfica do mesmo tipo. Em contribuições computacionais, a prova pode ser um certificado verificável. Em pesquisa ou documentação, pode ser um artefato submetido, revisão e aceitação. Em doação material, pode ser registro de recebimento, integridade, quantidade, destino e utilidade. O requisito comum não é uma métrica universal, mas uma cadeia auditável de evidência e decisão.\\
+
+\subsection{4.2 Contribuição útil não é qualquer contribuição}
+
+Uma contribuição só é útil no sentido MeshWave quando satisfaz uma função de utilidade definida. “Eu ajudei” não é uma prova suficiente. “Doei um equipamento” também não é suficiente por si só. O sistema deve responder:\\
+
+\begin{itemize}
+\item Qual necessidade da MeshWave a contribuição atende?
+\item Qual era a tarefa ou capacidade esperada?
+\item Qual evidência demonstra entrega ou disponibilidade real?
+\item Qual critério determina qualidade, quantidade ou impacto?
+\item Como se evita duplicidade ou atribuição indevida?
+\item Quem ou o que validou a contribuição?
+\item Qual unidade de reconhecimento resulta da decisão?
+
+\subsection{4.3 Trabalho, contribuição e doação}
+
+\end{itemize}
+No uso ampliado, “trabalho” é empregado em sentido funcional, como atividade ou recurso mobilizado para gerar utilidade ecossistêmica. Entretanto, uma doação financeira ou material não deve ser chamada automaticamente de trabalho em sentido econômico, físico ou jurídico.\\
+
+Para preservar precisão técnica, propõe-se a seguinte distinção:\\
+
+\begin{itemize}
+\item \textbf{PoUW de execução:} o participante executa uma tarefa, como processamento, roteamento, armazenamento, desenvolvimento ou análise.
+\item \textbf{PoUW de disponibilização:} o participante disponibiliza capacidade, infraestrutura, espaço, equipamento ou serviço que é efetivamente utilizado e validado.
+\item \textbf{PoUW de produção intelectual:} o participante produz conhecimento, código, documentação, pesquisa, projeto, análise ou decisão técnica aceita.
+\item \textbf{PoUW de validação e curadoria:} o participante verifica, classifica, revisa, corrige ou organiza artefatos de modo útil e auditável.
+\item \textbf{PoUW de suporte ecossistêmico:} o participante coordena, mantém, atende, integra ou opera uma função necessária da rede.
+\item \textbf{PoUW de contribuição material ou financeira:} o participante fornece bens, insumos ou recursos financeiros que são recebidos, aplicados a uma finalidade MeshWave autorizada e vinculados a um resultado ou capacidade verificável.
+
+\end{itemize}
+A quinta e a sexta classes são contribuições úteis, mas não devem ser confundidas com esforço computacional. O paper usa PoUW estendido como termo guarda-chuva, enquanto recomenda que a implementação armazene a classe específica da contribuição.\\
+
+
+\section{5. Taxonomia de contribuições MeshWave}
+
+\begin{center}
+\small
+\begin{longtable}{p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth}}
+\toprule
+Classe & Exemplos no ecossistema & Evidência primária & Validação possível & Risco principal \\
+\midrule\endhead
+Computacional & Execução de jobs, simulação, inferência, processamento & Logs assinados, hash de entrada/saída, certificado & Reexecução, amostragem, prova sucinta & Resultado fabricado ou trabalho duplicado \\
+Armazenamento & Retenção, recuperação e preservação de objetos & Hash, desafio, prova de recuperação, disponibilidade & Desafios aleatórios e leitura verificável & Simulação de disponibilidade ou cópia duplicada \\
+Roteamento e infraestrutura & Encaminhamento, manutenção de caches CPA/CLA, disponibilidade de nó & Registros de rota, eventos de cache, métricas de atendimento & Testes externos, amostragem e correlação de eventos & Telemetria falsa ou roteamento artificial \\
+Software & Código, correção, testes, manutenção, integração & Commit, revisão, build reproduzível, issue resolvida & Testes, revisão independente e implantação controlada & Commit sem utilidade, duplicidade ou dependência artificial \\
+Conhecimento & Pesquisa, análise, documentação, especificação & Artefato versionado, referências, revisão & Peer review, aceitação por tarefa e replicação & Plágio, baixa qualidade ou impacto superestimado \\
+Curadoria & Classificação, validação, organização de dados & Dataset, trilha de alterações, justificativas & Amostragem, concordância e revisão & Viés, manipulação ou exclusão indevida \\
+Validação & Auditoria, verificação de resultados, detecção de falhas & Relatório, testes, divergências detectadas & Repetição independente e taxa de acerto & Conluio ou validação superficial \\
+Serviço e suporte & Atendimento, coordenação, operação e integração & Tickets, SLA, registros de atendimento & Aceite do solicitante, amostragem e histórico & Métrica de atividade sem valor real \\
+Recurso material & Equipamento, espaço, conectividade, insumo & Registro de entrega, identidade, inventário e uso & Inspeção, medição e consumo comprovado & Doação não utilizada ou superavaliada \\
+Recurso financeiro & Financiamento de tarefa, compra ou manutenção autorizada & Registro de origem, recebimento, finalidade e aplicação & Reconciliação, comprovantes e auditoria & Financiamento circular, lavagem ou dupla atribuição \\
+Governança & Propostas, deliberação, resolução de disputas & Proposta, voto, ata e decisão & Quórum, conflito declarado e rastreabilidade & Captura, voto Sybil ou recompensa por popularidade \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+A taxonomia não presume que todas as classes sejam equivalentes. Cada classe deve possuir um esquema de evidência e uma política de recompensa. A MeshWave não deve aplicar uma única métrica universal de “valor” a processamento, pesquisa, armazenamento, doação e coordenação.\\
+
+
+\section{6. Protocolo de reconhecimento PoUW}
+
+O PoUW estendido pode ser modelado como um ciclo de dez etapas.\\
+
+\subsection{6.1 Definição da oportunidade}
+
+A MeshWave ou um participante autorizado publica uma necessidade, tarefa ou oportunidade. O registro deve informar a classe de contribuição, o solicitante, a finalidade, a unidade de medição, o prazo, os critérios de qualidade, o método de validação, a política de recompensa e as condições de disputa.\\
+
+\subsection{6.2 Registro do contribuinte}
+
+O participante precisa ter uma identidade ou vínculo verificável com a contribuição. Identidade não significa necessariamente exposição pública de dados pessoais; significa que o sistema consegue impedir atribuição duplicada e aplicar políticas de elegibilidade.\\
+
+\subsection{6.3 Execução ou disponibilização}
+
+O participante executa a tarefa, entrega o artefato, disponibiliza o recurso ou realiza a contribuição autorizada. A capacidade anunciada sem uso não deve ser confundida com trabalho realizado.\\
+
+\subsection{6.4 Produção do artefato}
+
+Toda contribuição deve gerar um objeto observável: resultado computacional, arquivo, código, relatório, registro, serviço, evento, bem material, recurso financeiro aplicado ou decisão documentada.\\
+
+\subsection{6.5 Evidência}
+
+A evidência deve vincular o artefato ao participante, à tarefa, ao intervalo temporal e ao contexto. A evidência deve conter proteção contra replay, duplicidade e alteração posterior.\\
+
+\subsection{6.6 Validação}
+
+A validação deve seguir o método apropriado à classe. Ela pode ser automática, criptográfica, estatística, por amostragem, por revisão humana, por aceite do solicitante ou por combinação desses métodos.\\
+
+\subsection{6.7 Avaliação de utilidade}
+
+A utilidade deve ser avaliada em relação ao objetivo publicado. Quantidade, qualidade, impacto, escassez e custo de verificação são dimensões diferentes. Um relatório longo não é necessariamente mais útil que um relatório curto; uma máquina disponível não é necessariamente mais útil que uma máquina efetivamente utilizada.\\
+
+\subsection{6.8 Decisão de reconhecimento}
+
+A contribuição pode ser aceita integralmente, parcialmente, rejeitada ou encaminhada para revisão. A decisão deve registrar o motivo, o validador ou a regra aplicada, os dados utilizados e a versão da política.\\
+
+\subsection{6.9 Atribuição econômica}
+
+Depois da aceitação, a contribuição reconhecida pode ser convertida em UMS conforme uma política específica. A atribuição deve identificar a classe, a unidade reconhecida, os limites de emissão, a identidade beneficiária e a relação com outras recompensas.\\
+
+\subsection{6.10 Auditoria e disputa}
+
+O participante e a rede devem poder consultar a evidência necessária para reproduzir ou contestar a decisão, respeitando privacidade e confidencialidade. Uma disputa deve impedir que uma recompensa controvertida seja tratada como definitivamente liquidada até a decisão final, quando a política assim exigir.\\
+
+
+\section{7. Modelo formal de reconhecimento}
+
+Considere uma contribuição candidata:\\
+
+\[
+C = (i, t, k, a, e, v, q, u, r)\\
+\]
+
+em que:\\
+
+\begin{itemize}
+\item \texttt{i} é a identidade ou vínculo do participante;
+\item \texttt{t} é o intervalo temporal;
+\item \texttt{k} é a classe de contribuição;
+\item \texttt{a} é a tarefa ou oportunidade autorizada;
+\item \texttt{e} é o conjunto de evidências;
+\item \texttt{v} é o resultado da validação;
+\item \texttt{q} é a qualidade medida;
+\item \texttt{u} é a utilidade ecossistêmica estimada;
+\item \texttt{r} é o resultado de reconhecimento.
+
+\end{itemize}
+A contribuição só pode ser reconhecida quando:\\
+
+\[
+Eligible(C) = Auth(a) \textbackslash\\{\\}land Evidence(e) \textbackslash\\{\\}land Valid(v) \textbackslash\\{\\}land Unique(C) \textbackslash\\{\\}land Relevant(u)\\
+\]
+
+A recompensa UMS pode ser representada genericamente por:\\
+
+\[
+UMS(C) = B\\_k \textbackslash\\{\\}cdot Q(C) \textbackslash\\{\\}cdot U(C) \textbackslash\\{\\}cdot A(C) - P(C)\\
+\]
+
+onde:\\
+
+\begin{itemize}
+\item \texttt{B\\_k} é o limite ou orçamento da classe \texttt{k};
+\item \texttt{Q(C)} representa qualidade ou grau de cumprimento;
+\item \texttt{U(C)} representa utilidade reconhecida;
+\item \texttt{A(C)} representa a atribuição efetiva ao participante;
+\item \texttt{P(C)} representa penalidades, descontos, custos de verificação ou ajustes de disputa.
+
+\end{itemize}
+Essa fórmula é apenas uma estrutura analítica. Ela \textbf{não é a fórmula econômica atual da MeshWave}. A implementação deverá definir os parâmetros, limites, unidades e autoridades correspondentes. A fórmula também não deve sugerir que qualidade, utilidade e impacto sejam sempre números objetivos únicos. Para algumas classes, eles podem ser determinados por regras discretas, faixas, votação qualificada ou aceite de tarefa.\\
+
+\subsection{7.1 Valoração por classe}
+
+Uma política adequada deve evitar converter diretamente dinheiro doado, horas declaradas ou quantidade de texto em UMS. Exemplos:\\
+
+\begin{itemize}
+\item processamento: trabalho aceito por unidade de tarefa e qualidade;
+\item armazenamento: capacidade efetivamente ocupada, duração, recuperação e integridade;
+\item software: alteração aceita, testes, criticidade e manutenção posterior;
+\item conhecimento: artefato aceito, qualidade da revisão, replicabilidade e utilização;
+\item suporte: resolução de solicitação, severidade e aceite;
+\item material: quantidade recebida, especificação, uso real e período de disponibilidade;
+\item financeiro: valor aplicado a uma finalidade autorizada, comprovação de uso e benefício produzido.
+
+\end{itemize}
+O valor financeiro ou material pode ser um insumo para uma contribuição, mas não deve ser o único critério. Caso contrário, o sistema deixaria de reconhecer utilidade para simplesmente vender UMS.\\
+
+
+\section{8. Separação entre contribuição útil e consenso}
+
+A MeshWave deve distinguir quatro camadas:\\
+
+\begin{enumerate}
+\item \textbf{Contribuição:} atividade ou recurso que produz utilidade para uma função do ecossistema.
+\item \textbf{Prova e reconhecimento:} mecanismo que verifica e registra a contribuição.
+\item \textbf{Economia:} regra que atribui UMS, registra saldos ou relaciona UMS e MWN conforme as políticas do ecossistema.
+\item \textbf{Consenso:} mecanismo que permite aos nós concordarem sobre o estado da blockchain.
+
+\end{enumerate}
+Uma contribuição pode ser útil e gerar UMS sem escolher o próximo bloco. Do mesmo modo, a blockchain pode registrar o reconhecimento sem utilizar a contribuição como mecanismo de segurança contra Sybil. Essa separação evita que cada contribuição intelectual, doação ou serviço precise ser transformado em puzzle de consenso.\\
+
+A separação também cria riscos. Se o reconhecimento não protege o consenso diretamente, a segurança da decisão desloca-se para identidade, validadores, governança, auditoria, reputação, contratos, limites de emissão e resolução de disputas. Portanto, “independente do consenso” não significa “independente de segurança”. Significa que a função de reconhecimento e a função de seleção de blocos possuem objetivos e mecanismos distintos.\\
+
+
+\section{9. Exemplos de PoUW estendido}
+
+\subsection{9.1 Processamento computacional}
+
+Uma tarefa MeshWave publica uma entrada, um resultado esperado, um método de verificação e um orçamento. O nó executa o processamento e entrega resultado e evidência. Um verificador reexecuta a tarefa ou verifica um certificado. Se a saída for correta e não duplicada, a contribuição é reconhecida.\\
+
+\subsection{9.2 Manutenção de roteamento}
+
+Um nó mantém atualizada sua informação de CLA e comunica mudanças à CPA correspondente. O sistema verifica a consistência do evento, o tempo de atualização e o uso efetivo da informação para encaminhamento. A atualização de cache só gera reconhecimento quando atende uma necessidade definida e é confirmada por eventos independentes, não apenas por uma declaração do próprio nó.\\
+
+\subsection{9.3 Pesquisa e documentação}
+
+A MeshWave publica uma tarefa para especificar um protocolo. Um participante entrega uma especificação versionada com referências, casos de erro e critérios de teste. Revisores independentes avaliam o artefato. A recompensa, se houver, deriva da aceitação e da utilidade reconhecida, não do número de páginas.\\
+
+\subsection{9.4 Curadoria e validação}
+
+Um participante classifica objetos ou valida metadados. Uma amostra posterior mede concordância, taxa de erro e impacto sobre a qualidade do catálogo. A recompensa deve considerar acertos e correções, com proteção contra classificação artificial ou coordenação entre curadores.\\
+
+\subsection{9.5 Doação de equipamento}
+
+Um participante entrega um equipamento compatível com a capacidade autorizada. A MeshWave registra identificação, especificações, integridade e localização operacional. O equipamento é efetivamente integrado, utilizado e submetido a testes de disponibilidade. A contribuição reconhecida corresponde à utilidade comprovada durante o período e não simplesmente ao preço declarado do equipamento.\\
+
+\subsection{9.6 Doação financeira}
+
+Um participante financia a aquisição de armazenamento ou a execução de uma tarefa publicada. A contribuição só pode ser reconhecida depois de comprovados recebimento, finalidade, aplicação e resultado. O valor financeiro pode ser convertido em uma contribuição de financiamento limitada, mas não deve gerar UMS automaticamente nem permitir que o participante compre poder desproporcional sobre a validação ou o consenso.\\
+
+\subsection{9.7 Serviço de suporte}
+
+Um participante resolve solicitações de integração, identifica falhas ou auxilia outro nó. O ticket, a resposta, o aceite do solicitante e a verificação de resolução formam a evidência. O tempo de presença ou o número de mensagens não deve substituir a demonstração de resultado.\\
+
+
+\section{10. Segurança e ameaças}
+
+\subsection{10.1 Sybil}
+
+Um atacante pode criar várias identidades e repetir contribuições de baixo valor. O sistema pode exigir identidade vinculada, depósito, reputação, limites por tarefa, diversidade de validadores, prova de recurso ou custo de registro. Nenhuma solução isolada elimina o risco.\\
+
+\subsection{10.2 Duplicidade e replay}
+
+Uma mesma entrega pode ser enviada várias vezes ou atribuída a participantes diferentes. Cada contribuição deve possuir identificador único, contexto, nonce, janela temporal e relação com a tarefa. Artefatos idênticos não devem ser recompensados repetidamente sem uma regra explícita de replicação útil.\\
+
+\subsection{10.3 Conluio}
+
+Contribuinte e validador podem combinar-se para aceitar trabalho de baixa qualidade. A defesa pode incluir separação de funções, seleção aleatória de validadores, revisão cruzada, amostragem posterior, penalidade e auditoria independente.\\
+
+\subsection{10.4 Manipulação de utilidade}
+
+Uma tarefa pode ser definida de modo a favorecer o contribuinte, ou uma métrica pode ser otimizada sem gerar benefício real. A oportunidade deve publicar critérios antes da execução. Mudanças posteriores devem gerar nova versão e não alterar retroativamente a regra.\\
+
+\subsection{10.5 Viés contra contribuições invisíveis}
+
+Manutenção, coordenação, suporte e curadoria podem produzir menos artefatos visíveis que um novo código ou um relatório. Um sistema que recompensa somente produção pública pode subvalorizar funções essenciais. A política precisa medir resultado e necessidade, não apenas volume de evidência.\\
+
+\subsection{10.6 Plágio e autoria falsa}
+
+Trabalho intelectual exige controles de proveniência, comparação de conteúdo, histórico de versões, referências, revisão e declaração de autoria. Uma contribuição copiada pode ser útil para a rede, mas a atribuição econômica deve ir ao autor ou fornecedor legítimo, conforme a regra aplicável.\\
+
+\subsection{10.7 Doação circular ou simulada}
+
+Uma contribuição financeira pode ser enviada e devolvida, ou um bem pode ser registrado sem uso real. A validação deve acompanhar finalidade, recebimento, aplicação, uso e resultado. O sistema não deve recompensar apenas fluxo financeiro nominal.\\
+
+\subsection{10.8 Inflação de UMS}
+
+A emissão precisa possuir orçamento, limites por período, regras de reconversão, auditoria e tratamento de contribuições rejeitadas. A quantidade reconhecida não pode crescer simplesmente porque o sistema ampliou o número de categorias. A utilidade deve estar vinculada à demanda e à capacidade de absorção do ecossistema.\\
+
+\subsection{10.9 Conflito entre privacidade e auditabilidade}
+
+Contribuições intelectuais, financeiras ou materiais podem conter dados sensíveis. O sistema deve separar prova de validade e exposição pública do conteúdo. Hashes, compromissos criptográficos, revisores autorizados e divulgação seletiva podem reduzir exposição, mas não eliminam exigências legais ou operacionais externas ao escopo deste artigo.\\
+
+
+\section{11. Governança e disputas}
+
+A governança do PoUW estendido deve ser específica por classe. Um verificador criptográfico pode aceitar uma saída de código sem julgamento humano. Uma comissão técnica pode avaliar uma especificação. Um solicitante pode aceitar um serviço. Uma auditoria pode validar uma doação aplicada. Esses mecanismos não possuem a mesma força probatória.\\
+
+Toda decisão deveria registrar:\\
+
+\begin{itemize}
+\item versão da regra aplicada;
+\item classe e tarefa;
+\item evidências consideradas;
+\item resultado da validação;
+\item qualidade ou grau de cumprimento;
+\item participantes e validadores;
+\item conflitos de interesse declarados;
+\item UMS atribuída, retida ou rejeitada;
+\item prazo e procedimento de recurso.
+
+\end{itemize}
+Um recurso pode resultar em confirmação, redução, suspensão, revogação ou reprocessamento. A governança deve impedir que o validador que aprovou a contribuição tenha controle exclusivo sobre o recurso.\\
+
+
+\section{12. Relação com UMS e MWN}
+
+No modelo fornecido pela MeshWave, UMS é uma unidade econômica interna adquirida por contribuições reconhecidas segundo regras de PoUW, enquanto MWN participa da economia de token e das regras de conversão do ecossistema. Este artigo não estabelece fórmula de emissão, conversão, reconversão, preço ou enquadramento jurídico.\\
+
+A relação funcional proposta é:\\
+
+\[
+Contribuição \textbackslash\\{\\}rightarrow Evidência \textbackslash\\{\\}rightarrow Validação \textbackslash\\{\\}rightarrow Reconhecimento \textbackslash\\{\\}rightarrow UMS\\
+\]
+
+A conversão posterior entre UMS e MWN deve ser tratada como uma camada econômica separada da decisão de que uma contribuição foi útil. Separar essas etapas ajuda a evitar que o preço externo ou o valor nominal de uma unidade determine retroativamente se a contribuição foi tecnicamente válida.\\
+
+Uma contribuição rejeitada não deve gerar UMS definitiva. Uma contribuição reconhecida pode ainda estar sujeita a auditoria, retenção, contestação ou ajuste, conforme a política. A emissão deve ser contabilizada de modo a impedir dupla recompensa pela mesma contribuição em diferentes classes.\\
+
+
+\section{13. Implicações para o \texttt{meshware\\_dynrotsimulator}}
+
+O simulador pode representar o PoUW estendido inicialmente como um modelo de eventos e estados, sem afirmar que está executando uma prova real em rede distribuída. Para cada evento de contribuição, o modelo deveria registrar:\\
+
+\begin{itemize}
+\item \texttt{contributor\\_id};
+\item \texttt{contribution\\_class};
+\item \texttt{task\\_id};
+\item \texttt{resource\\_or\\_artifact};
+\item \texttt{evidence\\_id};
+\item \texttt{validation\\_method};
+\item \texttt{validation\\_status};
+\item \texttt{recognized\\_quantity};
+\item \texttt{ums\\_awarded};
+\item \texttt{validator\\_set};
+\item \texttt{dispute\\_status};
+\item \texttt{source\\_block} ou referência de registro.
+
+\end{itemize}
+A primeira versão pode simular classes homogêneas com regras determinísticas. A segunda pode introduzir políticas específicas por classe. A simulação inicial do roteamento deve permanecer sem latência e sem variáveis reais de situação, conforme o escopo definido para a validação conceitual do modelo CPA/CLA. O simulador deve testar invariantes contábeis, duplicidade, rejeição, disputas e limites de emissão, mas não deve ser descrito como prova de que o trabalho útil ocorreu no mundo real.\\
+
+Uma arquitetura de teste pode separar:\\
+
+\begin{enumerate}
+\item motor de oportunidades;
+\item registro de evidências;
+\item adaptadores de validação por classe;
+\item motor de reconhecimento;
+\item ledger econômico UMS;
+\item camada de conversão MWN/UMS;
+\item registro de disputas;
+\item persistência e auditoria.
+
+\end{enumerate}
+A atual análise técnica do simulador reconhece que uma taxa parametrizada de validação não equivale a uma avaliação independente de PoUW. Essa distinção deve ser mantida em qualquer publicação do simulador [16].\\
+
+
+\section{14. Comparação com a literatura}
+
+\begin{center}
+\small
+\begin{longtable}{p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth} p{0.17\linewidth}}
+\toprule
+Referência & Utilidade computacional & Contribuição não computacional & Evidência/validação & Recompensa & Consenso necessário & Relação com MeshWave \\
+\midrule\endhead
+Primecoin [2] & Sim & Não & Testes de primalidade & Recompensa de bloco & Sim & Precedente de mineração útil, muito mais estreito \\
+Permacoin [3] & Sim & Armazenamento & Proofs of Retrievability & Cunhagem & Sim & Precedente de serviço útil, sem categoria geral \\
+Ball et al. [4] [5] & Sim & Não & Provas criptográficas & PoW/mineração & Aplicação principal & Precedente terminológico e formal computacional \\
+Coin.AI [6] & Sim & Storage separado & Limiar de desempenho & Moeda/mineração & Sim & PoUW computacional para deep learning \\
+Ofelimos [7] & Sim & Não & SNARG e validação algorítmica & Token/fundos de clientes & Sim & PoUW computacional formal para consenso \\
+Useful Work [8] & Sim & Não & Workers, voters, verifiers & Coins & Sim & Próximo na separação execução/verificação \\
+Proof of Contribution [9] & Não necessariamente & Sim & Algoritmo de contribuição & Direito de bloco & Sim & Precedente de contribuição não computacional, mas consenso-dependente \\
+tea Protocol [10] [11] & Não como PoUW & Sim, open source & Grafo, governança e revisão & TEA & Não necessariamente & Precedente de impacto, atribuição e token \\
+CrowdBC [12] & Não como PoUW & Trabalho humano & Contratos e settlement & Pagamento & Não & Precedente para tarefas humanas \\
+Gitcoin QF [13] & Não & Apoio financeiro & Contribuições e revisão Sybil & Matching pool & Não & Precedente para financiamento, não prova de trabalho \\
+MeshWave PoUW estendido & Sim & Sim & Classe-específica, evidência e governança & UMS, conforme regras & Separável & Combinação proposta para o próprio ecossistema \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+A matriz mostra que a MeshWave não reivindica precedência sobre cada técnica isolada. A tese é uma arquitetura de reconhecimento integrada, com uma definição ampla e condicionada de contribuição útil.\\
+
+
+\section{15. Discussão: por que manter o termo PoUW?}
+
+Há pelo menos três alternativas terminológicas:\\
+
+\begin{itemize}
+\item \textbf{Proof of Useful Work:} preserva a continuidade com a literatura, mas exige uma definição explícita para não ser interpretado como apenas computacional.
+\item \textbf{Proof of Useful Contribution:} é semanticamente mais preciso para trabalho intelectual, serviço e doações, mas abandona parte da associação histórica com PoUW.
+\item \textbf{Proof of Useful Ecosystem Contribution:} explicita o contexto MeshWave, mas é mais longo e menos natural como nome de protocolo.
+
+\end{itemize}
+Este artigo recomenda \textbf{Extended Proof of Useful Work (PoUW estendido)} para documentação e publicação inicial, acompanhado da definição normativa apresentada na Seção 4. Em especificações de implementação, recomenda-se armazenar o campo \texttt{contribution\\_class} e utilizar “useful contribution” como categoria técnica. Assim, o termo PoUW identifica o framework, enquanto a classe identifica a natureza concreta da contribuição.\\
+
+A palavra “proof” deve ser explicada como um processo de evidência e reconhecimento. Para classes sem verificação puramente criptográfica, a publicação deve declarar o papel de revisão humana, governança, aceite e disputa. Isso evita prometer uma certeza matemática que o mecanismo não pode fornecer.\\
+
+
+\section{16. Limitações}
+
+Este artigo possui limitações importantes.\\
+
+Primeiro, a revisão de anterioridade não prova ausência universal de uso anterior do termo PoUW para contribuições não computacionais. Ela identifica as fontes primárias verificadas nesta investigação e não cobre integralmente patentes, fóruns apagados, whitepapers não indexados, literatura em todos os idiomas ou documentos privados.\\
+
+Segundo, a definição MeshWave ainda exige especificações adicionais. É necessário definir esquemas de evidência por classe, identidade, autoridade de validação, fórmula de recompensa, orçamento, penalidades, apelação, privacidade, prevenção de Sybil, conluio, dupla contagem e relação com a emissão UMS.\\
+
+Terceiro, o simulador econômico atual modela regras e taxas de reconhecimento, mas uma taxa parametrizada não constitui prova de que uma contribuição real ocorreu ou foi útil. Testes de código demonstram propriedades do modelo e não validam automaticamente segurança, viabilidade econômica, procura externa ou operação distribuída.\\
+
+Quarto, doações financeiras e materiais requerem tratamento cuidadoso. Elas podem ser reconhecidas como contribuições úteis quando geram capacidade ou resultado verificável para o ecossistema, mas não devem ser equiparadas a execução computacional nem recompensadas somente pelo valor nominal transferido.\\
+
+Quinto, este artigo não oferece conclusão jurídica, tributária, financeira ou de patenteabilidade sobre UMS, MWN, conversão, reconversão ou participação no ecossistema.\\
+
+
+\section{17. Conclusão}
+
+A literatura acadêmica e técnica verificada utiliza Proof of Useful Work principalmente para descrever trabalho computacional útil e verificável, muitas vezes integrado à mineração ou ao consenso. Há precedentes separados para armazenamento, contribuição, reputação, tarefas humanas, software aberto, financiamento comunitário e serviços. Contudo, não foi localizado, nesta investigação, um precedente direto que utilize PoUW como categoria geral para qualquer contribuição mensurável e relevante ao próprio ecossistema, incluindo simultaneamente trabalho computacional, trabalho intelectual, serviços, recursos materiais e financiamento sujeito a critérios de evidência, validação, atribuição e recompensa.\\
+
+A contribuição proposta pela MeshWave é, portanto, uma extensão conceitual e operacional:\\
+
+> \textbf{PoUW estendido é a prova verificável de que um participante realizou ou forneceu uma contribuição mensurável, autorizada e relevante para o ecossistema MeshWave, computacional ou não computacional, cuja utilidade foi validada por um mecanismo apropriado à sua classe e cuja atribuição econômica pode ocorrer independentemente da seleção de blocos ou da função de consenso.}\\
+
+A formulação não deve ser divulgada como prova de que a MeshWave foi a primeira a recompensar contribuições não computacionais. A afirmação academicamente defensável é mais precisa: a MeshWave propõe integrar diferentes classes de contribuição útil sob o rótulo PoUW estendido, dentro de um ecossistema próprio, com reconhecimento econômico em UMS e separação entre contribuição e consenso.\\
+
+A validade técnica da proposta dependerá da especificação e do teste dos mecanismos de evidência, validação, atribuição, governança e emissão. O desafio central não é apenas medir atividade. É demonstrar, de modo auditável e proporcional, que a atividade gerou utilidade real para a MeshWave e que a recompensa atribuída não pode ser obtida por declaração, duplicidade, conluio ou simples transferência nominal de recursos.\\
+
+
+\section{Referências}
+
+\begin{description}
+\item[1.] \href{https://bitcoin.org/bitcoin.pdf}{Bitcoin: A Peer-to-Peer Electronic Cash System}
+
+\item[2.] \href{https://primecoin.io/primecoin-paper.pdf}{Primecoin: Cryptocurrency with Prime Number Proof-of-Work}
+
+\item[3.] \href{https://www.microsoft.com/en-us/research/publication/permacoin-repurposing-bitcoin-work-for-data-preservation/}{Permacoin: Repurposing Bitcoin Work for Data Preservation}
+
+\item[4.] \href{https://eprint.iacr.org/2017/203}{Proofs of Useful Work}
+
+\item[5.] \href{https://doi.org/10.1007/978-3-319-96884-1_26}{Proofs of Work from Worst-Case Assumptions}
+
+\item[6.] \href{https://doi.org/10.3390/app9245288}{Coin.AI: A Proof-of-Useful-Work Scheme for Blockchain-based Distributed Deep Learning}
+
+\item[7.] \href{https://doi.org/10.1007/978-3-031-15979-4_12}{Ofelimos: Combinatorial Optimization via Proof-of-Useful-Work: A Provably Secure Blockchain Protocol}
+
+\item[8.] \href{https://doi.org/10.1145/3524458.3547248}{Useful work: a new protocol to ensure usefulness of PoW-based consensus for blockchain}
+
+\item[9.] \href{https://doi.org/10.1016/j.ipm.2021.102507}{Proof-of-Contribution consensus mechanism for blockchain and its application in intellectual property protection}
+
+\item[10.] \href{https://docs.tea.xyz/tea/i-want-to.../learn-about-proof-of-contribution/what-is-proof-of-contribution-technical}{What is Proof of Contribution? Technical}
+
+\item[11.] \href{https://github.com/teaxyz/white-paper/blob/main/white-paper.md}{Tea Network White Paper}
+
+\item[12.] \href{https://eprint.iacr.org/2017/444}{CrowdBC: A Blockchain-based Decentralized Framework for Crowdsourcing}
+
+\item[13.] \href{https://gitcoin.co/mechanisms/quadratic-funding}{Quadratic Funding}
+
+\item[14.] \href{https://docs.filecoin.io/core-concepts/filecoin-virtual-machine/proofs}{Filecoin Proofs}
+
+\item[15.] \href{https://raw.githubusercontent.com/meshwave65/mwc-ums-sim/main/docs/02-arquitetura-cooperativa-sandbox-global-pouw.md}{MeshWave — Arquitetura cooperativa, sandbox global e economia de recursos}
+
+\item[16.] \href{https://raw.githubusercontent.com/meshwave65/mwc-ums-sim/main/docs/ANALISE_TECNICA_POUW.md}{Análise técnica do PoUW implementado no simulador MWC/UMS}
+
+
+\end{description}
+\section{Declaração de licença}
+
+Este manuscrito é disponibilizado para publicação no Zenodo sob a licença \textbf{Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)}. A licença permite copiar, redistribuir e adaptar o material para fins não comerciais, desde que a autoria e a fonte sejam devidamente atribuídas e que eventuais alterações sejam indicadas. A licença não concede autorização para uso comercial sem permissão específica dos titulares dos direitos.\\
+\end{document}

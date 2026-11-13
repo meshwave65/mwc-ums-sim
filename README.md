@@ -59,6 +59,8 @@ Para instruções de execução, endpoints, limites e testes, consulte [`node-ag
 - `public/manus-routes.json`: manifesto de rota `/` exigido pelo Webdev.
 - `DOCUMENTACAO.md`: regras e leitura dos painéis.
 - `RELATORIO_TECNICO.md`: decisões de arquitetura, limitações e evidências.
+- `docs/METODOLOGIA_VALIDACAO_POUW_ESTENDIDO.md`: complemento da missão de anterioridade com metodologia para validar contribuições computacionais e não computacionais úteis ao ecossistema MeshWave.
+- `docs/MeshWave_PoUW_Estendido_Paper.tex`: manuscrito LaTeX do paper técnico para compilação no Overleaf.
 
 ## Regras centrais
 

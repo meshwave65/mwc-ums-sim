@@ -48,3 +48,9 @@ A próxima implementação só deve ocorrer depois de se escolher uma tarefa pil
 ## Conclusão
 
 No estado consultado, PoUW é uma abstração parametrizada do simulador. A suíte de testes pode validar a consistência dessa abstração, mas não deve ser descrita como validação de PoUW real.
+
+## Complemento metodológico: contribuições não computacionais
+
+Esta análise deve ser lida em conjunto com [`METODOLOGIA_VALIDACAO_POUW_ESTENDIDO.md`](./METODOLOGIA_VALIDACAO_POUW_ESTENDIDO.md). O complemento define como uma contribuição intelectual, de software, curadoria, serviço, governança, recurso material ou financiamento pode ser submetida, classificada, evidenciada, validada, reconhecida e eventualmente atribuída em UMS dentro do ecossistema MeshWave.
+
+O complemento preserva a limitação desta análise: uma taxa parametrizada no simulador não demonstra que o trabalho ocorreu, que foi útil ou que foi validado por verificadores independentes. A metodologia amplia o escopo conceitual do PoUW, mas exige critérios por classe, registro versionado, prevenção de duplicidade, controle contra Sybil e conluio, auditoria, disputas e limites de emissão antes de qualquer alegação de validação operacional.
